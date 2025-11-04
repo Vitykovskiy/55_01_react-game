@@ -21,5 +21,7 @@ module.exports = {
     'packages/client/server/index.d.ts',
     'packages/client/server/index.js',
     'packages/client/dist',
+    'packages/client/jest.config.js',
+    'packages/client/jest.setup.js',
   ],
 }
