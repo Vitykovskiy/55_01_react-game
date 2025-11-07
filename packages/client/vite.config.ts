@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dotenv from 'dotenv'
 import path from 'path'
+import { defineConfig } from 'vite'
+const srcPath = path.resolve(__dirname, './src')
 dotenv.config()
 
 // https://vitejs.dev/config/
@@ -18,6 +19,16 @@ export default defineConfig({
   },
   ssr: {
     format: 'cjs',
+  },
+  resolve: {
+    alias: {
+      '@app': path.join(srcPath, 'app'),
+      '@pages': path.join(srcPath, 'pages'),
+      '@widgets': path.join(srcPath, 'widgets'),
+      '@features': path.join(srcPath, 'features'),
+      '@entities': path.join(srcPath, 'entities'),
+      '@shared': path.join(srcPath, 'shared'),
+    },
   },
   plugins: [react()],
 })

@@ -1,4 +1,4 @@
-import './client.d'
+import '../../client'
 
 export const SERVER_HOST =
   typeof window === 'undefined'

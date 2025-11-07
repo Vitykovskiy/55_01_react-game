@@ -1,18 +1,18 @@
 import { useEffect } from 'react'
-import { useDispatch, useSelector, useStore } from '../store'
+import { PageInitArgs, PageInitContext } from './types'
 import {
-  setPageHasBeenInitializedOnServer,
   selectPageHasBeenInitializedOnServer,
-} from '../slices/ssrSlice'
-import { PageInitArgs, PageInitContext } from '../routes'
+  setPageHasBeenInitializedOnServer,
+} from './ssrSlice'
+import { useDispatch, useSelector, useStore } from './store'
 
 const getCookie = (name: string) => {
   const matches = document.cookie.match(
     new RegExp(
       '(?:^|; )' +
-      // eslint-disable-next-line
-      name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
-      '=([^;]*)'
+        // eslint-disable-next-line
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
+        '=([^;]*)'
     )
   )
   return matches ? decodeURIComponent(matches[1]) : undefined
@@ -23,7 +23,7 @@ const createContext = (): PageInitContext => ({
 })
 
 type PageProps = {
-  initPage: (data: PageInitArgs) => Promise<unknown>
+  initPage?: (data: PageInitArgs) => Promise<unknown>
 }
 
 export const usePage = ({ initPage }: PageProps) => {
@@ -38,6 +38,6 @@ export const usePage = ({ initPage }: PageProps) => {
       dispatch(setPageHasBeenInitializedOnServer(false))
       return
     }
-    initPage({ dispatch, state: store.getState(), ctx: createContext() })
+    initPage?.({ dispatch, state: store.getState(), ctx: createContext() })
   }, [])
 }
