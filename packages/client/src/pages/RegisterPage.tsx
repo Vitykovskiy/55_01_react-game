@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import { usePage } from '@shared/config/routing'
 import { Header } from '@shared/ui/Header'
 
-import FormExample from '@components/examples/FormExample'
+import FormExample from '@shared/ui/examples/FormExample'
 
 export const RegisterPage = () => {
   usePage({})
