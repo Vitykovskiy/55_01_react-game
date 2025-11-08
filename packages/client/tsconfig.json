@@ -23,7 +23,8 @@
       "@features/*": ["src/features/*"],
       "@entities/*": ["src/entities/*"],
       "@shared/*": ["src/shared/*"],
-      "@tests/*": ["src/__tests__/*"]
+      "@tests/*": ["src/__tests__/*"],
+      "@components/*": ["src/components/*"]
     }
   },
   "include": ["src"],

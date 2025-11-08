@@ -2,6 +2,9 @@ import { Helmet } from 'react-helmet'
 
 import { usePage } from '@shared/config/routing'
 import { Header } from '@shared/ui/Header'
+
+import FormExample from '@shared/ui/examples/FormExample'
+
 export const RegisterPage = () => {
   usePage({})
   return (
@@ -16,6 +19,8 @@ export const RegisterPage = () => {
       </Helmet>
       <Header />
       <h1>Это страница Регистрация</h1>
+      {/*TODO: заменить тестовый компонент формы */}
+      <FormExample />
     </div>
   )
 }
