@@ -8,7 +8,7 @@ import {
   RegisterPage,
   TopicPage,
 } from '../../pages'
-import { NotFoundPage } from '@pages/NotFoundPage'
+import { ErrorPage } from '@pages/ErrorPage'
 import { RoutePath } from '@shared/config/routing'
 
 export const routes = [
@@ -28,5 +28,5 @@ export const routes = [
   },
   { path: RoutePath.Forum, Component: ForumPage },
   { path: RoutePath.ForumTopic, Component: TopicPage },
-  { path: '*', Component: NotFoundPage },
+  { path: '*', Component: ErrorPage },
 ]
