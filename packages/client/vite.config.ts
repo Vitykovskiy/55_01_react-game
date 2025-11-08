@@ -31,5 +31,10 @@ export default defineConfig({
       '@shared': path.join(srcPath, 'shared'),
     },
   },
+  css: {
+    modules: {
+      localsConvention: 'camelCase',
+    },
+  },
   plugins: [react()],
 })
