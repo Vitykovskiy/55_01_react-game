@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 
 import { StrictMode } from 'react'
 import { App } from './App'
+import './index.scss'
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
