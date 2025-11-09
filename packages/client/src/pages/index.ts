@@ -4,7 +4,7 @@ export { LeaderboardPage } from './LeaderboardPage'
 export { LoginPage } from './LoginPage'
 export { MainPage } from './MainPage'
 
-export { ErrorPage } from './ErrorPage'
+export { ErrorPage } from './errorPage/ui/ErrorPage'
 export { ProfilePage } from './ProfilePage'
 export { RegisterPage } from './RegisterPage'
 export { TopicPage } from './TopicPage'

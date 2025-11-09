@@ -8,7 +8,7 @@ import {
   RegisterPage,
   TopicPage,
 } from '../../pages'
-import { ErrorPage } from '@pages/ErrorPage'
+import { ErrorPage } from '@pages/errorPage/ui/ErrorPage'
 import { RoutePath } from '@shared/config/routing'
 
 export const routes = [
