@@ -1,6 +1,7 @@
-import styles from './style.module.scss'
+import classNames from 'classnames'
 import { PropsWithChildren, ReactNode } from 'react'
 import { Helmet } from 'react-helmet'
+import s from './style.module.scss'
 
 type LayoutVariant = 'default' | 'center'
 
@@ -19,7 +20,7 @@ const Layout = ({
   bottomPanel,
 }: LayoutProps) => {
   return (
-    <div className={`${styles.layout} ${styles[`layout--${variant}`]}`}>
+    <div className={classNames(s.layout, s[variant])}>
       <Helmet>
         <meta charSet="utf-8" />
         <title>{title}</title>
@@ -28,9 +29,9 @@ const Layout = ({
           content={description || 'Страница приложения'}
         />
       </Helmet>
-      <main className={styles.main}>
-        <div className={styles.mainContent}>{children}</div>
-        {bottomPanel && <div className={styles.bottomPanel}>{bottomPanel}</div>}
+      <main className={s.main}>
+        <div className={s.mainContent}>{children}</div>
+        {bottomPanel && <div className={s.bottomPanel}>{bottomPanel}</div>}
       </main>
     </div>
   )
