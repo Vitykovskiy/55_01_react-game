@@ -1,0 +1,36 @@
+.leaderboard {
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  &-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: 15px;
+    &__left {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &-avatar {
+    width: 32px;
+    height: 32px;
+    margin-left: 10px;
+    margin-right: 5px;
+  }
+}
+
+.button-back {
+  width: 100%;
+  background: var(--Branding-Base-Brand, rgba(255, 190, 92, 1));
+  padding: 5px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  font-size: 13px;
+}
