@@ -1,14 +1,12 @@
-export const errorData = [
-  {
-    id: 1,
-    codeError: 400,
+import { ErrorCode, ErrorData } from './types'
+
+export const errorData: Record<ErrorCode, ErrorData> = {
+  400: {
     heading: '400',
     text: 'Что-то не так с вашим запросом. Проверьте введённые данные и попробуйте снова.',
   },
-  {
-    id: 2,
-    codeError: 500,
+  500: {
     heading: '500',
     text: 'На сервере что-то пошло не так. Мы уже разбираемся.',
   },
-]
+}
