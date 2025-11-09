@@ -1,9 +1,11 @@
 .leaderboard {
+
   &-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 100%;
+    position: relative;
   }
 
   &-item {
@@ -25,5 +27,9 @@
 }
 
 .button-back {
-  width: 100%;
+  width: calc(100% - 40px);
+  bottom: 0;
+  position: fixed;
+  max-width: 440px;
+  margin-bottom: 20px;
 }

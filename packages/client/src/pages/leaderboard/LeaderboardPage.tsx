@@ -5,8 +5,6 @@ import s from './Leaderboard.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { users } from './model/consts'
 import { Button, Text } from '@gravity-ui/uikit'
-import gS from '../MainPage.module.scss'
-import classNames from 'classnames'
 
 export const LeaderboardPage = () => {
   usePage({})
@@ -22,7 +20,7 @@ export const LeaderboardPage = () => {
         <Text variant="header-1" as="h1">
           Доска лидеров
         </Text>
-        <div className={s['leaderboard-list']}>
+        <div className={s.leaderboardList}>
           {users.length > 0 ? (
             users.map((user, index) => (
               <LeaderboardItem key={user.id} user={user} position={index + 1} />
@@ -33,10 +31,7 @@ export const LeaderboardPage = () => {
             </Text>
           )}
         </div>
-        <Button
-          className={classNames(gS.button, s['button-back'])}
-          view="action"
-          onClick={handleBack}>
+        <Button className={s.buttonBack} view="action" onClick={handleBack}>
           Назад
         </Button>
       </Layout>

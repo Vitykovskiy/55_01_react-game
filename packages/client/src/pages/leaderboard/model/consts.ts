@@ -1,9 +1,5 @@
-export interface User {
-  id: number
-  name: string
-  score: number
-  img: string
-}
+import { User } from './types'
+
 export const users: User[] = [
   { id: 1, name: 'Иван Никитин', score: 50000, img: '/leaderboard/tip.png' },
   {
