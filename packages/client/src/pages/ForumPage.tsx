@@ -1,22 +1,43 @@
-import { Helmet } from 'react-helmet'
-
 import { usePage } from '@shared/config/routing'
-import { Header } from '@shared/ui/Header'
+import Layout from '@shared/ui/Layout'
 
 export const ForumPage = () => {
   usePage({})
   return (
-    <div>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>Форум</title>
-        <meta
-          name="description"
-          content="Главная страница с информацией о пользователе"
-        />
-      </Helmet>
-      <Header />
-      <h1>Это страница Форума</h1>
-    </div>
+    // Пример использования Layout в варианте default
+
+    <Layout
+      title="Форум"
+      description="Cтраница форума"
+      variant="default"
+      bottomPanel={<div>Bottom Panel</div>}>
+      <h1>Форум</h1>
+      <div>Test</div>
+    </Layout>
+
+    // Пример использования Layout в варианте center
+
+    /* <Layout
+      variant="center"
+      title="Форум"
+      description="Cтраница форума"
+      >
+      <h1>Форум</h1>
+      <div>Test</div>
+    </Layout>
+    */
+
+    // Пример использования Layout с bottomPanel
+
+    /* <Layout
+      variant="center"
+      title="Форум"
+      description="Cтраница форума"
+      bottomPanel={<div>Bottom Panel</div>}
+      >
+      <h1>Форум</h1>
+      <div style={{width: '100%',minHeight: '120vh', background: 'orange'}}>Test</div>
+    </Layout>
+    */
   )
 }
