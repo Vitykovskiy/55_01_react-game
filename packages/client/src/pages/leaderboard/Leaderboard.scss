@@ -19,8 +19,6 @@
   }
 
   &-avatar {
-    width: 32px;
-    height: 32px;
     margin-left: 10px;
     margin-right: 5px;
   }
@@ -33,4 +31,10 @@
   margin-bottom: 20px;
   border-radius: 6px;
   font-size: 13px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(24, 21, 15, 0.3);
+  }
 }
