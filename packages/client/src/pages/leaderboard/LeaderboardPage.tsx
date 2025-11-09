@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { users } from './model/consts'
 import { Button, Text } from '@gravity-ui/uikit'
 import gS from '../MainPage.module.scss'
+import classNames from 'classnames'
 
 export const LeaderboardPage = () => {
   usePage({})
@@ -33,7 +34,7 @@ export const LeaderboardPage = () => {
           )}
         </div>
         <Button
-          className={`${gS.button} ${s['button-back']}`}
+          className={classNames(gS.button, s['button-back'])}
           view="action"
           onClick={handleBack}>
           Назад
