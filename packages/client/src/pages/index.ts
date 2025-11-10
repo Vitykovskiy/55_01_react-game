@@ -2,7 +2,7 @@ export { ForumPage } from './ForumPage'
 export { GamePage } from './GamePage'
 export { LeaderboardPage } from './LeaderboardPage'
 export { LoginPage } from './LoginPage'
-export { MainPage } from './MainPage'
+export { MainPage } from './mainPage/ui/MainPage'
 
 export { ErrorPage } from './errorPage/ui/ErrorPage'
 export { ProfilePage } from './ProfilePage'
