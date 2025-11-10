@@ -5,13 +5,13 @@ import Layout from '@shared/ui/Layout'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { REGISTER_PAGE_TITLE } from '../model/consts'
+import { LOGIN_PAGE_TITLE } from '../model/consts'
 import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
-import s from './RegisterPage.module.scss'
-import { RegisterPageInputs } from './RegisterPageInputs'
+import s from './LoginPage.module.scss'
+import { LoginPageInputs } from './LoginPageInputs'
 
-export const RegisterPage = () => {
+export const LoginPage = () => {
   usePage({})
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
@@ -38,13 +38,13 @@ export const RegisterPage = () => {
 
   return (
     <div>
-      <Layout variant="center" title={REGISTER_PAGE_TITLE}>
+      <Layout variant="center" title={LOGIN_PAGE_TITLE}>
         <Text variant="header-1" as="h1">
-          {REGISTER_PAGE_TITLE}
+          {LOGIN_PAGE_TITLE}
         </Text>
         <FormProvider {...methods}>
           <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-            <RegisterPageInputs />
+            <LoginPageInputs />
             <Button type={'submit'} view="action">
               Отправить
             </Button>
