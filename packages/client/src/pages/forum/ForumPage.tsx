@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 
 export const ForumPage = () => {
   usePage({})
-
   return (
     <Layout
       title="Форум"

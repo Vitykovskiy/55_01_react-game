@@ -6,17 +6,17 @@ type SectionStyle = { section?: string }
 
 type SectionProps = PropsWithChildren<{
   orientation?: 'column' | 'row'
+  classNamesSectionComponents?: SectionStyle
   pb?: boolean
   alignItems?: 'stretch' | 'flex-start' | 'center' | 'flex-end'
-  classNamesSectionComponents?: SectionStyle
 }>
 
 const Section = ({
   children,
   orientation = 'column',
+  classNamesSectionComponents,
   pb,
   alignItems = 'stretch',
-  classNamesSectionComponents,
 }: SectionProps) => {
   const isRow = orientation === 'row'
   const alignmentStyle: CSSProperties = {
@@ -27,11 +27,11 @@ const Section = ({
     <section
       className={classNames(
         s.section,
-        { [s.row]: isRow, [s.pb]: pb },
-        classNamesSectionComponents?.section
+        isRow && s.row,
+        classNamesSectionComponents?.section,
+        pb && s.pb
       )}
-      style={alignmentStyle}
-    >
+      style={alignmentStyle}>
       {children}
     </section>
   )

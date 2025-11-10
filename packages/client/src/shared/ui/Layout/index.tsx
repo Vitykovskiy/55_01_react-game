@@ -17,10 +17,10 @@ type LayoutProps = PropsWithChildren<{
   title: string
   description?: string
   bottomPanel?: ReactNode
+  classNamesLayoutComponents?: LayoutStyle
   withBottomPadding?: boolean
   style?: CSSProperties
   alignItems?: LayoutAlignItems
-  classNamesLayoutComponents?: LayoutStyle
 }>
 
 const Layout = ({
@@ -29,10 +29,10 @@ const Layout = ({
   description,
   children,
   bottomPanel,
+  classNamesLayoutComponents,
   withBottomPadding = true,
   style,
   alignItems = 'center',
-  classNamesLayoutComponents,
 }: LayoutProps) => {
   const alignClassName = {
     center: s.alignCenter,
@@ -46,8 +46,10 @@ const Layout = ({
         s.layout,
         s[variant],
         alignClassName,
-        { [s.noBottomPadding]: !withBottomPadding },
-        classNamesLayoutComponents?.layout
+        classNamesLayoutComponents?.layout,
+        {
+          [s.noBottomPadding]: !withBottomPadding,
+        }
       )}>
       <Helmet>
         <meta charSet="utf-8" />
@@ -57,13 +59,14 @@ const Layout = ({
           content={description || 'Страница приложения'}
         />
       </Helmet>
-      <main className={classNames(s.main, classNamesLayoutComponents?.main)} style={style}>
+      <main
+        className={classNames(s.main, classNamesLayoutComponents?.main)}
+        style={style}>
         <div
           className={classNames(
             s.mainContent,
             classNamesLayoutComponents?.content
-          )}
-        >
+          )}>
           {children}
         </div>
         {bottomPanel && <div className={s.bottomPanel}>{bottomPanel}</div>}
