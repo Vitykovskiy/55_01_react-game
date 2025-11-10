@@ -22,7 +22,7 @@ export const CommentCard = ({
             className={classNames(s['avatar'])}
             alt={firstName}
             withImageBorder
-            text={`${firstName + ' ' + lastName}`}
+            text={`${firstName} ${lastName}`}
           />
           <Section>
             <Text as="h2" variant="subheader-2">
