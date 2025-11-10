@@ -1,9 +1,8 @@
-import { Avatar, Button, Text } from '@gravity-ui/uikit'
+import { Button, Text } from '@gravity-ui/uikit'
 import { RoutePath, usePage } from '@shared/config/routing'
 import s from './MainPage.module.scss'
 import Layout from '@shared/ui/Layout'
 import logoMain from '../../../../public/main/logo.svg'
-import icon from '../../../../public/vite.svg'
 import Section from '@shared/ui/Section'
 import { useNavigate } from 'react-router-dom'
 
