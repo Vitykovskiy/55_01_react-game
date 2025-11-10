@@ -27,7 +27,6 @@ export const MainPage = () => {
   return (
     <div className={s.mainPage}>
       <Layout variant="center" title="Главная">
-        {/* <Avatar imgUrl={logoMain} shape='square' className={s.mainPage__img} ></Avatar> */}
         <img className={s.mainPage__logo} src={logoMain} alt="логотип" />
         <Text className={s.mainPage__text} as="p" variant="body-2">
           Magic Type — увлекательная веб-игра, где скорость набора превращается
