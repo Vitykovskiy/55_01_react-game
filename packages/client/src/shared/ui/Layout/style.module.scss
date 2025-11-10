@@ -24,7 +24,6 @@
   &.default {
     justify-content: flex-start;
     padding: var(--g-spacing-5);
-    padding-bottom: 0;
 
     .mainContent {
       justify-content: flex-start;
@@ -33,10 +32,38 @@
 
   &.center {
     justify-content: center;
-    padding: 0 var(--g-spacing-5);
+    padding: var(--g-spacing-5);
 
     .mainContent {
       justify-content: center;
+    }
+  }
+
+  &.noBottomPadding {
+    padding-bottom: 0;
+  }
+
+  &.alignCenter {
+    align-items: center;
+
+    .mainContent {
+      align-items: center;
+    }
+  }
+
+  &.alignFlexStart {
+    align-items: flex-start;
+
+    .mainContent {
+      align-items: flex-start;
+    }
+  }
+
+  &.alignFlexEnd {
+    align-items: flex-end;
+
+    .mainContent {
+      align-items: flex-end;
     }
   }
 }

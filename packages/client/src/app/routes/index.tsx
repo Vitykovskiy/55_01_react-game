@@ -1,4 +1,5 @@
 import {
+  CreateTopicPage,
   ForumPage,
   GamePage,
   LeaderboardPage,
@@ -27,6 +28,7 @@ export const routes = [
     Component: LeaderboardPage,
   },
   { path: RoutePath.Forum, Component: ForumPage },
+  { path: RoutePath.ForumCreateTopic, Component: CreateTopicPage },
   { path: RoutePath.ForumTopic, Component: TopicPage },
   { path: '*', Component: NotFoundPage },
 ]
