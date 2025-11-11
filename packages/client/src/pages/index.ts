@@ -3,7 +3,6 @@ export { GamePage } from './GamePage'
 export { LeaderboardPage } from './LeaderboardPage'
 export { LoginPage } from './LoginPage'
 export { MainPage } from './mainPage/ui/MainPage'
-
 export { ErrorPage } from './errorPage/ui/ErrorPage'
 export { ProfilePage } from './ProfilePage'
 export { RegisterPage } from './RegisterPage'

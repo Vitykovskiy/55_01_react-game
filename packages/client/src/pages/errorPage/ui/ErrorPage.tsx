@@ -8,7 +8,7 @@ import { errorData } from '../model/consts'
 import Layout from '@shared/ui/Layout'
 
 type ErrorPageProps = {
-  code: ErrorCode
+  code?: ErrorCode
 }
 
 export const ErrorPage = ({ code = 400 }: ErrorPageProps) => {
