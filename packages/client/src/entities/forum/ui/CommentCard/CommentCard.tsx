@@ -13,13 +13,13 @@ export const CommentCard = ({
   message,
 }: CommentCardProps) => {
   return (
-    <Card className={classNames(s['comment-card'])}>
+    <Card className={classNames(s.commentCard)}>
       <Section>
         <Section orientation="row" alignItems="center">
           <Avatar
             imgUrl={avatarUrl}
             size="m"
-            className={classNames(s['avatar'])}
+            className={classNames(s.avatar)}
             alt={firstName}
             withImageBorder
             text={`${firstName} ${lastName}`}

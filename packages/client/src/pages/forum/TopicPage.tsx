@@ -4,9 +4,9 @@ import { usePage } from '@shared/config/routing'
 import Section from '@shared/ui/Section'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { CommentFormSection } from './components/CommentFormSection'
-import { CommentsSection } from './components/CommentsSection'
-import { TopicPageLayout } from './components/TopicPageLayout'
+import { CommentFormSection } from './ui/CommentFormSection'
+import { CommentsSection } from './ui/CommentsSection'
+import { TopicPageLayout } from './ui/TopicPageLayout'
 
 export const TopicPage = () => {
   usePage({})
