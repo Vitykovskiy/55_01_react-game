@@ -6,17 +6,28 @@ type CommentsSectionProps = {
   comments: ForumTopicComment[]
 }
 
-export const CommentsSection = ({ comments }: CommentsSectionProps) => (
-  <Section>
-    <Text as="h2" variant="subheader-2">
-      Комментарии:
-    </Text>
-    {!comments.length ? (
-      <Text as="p" variant="body-2">
-        Будь первым, кто оставит комментарий.
+export const CommentsSection = ({ comments }: CommentsSectionProps) => {
+  if (!comments.length) {
+    return (
+      <Section>
+        <Text as="h2" variant="subheader-2">
+          Комментарии:
+        </Text>
+        <Text as="p" variant="body-2">
+          Будь первым, кто оставит комментарий.
+        </Text>
+      </Section>
+    )
+  }
+
+  return (
+    <Section>
+      <Text as="h2" variant="subheader-2">
+        Комментарии:
       </Text>
-    ) : (
-      comments.map(comment => <CommentCard key={comment.id} {...comment} />)
-    )}
-  </Section>
-)
+      {comments.map(comment => (
+        <CommentCard key={comment.id} {...comment} />
+      ))}
+    </Section>
+  )
+}

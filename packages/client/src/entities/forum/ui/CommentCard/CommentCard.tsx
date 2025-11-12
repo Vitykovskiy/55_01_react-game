@@ -1,4 +1,5 @@
 import { Avatar, Card, Text } from '@gravity-ui/uikit'
+import classNames from 'classnames'
 import s from './style.module.scss'
 import Section from '@shared/ui/Section'
 import type { ForumTopicComment } from '../../model/mockForumTopics'
@@ -13,13 +14,13 @@ export const CommentCard = ({
 }: CommentCardProps) => {
   const fullName = `${firstName} ${lastName}`
   return (
-    <Card className={s.commentCard}>
+    <Card className={classNames(s.commentCard)}>
       <Section>
         <Section orientation="row" alignItems="center">
           <Avatar
             imgUrl={avatarUrl}
             size="m"
-            className={s.avatar}
+            className={classNames(s.avatar)}
             alt={firstName}
             withImageBorder
             text={fullName}
