@@ -18,7 +18,7 @@ describe('schema', () => {
     expect(result.success).toBe(true)
   })
 
-  test('login слишком короткий', () => {
+  test('ошибка в логине, потому что в нём undefined', () => {
     // Arrange
     const input = { ...validData, login: undefined }
 
@@ -33,7 +33,7 @@ describe('schema', () => {
     }
   })
 
-  test('password слишком короткий', () => {
+  test('ошибка в password, потому что в нём undefined', () => {
     // Arrange
     const input = { ...validData, password: undefined }
 

@@ -32,28 +32,26 @@ export const LoginPage = () => {
     console.log(data)
   }
 
-  const handleButtonAuthClick = () => {
-    navigate(RoutePath.Login)
+  const handleButtonRegisterClick = () => {
+    navigate(RoutePath.Register)
   }
 
   return (
-    <div>
-      <Layout variant="center" title={LOGIN_PAGE_TITLE}>
-        <Text variant="header-1" as="h1">
-          {LOGIN_PAGE_TITLE}
-        </Text>
-        <FormProvider {...methods}>
-          <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-            <LoginPageInputs />
-            <Button type={'submit'} view="action">
-              Отправить
-            </Button>
-            <Button type={'button'} onClick={handleButtonAuthClick}>
-              Вход
-            </Button>
-          </form>
-        </FormProvider>
-      </Layout>
-    </div>
+    <Layout variant="center" title={LOGIN_PAGE_TITLE}>
+      <Text variant="header-1" as="h1">
+        {LOGIN_PAGE_TITLE}
+      </Text>
+      <FormProvider {...methods}>
+        <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
+          <LoginPageInputs />
+          <Button type={'submit'} view="action">
+            Отправить
+          </Button>
+          <Button type={'button'} onClick={handleButtonRegisterClick}>
+            Регистрация
+          </Button>
+        </form>
+      </FormProvider>
+    </Layout>
   )
 }
