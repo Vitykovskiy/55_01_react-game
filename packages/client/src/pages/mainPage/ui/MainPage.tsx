@@ -3,7 +3,7 @@ import { usePage } from '@shared/config/routing'
 import s from './MainPage.module.scss'
 import Layout from '@shared/ui/Layout'
 import logoMain from '../../../../public/main/logo.svg'
-import { Buttons } from './buttons/Buttons'
+import { Buttons } from './Buttons'
 
 export const MainPage = () => {
   usePage({})

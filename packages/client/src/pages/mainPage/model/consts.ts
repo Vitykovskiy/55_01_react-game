@@ -1,6 +1,12 @@
-import { ButtonCustomProps } from '@shared/ui/buttonCustom/ButtonCustom'
+import { ButtonCustomProps } from '@shared/ui/buttonCustom'
 
-export const buttonData: ButtonCustomProps[] = [
+export type ButtonType = 'leaderboard' | 'game' | 'profile' | 'forum'
+
+type MainPageButtonCustomProps = ButtonCustomProps & {
+  name: ButtonType
+}
+
+export const buttonData: MainPageButtonCustomProps[] = [
   {
     name: 'game',
     text: 'Начать играть',
