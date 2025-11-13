@@ -1,5 +1,15 @@
 import { Button } from '@gravity-ui/uikit'
-import { ButtonCustomProps } from '.'
+
+type typeButton = 'button' | 'submit' | 'reset'
+type viewButton = 'action' | 'outlined'
+
+export type ButtonCustomProps = {
+  name: string
+  text: string
+  handleClick?: () => void
+  type?: typeButton
+  view?: viewButton
+}
 
 export const ButtonCustom = ({
   handleClick,

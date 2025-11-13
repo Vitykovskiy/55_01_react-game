@@ -1,4 +1,4 @@
-import { ButtonCustom } from '@shared/ui/buttonCustom/ButtonCustom'
+import { ButtonCustom } from '@shared/ui/buttonCustom'
 import { buttonData, ButtonType } from '../model/consts'
 import { useNavigate } from 'react-router-dom'
 import { RoutePath } from '@shared/config/routing'
