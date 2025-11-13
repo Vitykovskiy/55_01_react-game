@@ -1,6 +1,5 @@
 const PASSWORD_MIN = 8
 const PASSWORD_MAX = 40
-const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*\d).+$/
 const PROFILE_PAGE_TITLE = 'Профиль'
 
 const PROFILE_DATA = {
@@ -13,10 +12,4 @@ const PROFILE_DATA = {
   phone: '88005553535',
 }
 
-export {
-  PASSWORD_MAX,
-  PASSWORD_MIN,
-  PASSWORD_REGEX,
-  PROFILE_PAGE_TITLE,
-  PROFILE_DATA,
-}
+export { PASSWORD_MAX, PASSWORD_MIN, PROFILE_PAGE_TITLE, PROFILE_DATA }

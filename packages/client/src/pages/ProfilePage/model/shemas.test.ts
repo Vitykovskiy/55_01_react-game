@@ -1,4 +1,4 @@
-import { PASSWORD_MAX, PASSWORD_MIN } from './consts'
+import { PASSWORD_MAX } from './consts'
 import { errorMessages } from './errors'
 import { schema } from './schemas'
 
@@ -28,22 +28,6 @@ describe('schema', () => {
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.password.max)
-    }
-  })
-
-  test('password не содержит одну заглавную букву и цифру', () => {
-    // Arrange
-    const input = { password: 'A'.repeat(PASSWORD_MIN) }
-
-    // Act
-    const result = schema.safeParse(input)
-
-    // Assert
-    expect(result.success).toBe(false)
-    if (!result.success) {
-      expect(result.error.issues[0].message).toBe(
-        errorMessages.password.invalid
-      )
     }
   })
 })

@@ -29,7 +29,6 @@ export const AvatarLoad = (props: AvatarLoadProps) => {
   return (
     <div className={s.avatarContainer} onClick={handleAvatarClick}>
       <Avatar imgUrl={avatar} size="xl" className={s.avatarHover} />
-
       <input
         type="file"
         accept="image/*"
