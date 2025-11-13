@@ -7,6 +7,7 @@ import { usePage } from '@shared/config/routing'
 import { errorData } from '../model/consts'
 import { ErrorCode } from '../model/types'
 import style from './ErrorPage.module.scss'
+import { useNavigate } from 'react-router-dom'
 
 type ErrorPageProps = {
   code?: ErrorCode
@@ -17,11 +18,13 @@ const isNotFoundError = (code: ErrorCode) => code === 404
 
 export const ErrorPage = ({ code = DEFAULT_ERROR_CODE }: ErrorPageProps) => {
   usePage({})
+  const navigate = useNavigate()
+
   const err = errorData[code] ?? errorData[DEFAULT_ERROR_CODE]
   const btnTitle = isNotFoundError(code) ? 'Назад' : 'Обновить'
 
   const handleAction = () =>
-    isNotFoundError(code) ? window.history.back() : window.location.reload()
+    isNotFoundError(code) ? navigate(-1) : window.location.reload()
 
   return (
     <div className={classNames(style.errorPage)}>
