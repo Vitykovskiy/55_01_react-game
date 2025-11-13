@@ -1,6 +1,6 @@
-import s from './Leaderboard.module.scss'
+import s from './LeaderboardPage.module.scss'
 import { Avatar, Text } from '@gravity-ui/uikit'
-import { User } from '@pages/leaderboard/model/types'
+import { User } from '@pages/Leaderboard/model/types'
 
 type LeaderboardItemProps = {
   user: User
