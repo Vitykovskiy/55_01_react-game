@@ -28,7 +28,7 @@ export const FormInput = ({
   const {
     field: { onChange, value: fieldValue = value },
     fieldState: { error },
-  } = useController({ name: name })
+  } = useController({ name: name, defaultValue: value })
 
   const handleChange = ({
     currentTarget: { value },
