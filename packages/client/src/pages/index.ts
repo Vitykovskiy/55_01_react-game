@@ -5,6 +5,6 @@ export { LoginPage } from './LoginPage'
 export { MainPage } from './MainPage'
 
 export { ErrorPage } from './errorPage/ui/ErrorPage'
-export { ProfilePage } from './ProfilePage'
+export { ProfilePage } from './ProfilePage/ui/ProfilePage'
 export { RegisterPage } from './RegisterPage'
 export { TopicPage } from './TopicPage'
