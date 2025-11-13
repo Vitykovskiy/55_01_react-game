@@ -1,10 +1,12 @@
 import { Avatar } from '@gravity-ui/uikit'
 import s from './style.module.scss'
 import { ChangeEvent, useRef, useState } from 'react'
+
 interface AvatarLoadProps {
   img: string
   imageChange?: (file: File, imageUrl: string) => void
 }
+
 export const AvatarLoad = (props: AvatarLoadProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [avatar, setAvatar] = useState(props.img)
@@ -23,6 +25,7 @@ export const AvatarLoad = (props: AvatarLoadProps) => {
       }
     }
   }
+
   return (
     <div className={s.avatarContainer} onClick={handleAvatarClick}>
       <Avatar imgUrl={avatar} size="xl" className={s.avatarHover} />
