@@ -1,0 +1,19 @@
+.game{
+  grid-column: 1/2;
+  grid-row: 1/2;
+}
+
+.game_end{
+  opacity: 0.5;
+}
+
+.game > div{
+  background-image: url('../../../../public/game/imgGame.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.game__button{
+    margin: auto;
+}

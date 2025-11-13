@@ -1,7 +1,7 @@
 import { Button, Text } from '@gravity-ui/uikit'
 import { usePage } from '@shared/config/routing'
 import { useNavigate } from 'react-router-dom'
-import classNames from 'classnames'
+// import classNames from 'classnames'
 import style from './ErrorPage.module.scss'
 import { ErrorCode } from '../model/types'
 import { errorData } from '../model/consts'
@@ -22,7 +22,7 @@ export const ErrorPage = ({ code = 400 }: ErrorPageProps) => {
   const err = errorData[code]
 
   return (
-    <div className={classNames(style.errorPage)}>
+    <div className={style.errorPage}>
       <Layout variant="center" title="Ошибка">
         <Text as="h1" variant="display-1">
           {err ? err.heading : errorData[400].heading}
