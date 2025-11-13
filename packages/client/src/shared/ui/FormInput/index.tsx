@@ -9,6 +9,7 @@ type FormInputProps = {
   name: string
   disabled?: boolean
   placeholder?: string
+  value?: string
   type?: 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url'
   onChangeFormInput?: (value: string) => void
 }
@@ -20,6 +21,7 @@ export const FormInput = ({
   className,
   disabled,
   placeholder,
+  value = '',
   type = 'text',
   onChangeFormInput,
 }: FormInputProps) => {
@@ -37,6 +39,7 @@ export const FormInput = ({
 
   return (
     <TextInput
+      value={value}
       type={type}
       label={label}
       ref={ref}

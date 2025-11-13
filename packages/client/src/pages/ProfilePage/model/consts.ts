@@ -1,22 +1,22 @@
-const NAME_MIN = 1
-const NAME_MAX = 80
-const LOGIN_MIN = 3
-const LOGIN_MAX = 25
-const PASSWORD_MIN = 5
-const PASSWORD_MAX = 100
-const PHONE_REGEX = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
+const PASSWORD_MIN = 8
+const PASSWORD_MAX = 40
+const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*\d)$/
 const PROFILE_PAGE_TITLE = 'Профиль'
 
-const PROFILE_AVATAR = '/avatar/tip.png'
+const PROFILE_DATA = {
+  avatar: '/avatar/tip.png',
+  first_name: 'Александр',
+  second_name: 'Иванов',
+  login: 'Lexa',
+  password: '12345678',
+  email: 'Lexa@mail.ru',
+  phone: '88005553535',
+}
 
 export {
-  LOGIN_MAX,
-  LOGIN_MIN,
-  NAME_MAX,
-  NAME_MIN,
   PASSWORD_MAX,
   PASSWORD_MIN,
-  PHONE_REGEX,
+  PASSWORD_REGEX,
   PROFILE_PAGE_TITLE,
-  PROFILE_AVATAR,
+  PROFILE_DATA,
 }

@@ -5,7 +5,7 @@ import Layout from '@shared/ui/Layout'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { PROFILE_PAGE_TITLE, PROFILE_AVATAR } from '../model/consts'
+import { PROFILE_PAGE_TITLE, PROFILE_DATA } from '../model/consts'
 import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
 import s from './ProfilePage.module.scss'
@@ -49,10 +49,13 @@ export const ProfilePage = () => {
         <Text variant="header-1" as="h1">
           {PROFILE_PAGE_TITLE}
         </Text>
-        <AvatarLoad img={PROFILE_AVATAR} imageChange={handleAvatarChange} />
+        <AvatarLoad
+          img={PROFILE_DATA.avatar}
+          imageChange={handleAvatarChange}
+        />
         <FormProvider {...methods}>
           <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-            <ProfilePageInputs />
+            <ProfilePageInputs data={PROFILE_DATA} />
             <Button type={'submit'} view="action">
               Сохранить
             </Button>
