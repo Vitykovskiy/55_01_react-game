@@ -26,7 +26,7 @@ export const FormInput = ({
   onChangeFormInput,
 }: FormInputProps) => {
   const {
-    field: { onChange },
+    field: { onChange, value: fieldValue = value },
     fieldState: { error },
   } = useController({ name: name })
 
@@ -39,7 +39,7 @@ export const FormInput = ({
 
   return (
     <TextInput
-      value={value}
+      value={fieldValue}
       type={type}
       label={label}
       ref={ref}
