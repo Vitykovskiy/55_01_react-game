@@ -9,8 +9,8 @@ import {
   PASSWORD_MIN,
   PASSWORD_REGEX,
   PHONE_REGEX,
-} from '@shared/model/validation/consts'
-import { errorMessages } from '@shared/model/validation/errors'
+} from '@shared/lib/validation'
+import { errorMessages } from '@shared/lib/validation'
 
 export const schema = z.object({
   firstName: z

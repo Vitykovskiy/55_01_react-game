@@ -1,5 +1,5 @@
-import { NAME_MAX, PASSWORD_MAX } from '@shared/model/validation/consts'
-import { errorMessages } from '@shared/model/validation/errors'
+import { NAME_MAX, PASSWORD_MAX } from '@shared/lib/validation'
+import { errorMessages } from '@shared/lib/validation'
 import { schema } from './schemas'
 
 const validData = {
@@ -13,15 +13,26 @@ const validData = {
 
 describe('schema', () => {
   test('валидные данные проходят валидацию', () => {
+    // Arrange
     const input = { ...validData }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(true)
   })
 
   // firstName
+
   test('firstName слишком длинный', () => {
+    // Arrange
     const input = { ...validData, firstName: 'A'.repeat(NAME_MAX + 1) }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.firstName.max)
@@ -29,8 +40,13 @@ describe('schema', () => {
   })
 
   test('firstName с маленькой буквы', () => {
+    // Arrange
     const input = { ...validData, firstName: 'иван' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(
@@ -40,8 +56,13 @@ describe('schema', () => {
   })
 
   test('firstName с цифрами', () => {
+    // Arrange
     const input = { ...validData, firstName: 'Иван123' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(
@@ -51,8 +72,13 @@ describe('schema', () => {
   })
 
   test('firstName с пробелом', () => {
+    // Arrange
     const input = { ...validData, firstName: 'Иван Петров' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(
@@ -62,8 +88,13 @@ describe('schema', () => {
   })
 
   test('firstName с недопустимым спецсимволом', () => {
+    // Arrange
     const input = { ...validData, firstName: 'Иван!' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(
@@ -73,25 +104,42 @@ describe('schema', () => {
   })
 
   test('firstName c дефисом в середине', () => {
+    // Arrange
     const input = { ...validData, firstName: 'Анна-Мария' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(true)
   })
 
   // lastName
+
   test('lastName слишком длинный', () => {
+    // Arrange
     const input = { ...validData, lastName: 'A'.repeat(NAME_MAX + 1) }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.lastName.max)
     }
   })
 
-  // email
+  // Email
+
   test('email невалиден', () => {
+    // Arrange
     const input = { ...validData, email: 'invalid' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.email.invalid)
@@ -99,8 +147,13 @@ describe('schema', () => {
   })
 
   test('email без собаки', () => {
+    // Arrange
     const input = { ...validData, email: 'user.example.com' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.email.invalid)
@@ -108,8 +161,13 @@ describe('schema', () => {
   })
 
   test('email без точки после собаки', () => {
+    // Arrange
     const input = { ...validData, email: 'user@examplecom' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.email.invalid)
@@ -117,9 +175,15 @@ describe('schema', () => {
   })
 
   // login
+
   test('ошибка в логине, потому что в нём undefined', () => {
+    // Arrange
     const input = { ...validData, login: undefined }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.login.required)
@@ -127,8 +191,13 @@ describe('schema', () => {
   })
 
   test('login слишком короткий', () => {
+    // Arrange
     const input = { ...validData, login: 'iv' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.login.min)
@@ -136,8 +205,13 @@ describe('schema', () => {
   })
 
   test('login — только цифры', () => {
+    // Arrange
     const input = { ...validData, login: '123456' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.login.invalid)
@@ -145,8 +219,13 @@ describe('schema', () => {
   })
 
   test('login с пробелом', () => {
+    // Arrange
     const input = { ...validData, login: 'ivan 123' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.login.invalid)
@@ -154,8 +233,13 @@ describe('schema', () => {
   })
 
   test('login с запрещённым спецсимволом', () => {
+    // Arrange
     const input = { ...validData, login: 'ivan$123' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.login.invalid)
@@ -163,15 +247,26 @@ describe('schema', () => {
   })
 
   test('login с дефисом и подчёркиванием', () => {
+    // Arrange
     const input = { ...validData, login: 'ivan-123_test' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(true)
   })
 
-  // password
+  // Password
+
   test('ошибка в password, потому что в нём undefined', () => {
+    // Arrange
     const input = { ...validData, password: undefined }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(
@@ -181,8 +276,13 @@ describe('schema', () => {
   })
 
   test('password слишком короткий', () => {
+    // Arrange
     const input = { ...validData, password: '1234' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.password.min)
@@ -190,8 +290,13 @@ describe('schema', () => {
   })
 
   test('password слишком длинный', () => {
+    // Arrange
     const input = { ...validData, password: 'A'.repeat(PASSWORD_MAX + 1) }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.password.max)
@@ -199,8 +304,13 @@ describe('schema', () => {
   })
 
   test('password без заглавных букв', () => {
+    // Arrange
     const input = { ...validData, password: 'password123' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(
@@ -210,8 +320,13 @@ describe('schema', () => {
   })
 
   test('password без цифр', () => {
+    // Arrange
     const input = { ...validData, password: 'Password' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(
@@ -221,15 +336,26 @@ describe('schema', () => {
   })
 
   test('password c заглавной и цифрой', () => {
+    // Arrange
     const input = { ...validData, password: 'Passw0rd' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(true)
   })
 
-  // phone
+  // Phone
+
   test('phone невалидный', () => {
+    // Arrange
     const input = { ...validData, phone: '123' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.phone.invalid)
@@ -237,8 +363,13 @@ describe('schema', () => {
   })
 
   test('phone c буквами', () => {
+    // Arrange
     const input = { ...validData, phone: '+42012A45678' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.issues[0].message).toBe(errorMessages.phone.invalid)
@@ -246,8 +377,13 @@ describe('schema', () => {
   })
 
   test('phone без плюса, только цифры', () => {
+    // Arrange
     const input = { ...validData, phone: '1234567890' }
+
+    // Act
     const result = schema.safeParse(input)
+
+    // Assert
     expect(result.success).toBe(true)
   })
 })
