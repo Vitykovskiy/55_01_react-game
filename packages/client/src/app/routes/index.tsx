@@ -1,3 +1,4 @@
+import { ErrorCode } from '@pages/errorPage/model/types'
 import {
   ForumPage,
   GamePage,
@@ -30,4 +31,7 @@ export const routes: RouteObject[] = [
   { path: RoutePath.Forum, Component: ForumPage },
   { path: RoutePath.ForumTopic, Component: TopicPage },
   { path: '*', Component: ErrorPage },
-].map(routeData => ({ ...routeData, errorElement: <ErrorPage code={500} /> }))
+].map(routeData => ({
+  ...routeData,
+  errorElement: <ErrorPage code={ErrorCode.ServerError} />,
+}))

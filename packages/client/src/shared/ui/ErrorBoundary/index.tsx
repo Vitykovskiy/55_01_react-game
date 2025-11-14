@@ -1,5 +1,6 @@
 import { Component, ErrorInfo, ReactNode } from 'react'
 import { ErrorPage } from '@pages/index'
+import { ErrorCode } from '@pages/errorPage/model/types'
 
 type ErrorBoundaryProps = {
   children: ReactNode
@@ -30,7 +31,7 @@ export class ErrorBoundary extends Component<
     const { hasError } = this.state
 
     if (hasError) {
-      return <ErrorPage code={500} />
+      return <ErrorPage code={ErrorCode.ServerError} />
     }
 
     return this.props.children

@@ -13,8 +13,8 @@ type ErrorPageProps = {
   code?: ErrorCode
 }
 
-const DEFAULT_ERROR_CODE: ErrorCode = 404
-const isNotFoundError = (code: ErrorCode) => code === 404
+const DEFAULT_ERROR_CODE = ErrorCode.NotFound
+const isNotFoundError = (code: ErrorCode) => code === ErrorCode.NotFound
 
 export const ErrorPage = ({ code = DEFAULT_ERROR_CODE }: ErrorPageProps) => {
   usePage({})
