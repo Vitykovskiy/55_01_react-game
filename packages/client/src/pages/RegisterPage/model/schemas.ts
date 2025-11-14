@@ -2,35 +2,39 @@ import * as z from 'zod'
 import {
   LOGIN_MAX,
   LOGIN_MIN,
+  LOGIN_REGEX,
   NAME_MAX,
-  NAME_MIN,
+  NAME_REGEX,
   PASSWORD_MAX,
   PASSWORD_MIN,
+  PASSWORD_REGEX,
   PHONE_REGEX,
-} from './consts'
-import { errorMessages } from './errors'
+} from '@shared/model/validation/consts'
+import { errorMessages } from '@shared/model/validation/errors'
 
-//TODO Поменять валидацию с учётом требований задачи https://github.com/Vitykovskiy/55_01_react-game/issues/18
-//Пример прикручивания валидации
 export const schema = z.object({
   firstName: z
-    .string(errorMessages.firstName.min)
-    .min(NAME_MIN, errorMessages.firstName.min)
-    .max(NAME_MAX, errorMessages.firstName.max),
+    .string(errorMessages.firstName.required)
+    .max(NAME_MAX, errorMessages.firstName.max)
+    .regex(NAME_REGEX, errorMessages.firstName.invalid),
   lastName: z
-    .string(errorMessages.lastName.min)
-    .min(NAME_MIN, errorMessages.lastName.min)
-    .max(NAME_MAX, errorMessages.lastName.max),
+    .string()
+    .max(NAME_MAX, errorMessages.lastName.max)
+    .regex(NAME_REGEX, errorMessages.lastName.invalid)
+    .optional(),
   email: z.email(errorMessages.email.invalid),
   login: z
-    .string(errorMessages.login.min)
+    .string(errorMessages.login.required)
     .min(LOGIN_MIN, errorMessages.login.min)
-    .max(LOGIN_MAX, errorMessages.login.max),
+    .max(LOGIN_MAX, errorMessages.login.max)
+    .regex(LOGIN_REGEX, errorMessages.login.invalid),
   password: z
-    .string(errorMessages.password.min)
+    .string(errorMessages.password.required)
     .min(PASSWORD_MIN, errorMessages.password.min)
-    .max(PASSWORD_MAX, errorMessages.password.max),
+    .max(PASSWORD_MAX, errorMessages.password.max)
+    .regex(PASSWORD_REGEX, errorMessages.password.invalid),
   phone: z
     .string(errorMessages.phone.invalid)
-    .regex(PHONE_REGEX, { message: errorMessages.phone.invalid }),
+    .regex(PHONE_REGEX, errorMessages.phone.invalid)
+    .optional(),
 })

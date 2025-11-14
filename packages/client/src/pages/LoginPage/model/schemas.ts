@@ -1,10 +1,23 @@
 import * as z from 'zod'
-import { errorMessages } from './errors'
+import {
+  LOGIN_MAX,
+  LOGIN_MIN,
+  LOGIN_REGEX,
+  PASSWORD_MAX,
+  PASSWORD_MIN,
+  PASSWORD_REGEX,
+} from '@shared/model/validation/consts'
+import { errorMessages } from '@shared/model/validation/errors'
 
-//TODO Поменять валидацию с учётом требований задачи https://github.com/Vitykovskiy/55_01_react-game/issues/18
-//Пример прикручивания валидации. В текущей реализации работает только если в полях undefined.
-// На пустые строки не работает.
 export const schema = z.object({
-  login: z.string(errorMessages.login.required),
-  password: z.string(errorMessages.password.required),
+  login: z
+    .string(errorMessages.login.required)
+    .min(LOGIN_MIN, errorMessages.login.min)
+    .max(LOGIN_MAX, errorMessages.login.max)
+    .regex(LOGIN_REGEX, errorMessages.login.invalid),
+  password: z
+    .string(errorMessages.password.required)
+    .min(PASSWORD_MIN, errorMessages.password.min)
+    .max(PASSWORD_MAX, errorMessages.password.max)
+    .regex(PASSWORD_REGEX, errorMessages.password.invalid),
 })
