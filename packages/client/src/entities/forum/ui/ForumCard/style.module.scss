@@ -1,0 +1,7 @@
+.forum-card {
+  padding: var(--g-spacing-4);
+  cursor: pointer;
+  &:hover {
+    background-color: var(--g-color-base-generic-hover);
+  }
+}

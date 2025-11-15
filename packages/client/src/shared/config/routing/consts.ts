@@ -6,5 +6,6 @@ export const enum RoutePath {
   Game = '/game',
   Leaderboard = '/leaderboard',
   Forum = '/forum',
+  ForumCreateTopic = '/forum/create',
   ForumTopic = '/forum/:topicId',
 }
