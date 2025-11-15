@@ -10,4 +10,8 @@ module.exports = {
   globals: {
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
+  moduleNameMapper: {
+    '^@shared/(.*)$': '<rootDir>/src/shared/$1',
+    // другие алиасы при необходимости
+  },
 }

@@ -15,6 +15,7 @@ export const LoginPage = () => {
   usePage({})
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
+    mode: 'all',
   })
   const { handleSubmit } = methods
   const [initiatedPage, setInitiatedPage] = useState(false)
