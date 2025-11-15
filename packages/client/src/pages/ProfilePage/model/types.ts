@@ -12,3 +12,8 @@ export type User = {
   email: string
   phone: string
 }
+
+export interface PasswordChangeData {
+  oldPassword: string
+  newPassword: string
+}

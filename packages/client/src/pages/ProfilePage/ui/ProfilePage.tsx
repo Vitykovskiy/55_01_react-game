@@ -7,10 +7,11 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { PROFILE_PAGE_TITLE, PROFILE_DATA } from '../model/consts'
 import { schema } from '../model/schemas'
-import { Schema } from '../model/types'
+import { PasswordChangeData, Schema, User } from '../model/types'
 import s from './ProfilePage.module.scss'
 import { ProfilePageInputs } from './ProfilePageInputs'
 import { AvatarLoad } from '@shared/ui/AvatarLoad'
+import { Api } from '@shared/lib'
 
 export const ProfilePage = () => {
   usePage({})
@@ -33,14 +34,20 @@ export const ProfilePage = () => {
     navigate(RoutePath.Main)
   }
 
-  const onSubmit = (data: Schema) => {
-    console.log(data)
+  const onSubmit = async (data: Schema) => {
+    await Api.putRequest<PasswordChangeData>('user/password', {
+      oldPassword: 'string',
+      newPassword: data,
+    })
     handleButtonAuthClick()
   }
 
-  const handleAvatarChange = (file: File, imageUrl: string) => {
+  const handleAvatarChange = async (file: File, imageUrl: string) => {
     console.log(file)
     console.log(imageUrl)
+    const formData = new FormData()
+    formData.append('avatar', file)
+    const response = await Api.putRequest<User>('user/profile/avatar', formData)
   }
 
   return (
