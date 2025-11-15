@@ -1,0 +1,27 @@
+#startGame > div {
+  padding: 0;
+  background-image: url('../../../../public/game/startGame.png');
+  background-size: contain;
+}
+
+.startGame section {
+  width: 100%;
+  margin-top: auto;
+}
+
+.startGame > div > main {
+  padding: var(--g-spacing-5);
+  background: rgba(255,255,255,.6);
+  background-color: transparent;
+  backdrop-filter: blur(10px);
+}
+
+.text {
+  margin: 61px 0;
+  color: #ffffff;
+}
+
+.textCounter {
+  margin: auto;
+  color: #ffffff;
+}
