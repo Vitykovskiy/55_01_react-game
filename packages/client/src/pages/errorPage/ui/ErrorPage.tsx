@@ -1,14 +1,13 @@
 import { Button, Text } from '@gravity-ui/uikit'
 import { usePage } from '@shared/config/routing'
 import { useNavigate } from 'react-router-dom'
-// import classNames from 'classnames'
 import style from './ErrorPage.module.scss'
 import { ErrorCode } from '../model/types'
 import { errorData } from '../model/consts'
 import Layout from '@shared/ui/Layout'
 
 type ErrorPageProps = {
-  code: ErrorCode
+  code?: ErrorCode
 }
 
 export const ErrorPage = ({ code = 400 }: ErrorPageProps) => {

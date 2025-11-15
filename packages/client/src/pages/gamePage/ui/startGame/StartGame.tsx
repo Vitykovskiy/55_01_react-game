@@ -10,16 +10,23 @@ export const StartGame = () => {
   const [isCounter, setIsCounter] = useState(false)
   const [counter, setCounter] = useState(3)
 
-  const navigete = useNavigate()
+  const navigate = useNavigate()
   const setCounterContent = () => {
     return setCounter(counter - 1)
   }
 
+  // useEffect(() => {
+  //   isCounter &&
+  //     (counter > 0
+  //       ? setTimeout(setCounterContent, 1000)
+  //       : navigate(RoutePath.Main))
+  // }, [isCounter, counter])
+
   useEffect(() => {
-    isCounter &&
-      (counter > 0
-        ? setTimeout(setCounterContent, 1000)
-        : navigete(RoutePath.Main))
+    if (isCounter) {
+      counter > 0 && setTimeout(setCounterContent, 1000)
+      counter <= 0 && navigate(RoutePath.Main)
+    }
   }, [isCounter, counter])
 
   return (

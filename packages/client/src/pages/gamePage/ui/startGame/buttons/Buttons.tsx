@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import Section from '@shared/ui/Section'
 import { buttonData, ButtonType } from './model/consts'
-import { ButtonCustom } from '@shared/ui/buttomCustom'
+import { ButtonCustom } from '@shared/ui/buttonCustom'
 
 type startGameProps = {
   setIsCounter: React.Dispatch<React.SetStateAction<boolean>>
