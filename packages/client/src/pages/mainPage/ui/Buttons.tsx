@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom'
 import { RoutePath } from '@shared/config/routing'
 import Section from '@shared/ui/Section'
 
-type mainPageProps = {
+type MainPageProps = {
   classNamesButtonsComponents?: { buttons: string }
 }
 
-export const Buttons = ({ classNamesButtonsComponents }: mainPageProps) => {
+export const Buttons = ({ classNamesButtonsComponents }: MainPageProps) => {
   const routings: Record<ButtonType, RoutePath> = {
     game: RoutePath.Game,
     leaderboard: RoutePath.Leaderboard,

@@ -4,7 +4,7 @@ import { buttonData, ButtonType } from './model/consts'
 import { ButtonCustom } from '@shared/ui/buttonCustom'
 
 type ButtonsStyle = { buttons?: string }
-type startGameProps = {
+type StartGameProps = {
   setIsCounter: React.Dispatch<React.SetStateAction<boolean>>
   classNamesButtonsComponents?: ButtonsStyle
 }
@@ -12,7 +12,7 @@ type startGameProps = {
 export const Buttons = ({
   setIsCounter,
   classNamesButtonsComponents,
-}: startGameProps) => {
+}: StartGameProps) => {
   const navigate = useNavigate()
 
   const handleClick = (name: ButtonType) => () => {
@@ -27,6 +27,7 @@ export const Buttons = ({
       }}>
       {buttonData.map(button => {
         const { name, text, view } = button
+
         return (
           <ButtonCustom
             key={name}

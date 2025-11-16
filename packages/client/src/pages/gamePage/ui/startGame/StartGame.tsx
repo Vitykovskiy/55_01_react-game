@@ -5,6 +5,7 @@ import { Buttons } from './buttons/Buttons'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { RoutePath } from '@shared/config/routing'
+import { COUNTER_STARTGAME } from './model/consts'
 
 export const StartGame = () => {
   const [isCounter, setIsCounter] = useState(false)
@@ -21,7 +22,7 @@ export const StartGame = () => {
     }
 
     if (counter > 0) {
-      setTimeout(setCounterContent, 1000)
+      setTimeout(setCounterContent, COUNTER_STARTGAME)
       return
     }
 
@@ -29,37 +30,35 @@ export const StartGame = () => {
   }, [isCounter, counter])
 
   return (
-    <div className={s.startGame} id={s.startGame}>
-      <Layout
-        title="начало игры"
-        classNamesLayoutComponents={{
-          layout: s.layout,
-          main: s.main,
-          content: s.content,
-        }}>
-        {isCounter ? (
-          <Text as="p" className={s.textCounter} variant="display-4">
-            {counter}
+    <Layout
+      title="начало игры"
+      classNamesLayoutComponents={{
+        layout: s.layout,
+        main: s.main,
+        content: s.content,
+      }}>
+      {isCounter ? (
+        <Text as="p" className={s.textCounter} variant="display-4">
+          {counter}
+        </Text>
+      ) : (
+        <>
+          <Text as="p" className={s.text} variant="body-2">
+            В Magic Type вам нужно быстро и точно печатать появляющиеся на
+            экране заклинания-слова: каждое правильно набранное слово мгновенно
+            уничтожает врага, продвигающегося к вам; если промедлите или
+            ошибётесь — противники приблизятся и нанесут урон. Сосредоточьтесь
+            на приоритетных целях, тренируйте слепой набор, поддерживайте ритм
+            без остановок и используйте редкие усиления, возникающие при быстрой
+            серии точных слов — так вы дольше выживете и пройдёте уровни с
+            максимальным счётом.
           </Text>
-        ) : (
-          <>
-            <Text as="p" className={s.text} variant="body-2">
-              В Magic Type вам нужно быстро и точно печатать появляющиеся на
-              экране заклинания-слова: каждое правильно набранное слово
-              мгновенно уничтожает врага, продвигающегося к вам; если промедлите
-              или ошибётесь — противники приблизятся и нанесут урон.
-              Сосредоточьтесь на приоритетных целях, тренируйте слепой набор,
-              поддерживайте ритм без остановок и используйте редкие усиления,
-              возникающие при быстрой серии точных слов — так вы дольше выживете
-              и пройдёте уровни с максимальным счётом.
-            </Text>
-            <Buttons
-              setIsCounter={setIsCounter}
-              classNamesButtonsComponents={{ buttons: s.buttons }}
-            />
-          </>
-        )}
-      </Layout>
-    </div>
+          <Buttons
+            setIsCounter={setIsCounter}
+            classNamesButtonsComponents={{ buttons: s.buttons }}
+          />
+        </>
+      )}
+    </Layout>
   )
 }

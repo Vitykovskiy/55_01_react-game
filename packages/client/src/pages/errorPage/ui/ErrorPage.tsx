@@ -21,18 +21,16 @@ export const ErrorPage = ({ code = 400 }: ErrorPageProps) => {
   const err = errorData[code]
 
   return (
-    <div className={s.errorPage}>
-      <Layout variant="center" title="Ошибка">
-        <Text as="h1" variant="display-1" className={s.header}>
-          {err ? err.heading : errorData[400].heading}
-        </Text>
-        <Text as="p" variant="body-2" className={s.text}>
-          {err ? err.text : errorData[400].text}
-        </Text>
-        <Button view="action" width="max" onClick={handleClick}>
-          Назад
-        </Button>
-      </Layout>
-    </div>
+    <Layout variant="center" title="Ошибка">
+      <Text as="h1" variant="display-1" className={s.header}>
+        {err ? err.heading : errorData[400].heading}
+      </Text>
+      <Text as="p" variant="body-2" className={s.text}>
+        {err ? err.text : errorData[400].text}
+      </Text>
+      <Button view="action" width="max" onClick={handleClick}>
+        Назад
+      </Button>
+    </Layout>
   )
 }
