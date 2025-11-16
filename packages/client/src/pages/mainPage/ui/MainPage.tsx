@@ -14,7 +14,7 @@ export const MainPage = () => {
           в магию. Каждый правильно набранный текст — заклинание или удар меча.
           Побеждай чудовищ и докажи, что слова сильнее клинка.
         </Text>
-        <Buttons />
+        <Buttons classNamesButtonsComponents={{ buttons: s.buttons }} />
       </Layout>
     </div>
   )

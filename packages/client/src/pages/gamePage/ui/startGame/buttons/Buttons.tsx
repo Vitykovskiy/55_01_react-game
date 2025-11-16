@@ -3,11 +3,16 @@ import Section from '@shared/ui/Section'
 import { buttonData, ButtonType } from './model/consts'
 import { ButtonCustom } from '@shared/ui/buttonCustom'
 
+type ButtonsStyle = { buttons?: string }
 type startGameProps = {
   setIsCounter: React.Dispatch<React.SetStateAction<boolean>>
+  classNamesButtonsComponents?: ButtonsStyle
 }
 
-export const Buttons = ({ setIsCounter }: startGameProps) => {
+export const Buttons = ({
+  setIsCounter,
+  classNamesButtonsComponents,
+}: startGameProps) => {
   const navigate = useNavigate()
 
   const handleClick = (name: ButtonType) => () => {
@@ -16,7 +21,10 @@ export const Buttons = ({ setIsCounter }: startGameProps) => {
   }
 
   return (
-    <Section>
+    <Section
+      classNamesSectionComponents={{
+        section: classNamesButtonsComponents?.buttons,
+      }}>
       {buttonData.map(button => {
         const { name, text, view } = button
         return (

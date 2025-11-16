@@ -1,15 +1,15 @@
-#start-game > div {
-  padding: 0;
+.layout {
+  padding: 0 !important; 
   background-image: url('../../../../public/game/startGame.png');
   background-size: contain;
 }
 
-.start-game section {
+.buttons {
   width: 100%;
   margin-top: auto;
 }
 
-.start-game > div > main {
+.main {
   padding: var(--g-spacing-5);
   background: rgba(255,255,255,.6);
   background-color: transparent;

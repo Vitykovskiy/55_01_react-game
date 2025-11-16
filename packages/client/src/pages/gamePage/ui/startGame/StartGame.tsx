@@ -30,7 +30,13 @@ export const StartGame = () => {
 
   return (
     <div className={s.startGame} id={s.startGame}>
-      <Layout title="начало игры">
+      <Layout
+        title="начало игры"
+        classNamesLayoutComponents={{
+          layout: s.layout,
+          main: s.main,
+          content: s.content,
+        }}>
         {isCounter ? (
           <Text as="p" className={s.textCounter} variant="display-4">
             {counter}
@@ -47,7 +53,10 @@ export const StartGame = () => {
               возникающие при быстрой серии точных слов — так вы дольше выживете
               и пройдёте уровни с максимальным счётом.
             </Text>
-            <Buttons setIsCounter={setIsCounter} />
+            <Buttons
+              setIsCounter={setIsCounter}
+              classNamesButtonsComponents={{ buttons: s.buttons }}
+            />
           </>
         )}
       </Layout>

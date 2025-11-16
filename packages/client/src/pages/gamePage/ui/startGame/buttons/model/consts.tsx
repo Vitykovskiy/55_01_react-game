@@ -1,4 +1,4 @@
-import { ButtonCustomProps } from '@shared/ui/buttomCustom'
+import { ButtonCustomProps } from '@shared/ui/buttonCustom'
 
 export type ButtonType = 'startGame' | 'back'
 
