@@ -9,6 +9,7 @@ export type User = {
   second_name: string
   login: string
   password: string
+  oldPassword: string
   email: string
   phone: string
 }

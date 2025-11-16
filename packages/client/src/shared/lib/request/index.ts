@@ -7,13 +7,16 @@ import {
   ErrorType,
   ResponseType,
 } from './types'
+import { BaseUrl } from '@shared/config/routing/consts'
 
 const REQUEST_TIMEOUT = 10000
 
 const api = axios.create({
+  baseURL: BaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 })
 
 async function getRequest<T>(

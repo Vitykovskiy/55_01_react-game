@@ -8,3 +8,5 @@ export const enum RoutePath {
   Forum = '/forum',
   ForumTopic = '/forum/:topicId',
 }
+
+export const BaseUrl = 'https://ya-praktikum.tech/api/v2'

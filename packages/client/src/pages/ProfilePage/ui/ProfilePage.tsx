@@ -5,13 +5,14 @@ import Layout from '@shared/ui/Layout'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { PROFILE_PAGE_TITLE, PROFILE_DATA } from '../model/consts'
+import { PROFILE_PAGE_TITLE, PROFILE_AVATAR } from '../model/consts'
 import { schema } from '../model/schemas'
 import { PasswordChangeData, Schema, User } from '../model/types'
 import s from './ProfilePage.module.scss'
 import { ProfilePageInputs } from './ProfilePageInputs'
 import { AvatarLoad } from '@shared/ui/AvatarLoad'
 import { Api } from '@shared/lib'
+import { BaseUrl } from '@shared/config/routing/consts'
 
 export const ProfilePage = () => {
   usePage({})
@@ -21,9 +22,22 @@ export const ProfilePage = () => {
   const { handleSubmit } = methods
   const [initiatedPage, setInitiatedPage] = useState(false)
   const navigate = useNavigate()
+  const [user, setUser] = useState<User | null>(null)
+
+  const getUser = async () => {
+    try {
+      const response = await Api.getRequest<User>('auth/user')
+      if (response) {
+        setUser(response)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   useEffect(() => {
     setInitiatedPage(true)
+    getUser()
   }, [])
 
   if (!initiatedPage) {
@@ -34,20 +48,33 @@ export const ProfilePage = () => {
     navigate(RoutePath.Main)
   }
 
+  const changePassword = async (data: Schema) => {
+    try {
+      await Api.putRequest<PasswordChangeData>('user/password', {
+        oldPassword: data.oldPassword,
+        newPassword: data.password,
+      })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   const onSubmit = async (data: Schema) => {
-    await Api.putRequest<PasswordChangeData>('user/password', {
-      oldPassword: 'string',
-      newPassword: data,
-    })
+    await changePassword(data)
     handleButtonAuthClick()
   }
 
-  const handleAvatarChange = async (file: File, imageUrl: string) => {
-    console.log(file)
-    console.log(imageUrl)
-    const formData = new FormData()
-    formData.append('avatar', file)
-    const response = await Api.putRequest<User>('user/profile/avatar', formData)
+  const handleAvatarChange = async (file: File) => {
+    try {
+      const formData = new FormData()
+      formData.append('avatar', file)
+
+      await Api.putRequest<User>('user/profile/avatar', formData, {
+        'Content-Type': 'multipart/form-data',
+      })
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   return (
@@ -57,12 +84,12 @@ export const ProfilePage = () => {
           {PROFILE_PAGE_TITLE}
         </Text>
         <AvatarLoad
-          img={PROFILE_DATA.avatar}
+          img={user?.avatar ? BaseUrl + user.avatar : PROFILE_AVATAR}
           imageChange={handleAvatarChange}
         />
         <FormProvider {...methods}>
           <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-            <ProfilePageInputs data={PROFILE_DATA} />
+            <ProfilePageInputs data={user} />
             <Button type={'submit'} view="action">
               Сохранить
             </Button>

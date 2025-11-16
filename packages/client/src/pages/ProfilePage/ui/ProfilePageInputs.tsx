@@ -2,11 +2,11 @@ import { FormInput } from '@shared/ui/FormInput'
 import { User } from '@pages/ProfilePage/model/types'
 
 type ProfilePageInputsProps = {
-  data: User
+  data: User | null
 }
 export const ProfilePageInputs = (props: ProfilePageInputsProps) => {
   const { data } = props
-
+  if (!data) return null
   return (
     <>
       <FormInput
@@ -28,12 +28,6 @@ export const ProfilePageInputs = (props: ProfilePageInputsProps) => {
         disabled={true}
       />
       <FormInput
-        name={'password'}
-        type={'password'}
-        value={data.password}
-        label={'Пароль:'}
-      />
-      <FormInput
         name={'email'}
         label={'Email:'}
         value={data.email}
@@ -45,6 +39,18 @@ export const ProfilePageInputs = (props: ProfilePageInputsProps) => {
         label={'Телефон:'}
         value={data.phone}
         disabled={true}
+      />
+      <FormInput
+        name={'oldPassword'}
+        type={'password'}
+        value={data.oldPassword}
+        label={'Старый пароль:'}
+      />
+      <FormInput
+        name={'password'}
+        type={'password'}
+        value={data.password}
+        label={'Новый пароль:'}
       />
     </>
   )
