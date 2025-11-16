@@ -1,7 +1,7 @@
 import { Button } from '@gravity-ui/uikit'
 
 type typeButton = 'button' | 'submit' | 'reset'
-type viewButton = 'action' | 'outlined'
+type viewButton = 'action' | 'outlined' | 'outlined-contrast'
 
 export type ButtonCustomProps = {
   name: string

@@ -1,0 +1,44 @@
+.endGame{
+  position: relative;
+  z-index: 2;
+  grid-column: 1/2;
+  grid-row: 1/2;
+}
+
+#endGame > div {
+  padding: 0;
+  background-image: url('../../../../public/game/startGame.png');
+  background-size: contain;
+}
+// #endGame > div{
+//   padding: 0;
+//   background-color: transparent;
+// }
+
+.endGame section {
+  width: 100%;
+  margin-top: auto;
+}
+
+.endGame > div > main {
+  padding: var(--g-spacing-5);
+  background: rgba(255,255,255,.6);
+  background-color: transparent;
+  backdrop-filter: blur(10px);
+}
+
+#endGame > div > main > div {
+  justify-content: space-between;
+}
+
+.endGame__buttons{
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.textWhite {
+  color: #ffffff;
+}

@@ -2,9 +2,10 @@ import Layout from '@shared/ui/Layout'
 import { StartGamePageProps } from '../../model/types'
 import { Text } from '@gravity-ui/uikit'
 import s from './StartGame.module.scss'
-import { Buttons } from './buttons/Buttons'
+import { Buttons } from '../buttons/Buttons'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { buttonDataStart } from '../buttons/model/consts'
 
 export const StartGame = ({ setStatusGame }: StartGamePageProps) => {
   const [isCounter, setIsCounter] = useState(false)
@@ -18,7 +19,8 @@ export const StartGame = ({ setStatusGame }: StartGamePageProps) => {
 
   const objHandleClick = {
     startGame: () => setIsCounter(true),
-    back: () => navigate(-1),
+    // back: () => navigate(-1),
+    backStart: () => setStatusGame('game'),
   }
 
   useEffect(() => {
@@ -31,7 +33,10 @@ export const StartGame = ({ setStatusGame }: StartGamePageProps) => {
   console.log(counter)
   return (
     <div className={s.startGame} id={s.startGame}>
-      <Layout title="начало игры">
+      <Layout
+        title="начало игры"
+        variant="center"
+        style={{ divApp: s.divApp, main: s.main }}>
         {isCounter ? (
           <Text as="p" className={s.textCounter} variant="display-4">
             {counter}
@@ -48,7 +53,10 @@ export const StartGame = ({ setStatusGame }: StartGamePageProps) => {
               возникающие при быстрой серии точных слов — так вы дольше выживете
               и пройдёте уровни с максимальным счётом.
             </Text>
-            <Buttons objHandleClick={objHandleClick} />
+            <Buttons
+              objHandleClick={objHandleClick}
+              buttonData={buttonDataStart}
+            />
           </>
         )}
       </Layout>

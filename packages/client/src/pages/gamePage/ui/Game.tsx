@@ -2,7 +2,6 @@ import Layout from '@shared/ui/Layout'
 import { StartGamePageProps } from '../model/types'
 import { Button } from '@gravity-ui/uikit'
 import s from './Game.module.scss'
-import classNames from 'classnames'
 
 export const Game = ({ statusGame, setStatusGame }: StartGamePageProps) => {
   const handleClick = () => {
@@ -10,7 +9,7 @@ export const Game = ({ statusGame, setStatusGame }: StartGamePageProps) => {
   }
 
   return (
-    <div className={classNames(s.game, statusGame === 'end' ? s.game_end : '')}>
+    <div className={s.game}>
       <Layout title="игра">
         <Button className={s.game__button} view="action" onClick={handleClick}>
           Закончить

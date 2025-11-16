@@ -2,7 +2,7 @@ import { usePage } from '@shared/config/routing'
 import { useState } from 'react'
 import { Game } from './Game'
 import { StartGame } from './startGame/StartGame'
-import { EndGame } from './EndGame'
+import { EndGame } from './endGame'
 import { StatusGame } from '../model/types'
 import s from './GamePage.module.scss'
 

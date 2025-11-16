@@ -1,10 +1,10 @@
 // import { useNavigate } from 'react-router-dom'
 import Section from '@shared/ui/Section'
-import { buttonData, ButtonType } from './model/consts'
-import { ButtonCustom } from '@shared/ui/buttomCustom'
-import { ButtonsProps } from './model/types'
+import { buttonDataStart } from './model/consts'
+import { ButtonsProps, ButtonType } from './model/types'
+import { ButtonCustom } from '@shared/ui/buttonCustom'
 
-export const Buttons = ({ objHandleClick }: ButtonsProps) => {
+export const Buttons = ({ objHandleClick, buttonData }: ButtonsProps) => {
   // const navigate = useNavigate()
 
   const handleClick = (name: ButtonType) => {
