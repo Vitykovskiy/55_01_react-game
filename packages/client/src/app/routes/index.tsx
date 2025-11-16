@@ -1,4 +1,4 @@
-import { ErrorCode } from '@pages/errorPage/model/types'
+import { ErrorCode } from '@pages/errorPage'
 import {
   ForumPage,
   GamePage,

@@ -3,4 +3,5 @@ export enum ErrorCode {
   NotFound = 404,
   ServerError = 500,
 }
+
 export type ErrorData = { heading: string; text: string }

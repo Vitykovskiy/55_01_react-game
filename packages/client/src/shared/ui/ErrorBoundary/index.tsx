@@ -1,6 +1,6 @@
 import { Component, ErrorInfo, ReactNode } from 'react'
 import { ErrorPage } from '@pages/index'
-import { ErrorCode } from '@pages/errorPage/model/types'
+import { ErrorCode } from '@pages/errorPage'
 
 type ErrorBoundaryProps = {
   children: ReactNode
