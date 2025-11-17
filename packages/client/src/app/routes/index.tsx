@@ -1,3 +1,4 @@
+import { ErrorCode } from '@pages/errorPage'
 import {
   ErrorPage,
   ForumPage,
@@ -10,8 +11,9 @@ import {
   TopicPage,
 } from '../../pages'
 import { RoutePath } from '@shared/config/routing'
+import { RouteObject } from 'react-router-dom'
 
-export const routes = [
+export const routes: RouteObject[] = [
   {
     path: RoutePath.Main,
     Component: MainPage,
@@ -29,4 +31,7 @@ export const routes = [
   { path: RoutePath.Forum, Component: ForumPage },
   { path: RoutePath.ForumTopic, Component: TopicPage },
   { path: '*', Component: ErrorPage },
-]
+].map(routeData => ({
+  ...routeData,
+  errorElement: <ErrorPage code={ErrorCode.ServerError} />,
+}))
