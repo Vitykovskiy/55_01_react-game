@@ -1,5 +1,5 @@
 export { ForumPage } from './ForumPage'
-export { GamePage } from './GamePage'
+export { GamePage } from './gamePage'
 export { LeaderboardPage } from './Leaderboard'
 export { LoginPage } from './LoginPage'
 export { MainPage } from './mainPage'

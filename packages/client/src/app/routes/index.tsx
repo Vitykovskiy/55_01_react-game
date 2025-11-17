@@ -1,5 +1,6 @@
 import { ErrorCode } from '@pages/errorPage'
 import {
+  ErrorPage,
   ForumPage,
   GamePage,
   LeaderboardPage,
@@ -9,7 +10,6 @@ import {
   RegisterPage,
   TopicPage,
 } from '../../pages'
-import { ErrorPage } from '@pages/errorPage/ui/ErrorPage'
 import { RoutePath } from '@shared/config/routing'
 import { RouteObject } from 'react-router-dom'
 
