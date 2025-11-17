@@ -4,6 +4,7 @@ import { buttonData, ButtonType } from './model/consts'
 import { ButtonCustom } from '@shared/ui/buttonCustom'
 
 type ButtonsStyle = { buttons?: string }
+
 type StartGameProps = {
   setIsCounter: React.Dispatch<React.SetStateAction<boolean>>
   classNamesButtonsComponents?: ButtonsStyle

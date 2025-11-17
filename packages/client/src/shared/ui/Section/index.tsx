@@ -3,6 +3,7 @@ import { PropsWithChildren } from 'react'
 import s from './style.module.scss'
 
 type SectionStyle = { section?: string }
+
 type SectionProps = PropsWithChildren<{
   orientation?: 'column' | 'row'
   classNamesSectionComponents?: SectionStyle
