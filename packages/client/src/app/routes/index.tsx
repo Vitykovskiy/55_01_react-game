@@ -1,5 +1,6 @@
 import { ErrorCode } from '@pages/errorPage'
 import {
+  CreateTopicPage,
   ErrorPage,
   ForumPage,
   GamePage,
@@ -29,6 +30,7 @@ export const routes: RouteObject[] = [
     Component: LeaderboardPage,
   },
   { path: RoutePath.Forum, Component: ForumPage },
+  { path: RoutePath.ForumCreateTopic, Component: CreateTopicPage },
   { path: RoutePath.ForumTopic, Component: TopicPage },
   { path: '*', Component: ErrorPage },
 ].map(routeData => ({
