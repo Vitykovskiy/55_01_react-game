@@ -1,9 +1,10 @@
 import classNames from 'classnames'
-import { PropsWithChildren, ReactNode } from 'react'
+import { CSSProperties, PropsWithChildren, ReactNode } from 'react'
 import { Helmet } from 'react-helmet'
 import s from './style.module.scss'
 
 type LayoutVariant = 'default' | 'center'
+type LayoutAlignItems = 'center' | 'flex-start' | 'flex-end'
 
 type LayoutStyle = {
   layout?: string
@@ -17,6 +18,9 @@ type LayoutProps = PropsWithChildren<{
   description?: string
   bottomPanel?: ReactNode
   classNamesLayoutComponents?: LayoutStyle
+  withBottomPadding?: boolean
+  style?: CSSProperties
+  alignItems?: LayoutAlignItems
 }>
 
 const Layout = ({
@@ -26,13 +30,26 @@ const Layout = ({
   children,
   bottomPanel,
   classNamesLayoutComponents,
+  withBottomPadding = true,
+  style,
+  alignItems = 'center',
 }: LayoutProps) => {
+  const alignClassName = {
+    center: s.alignCenter,
+    'flex-start': s.alignFlexStart,
+    'flex-end': s.alignFlexEnd,
+  }[alignItems]
+
   return (
     <div
       className={classNames(
         s.layout,
         s[variant],
-        classNamesLayoutComponents?.layout
+        alignClassName,
+        classNamesLayoutComponents?.layout,
+        {
+          [s.noBottomPadding]: !withBottomPadding,
+        }
       )}>
       <Helmet>
         <meta charSet="utf-8" />
@@ -42,7 +59,9 @@ const Layout = ({
           content={description || 'Страница приложения'}
         />
       </Helmet>
-      <main className={classNames(s.main, classNamesLayoutComponents?.main)}>
+      <main
+        className={classNames(s.main, classNamesLayoutComponents?.main)}
+        style={style}>
         <div
           className={classNames(
             s.mainContent,
