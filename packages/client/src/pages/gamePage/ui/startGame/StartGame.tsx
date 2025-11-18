@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { COUNTER_STARTGAME } from './model/consts'
 import { Buttons } from '../buttons'
 import { StartGamePageProps } from '../../model/types'
+
 export const StartGame = ({ setStatusGame }: StartGamePageProps) => {
   const [isCounter, setIsCounter] = useState(false)
   const [counter, setCounter] = useState(3)
