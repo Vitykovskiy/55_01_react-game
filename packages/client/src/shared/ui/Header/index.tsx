@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
 import { RoutePath } from '../../config/routing'
+import s from './style.module.scss'
 
 export const Header = () => {
   return (
     <nav>
-      <ul>
+      <ul className={s.nav}>
         <li>
           <Link to={RoutePath.Main}>Главная</Link>
         </li>

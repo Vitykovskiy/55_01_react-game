@@ -2,10 +2,13 @@ import classNames from 'classnames'
 import { CSSProperties, PropsWithChildren } from 'react'
 import s from './style.module.scss'
 
+type SectionStyle = { section?: string }
+
 type SectionProps = PropsWithChildren<{
   orientation?: 'column' | 'row'
   pb?: boolean
   alignItems?: 'stretch' | 'flex-start' | 'center' | 'flex-end'
+  classNamesSectionComponents?: SectionStyle
 }>
 
 const Section = ({
@@ -13,6 +16,7 @@ const Section = ({
   orientation = 'column',
   pb,
   alignItems = 'stretch',
+  classNamesSectionComponents,
 }: SectionProps) => {
   const isRow = orientation === 'row'
   const alignmentStyle: CSSProperties = {
@@ -21,8 +25,13 @@ const Section = ({
 
   return (
     <section
-      className={classNames(s.section, { [s.row]: isRow, [s.pb]: pb })}
-      style={alignmentStyle}>
+      className={classNames(
+        s.section,
+        { [s.row]: isRow, [s.pb]: pb },
+        classNamesSectionComponents?.section
+      )}
+      style={alignmentStyle}
+    >
       {children}
     </section>
   )

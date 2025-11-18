@@ -1,0 +1,35 @@
+.leaderboard {
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    position: relative;
+  }
+
+  &-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+
+    &_start {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &-avatar {
+    margin-left: 10px;
+    margin-right: 5px;
+  }
+}
+
+.button-back {
+  width: calc(100% - 40px);
+  bottom: 0;
+  position: fixed;
+  max-width: 440px;
+  margin-bottom: 20px;
+}
