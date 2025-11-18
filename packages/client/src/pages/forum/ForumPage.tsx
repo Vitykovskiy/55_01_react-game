@@ -13,16 +13,16 @@ export const ForumPage = () => {
       title="Форум"
       bottomPanel={
         <Section pb>
-          <Link to={RoutePath.ForumCreateTopic}>
-            <Button view="action" width="max">
-              Создать тему
-            </Button>
-          </Link>
-          <Link to="/">
-            <Button view="outlined" width="max">
-              Назад
-            </Button>
-          </Link>
+          <Button
+            view="action"
+            width="max"
+            component={Link}
+            to={RoutePath.ForumCreateTopic}>
+            Создать тему
+          </Button>
+          <Button view="outlined" width="max" component={Link} to={'/'}>
+            Назад
+          </Button>
         </Section>
       }
       withBottomPadding={false}>

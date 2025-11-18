@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { RoutePath, usePage } from '@shared/config/routing'
 import Layout from '@shared/ui/Layout'
 import Section from '@shared/ui/Section'
+import styles from './CreateTopicPage.module.scss'
 
 export const CreateTopicPage = () => {
   usePage({})
@@ -28,7 +29,7 @@ export const CreateTopicPage = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+    <form onSubmit={handleSubmit} className={styles.container}>
       <Layout
         title="Создать тему"
         alignItems="flex-start"
@@ -41,11 +42,13 @@ export const CreateTopicPage = () => {
               disabled={!canSubmit}>
               Создать тему
             </Button>
-            <Link to={RoutePath.Forum}>
-              <Button view="outlined" width="max">
-                Отмена
-              </Button>
-            </Link>
+            <Button
+              view="outlined"
+              width="max"
+              component={Link}
+              to={RoutePath.Forum}>
+              Отмена
+            </Button>
           </Section>
         }
         withBottomPadding={false}>

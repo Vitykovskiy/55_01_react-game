@@ -15,35 +15,41 @@ export const TopicPage = () => {
 
   const [text, setText] = useState('')
   const canSubmit = text.trim().length > 0
+  const handleSubmit = () => {
+    if (!canSubmit) {
+      return
+    }
+    // TODO: дописать логику отправки комментария на сервер
+    setText('')
+  }
 
-  if (!topic) {
-    return (
-      <TopicPageLayout>
+  return (
+    <TopicPageLayout>
+      {!topic ? (
         <Section pb>
           <Text as="p" variant="body-2">
             Тема не найдена или была удалена.
           </Text>
         </Section>
-      </TopicPageLayout>
-    )
-  }
-
-  return (
-    <TopicPageLayout>
-      <Text as="h1" variant="header-1">
-        {topic.title}
-      </Text>
-      <Section>
-        <Text as="p" variant="body-2">
-          {topic.text}
-        </Text>
-      </Section>
-      <CommentsSection comments={topic.comments ?? []} />
-      <CommentFormSection
-        text={text}
-        canSubmit={canSubmit}
-        onChange={setText}
-      />
+      ) : (
+        <>
+          <Text as="h1" variant="header-1">
+            {topic.title}
+          </Text>
+          <Section>
+            <Text as="p" variant="body-2">
+              {topic.text}
+            </Text>
+          </Section>
+          <CommentsSection comments={topic.comments ?? []} />
+          <CommentFormSection
+            text={text}
+            canSubmit={canSubmit}
+            onChange={setText}
+            onSubmit={handleSubmit}
+          />
+        </>
+      )}
     </TopicPageLayout>
   )
 }

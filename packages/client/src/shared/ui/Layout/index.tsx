@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { PropsWithChildren, ReactNode } from 'react'
+import { CSSProperties, PropsWithChildren, ReactNode } from 'react'
 import { Helmet } from 'react-helmet'
 import s from './style.module.scss'
 
@@ -12,6 +12,7 @@ type LayoutProps = PropsWithChildren<{
   description?: string
   bottomPanel?: ReactNode
   withBottomPadding?: boolean
+  style?: CSSProperties
   alignItems?: LayoutAlignItems
 }>
 
@@ -22,6 +23,7 @@ const Layout = ({
   children,
   bottomPanel,
   withBottomPadding = true,
+  style,
   alignItems = 'center',
 }: LayoutProps) => {
   const alignClassName = {
@@ -43,7 +45,7 @@ const Layout = ({
           content={description || 'Страница приложения'}
         />
       </Helmet>
-      <main className={s.main}>
+      <main className={s.main} style={style}>
         <div className={s.mainContent}>{children}</div>
         {bottomPanel && <div className={s.bottomPanel}>{bottomPanel}</div>}
       </main>

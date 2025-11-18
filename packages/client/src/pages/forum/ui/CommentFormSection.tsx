@@ -6,15 +6,22 @@ type CommentFormSectionProps = {
   text: string
   canSubmit: boolean
   onChange: (value: string) => void
+  onSubmit: () => void
 }
 
 export const CommentFormSection = ({
   text,
   canSubmit,
   onChange,
+  onSubmit,
 }: CommentFormSectionProps) => {
   const handleTextAreaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(event.target.value)
+  }
+  const handleSubmit = () => {
+    if (canSubmit) {
+      onSubmit()
+    }
   }
 
   return (
@@ -29,7 +36,11 @@ export const CommentFormSection = ({
         value={text}
         onChange={handleTextAreaChange}
       />
-      <Button view="action" width="max" disabled={!canSubmit}>
+      <Button
+        view="action"
+        width="max"
+        disabled={!canSubmit}
+        onClick={handleSubmit}>
         Добавить комментарий
       </Button>
     </Section>

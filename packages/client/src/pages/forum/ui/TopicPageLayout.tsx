@@ -16,11 +16,13 @@ export const TopicPageLayout = ({ children }: TopicPageLayoutProps) => {
       alignItems="flex-start"
       bottomPanel={
         <Section pb>
-          <Link to={RoutePath.Forum}>
-            <Button view="outlined" width="max">
-              Назад
-            </Button>
-          </Link>
+          <Button
+            view="outlined"
+            width="max"
+            component={Link}
+            to={RoutePath.Forum}>
+            Назад
+          </Button>
         </Section>
       }
       withBottomPadding={false}>

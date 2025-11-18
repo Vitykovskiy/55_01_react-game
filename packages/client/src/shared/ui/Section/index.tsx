@@ -21,7 +21,7 @@ const Section = ({
 
   return (
     <section
-      className={classNames(s.section, isRow && s.row, pb && s.pb)}
+      className={classNames(s.section, { [s.row]: isRow, [s.pb]: pb })}
       style={alignmentStyle}>
       {children}
     </section>
