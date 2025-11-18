@@ -3,7 +3,7 @@ import { EventBus } from '../models/EventBus'
 import { MainHero } from '../models/MainHero'
 import { Sceleton } from '../models/Sceleton'
 import { Unit } from '../models/types'
-import { BaseUnitView } from '../ui/BaseUnitView'
+import { BaseUnitView } from './view/BaseUnitView'
 import { MainHeroView } from './view/MainHeroView'
 import { SceletonView } from './view/SceletonView'
 

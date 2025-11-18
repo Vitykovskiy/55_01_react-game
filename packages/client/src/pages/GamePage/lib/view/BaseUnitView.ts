@@ -1,4 +1,4 @@
-import { Unit } from '../models/types'
+import { Unit } from '../../models/types'
 
 export abstract class BaseUnitView {
   protected _render(
