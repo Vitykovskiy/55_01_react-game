@@ -5,21 +5,19 @@ import s from './style.module.scss'
 
 type LayoutVariant = 'default' | 'center'
 
-// type LayoutStyleTag = 'divApp' | 'main' | 'divChildren'
-
-type LayoutStyle = { [key: string]: string }
+type LayoutStyle = {
+  layout?: string
+  main?: string
+  content?: string
+}
 
 type LayoutProps = PropsWithChildren<{
   variant?: LayoutVariant
   title: string
   description?: string
   bottomPanel?: ReactNode
-  style?: LayoutStyle
+  classNamesLayoutComponents?: LayoutStyle
 }>
-
-// const style = {
-
-// }
 
 const Layout = ({
   variant = 'default',
@@ -27,11 +25,15 @@ const Layout = ({
   description,
   children,
   bottomPanel,
-  style,
+  classNamesLayoutComponents,
 }: LayoutProps) => {
-  // console.log(s)
   return (
-    <div className={classNames(s.layout, s[variant], style?.divApp)}>
+    <div
+      className={classNames(
+        s.layout,
+        s[variant],
+        classNamesLayoutComponents?.layout
+      )}>
       <Helmet>
         <meta charSet="utf-8" />
         <title>{title}</title>
@@ -40,8 +42,12 @@ const Layout = ({
           content={description || 'Страница приложения'}
         />
       </Helmet>
-      <main className={classNames(s.main, style?.main)}>
-        <div className={classNames(s.mainContent, style?.divChildren)}>
+      <main className={classNames(s.main, classNamesLayoutComponents?.main)}>
+        <div
+          className={classNames(
+            s.mainContent,
+            classNamesLayoutComponents?.content
+          )}>
           {children}
         </div>
         {bottomPanel && <div className={s.bottomPanel}>{bottomPanel}</div>}

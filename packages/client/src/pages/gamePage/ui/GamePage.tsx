@@ -1,10 +1,9 @@
 import { usePage } from '@shared/config/routing'
 import { useState } from 'react'
 import { Game } from './Game'
-import { StartGame } from './startGame/StartGame'
 import { EndGame } from './endGame'
 import { StatusGame } from '../model/types'
-import s from './GamePage.module.scss'
+import { StartGame } from './startGame'
 
 export const GamePage = () => {
   usePage({})
@@ -14,13 +13,13 @@ export const GamePage = () => {
   if (statusGame === 'start') {
     return <StartGame statusGame={statusGame} setStatusGame={setStatusGame} />
   }
+  if (statusGame === 'end') {
+    return <EndGame statusGame={statusGame} setStatusGame={setStatusGame} />
+  }
 
   return (
-    <div className={s.gamePage}>
+    <div>
       <Game statusGame={statusGame} setStatusGame={setStatusGame} />
-      {statusGame === 'end' && (
-        <EndGame statusGame={statusGame} setStatusGame={setStatusGame} />
-      )}
     </div>
   )
 }

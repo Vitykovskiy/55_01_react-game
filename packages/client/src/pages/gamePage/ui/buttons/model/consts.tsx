@@ -1,6 +1,11 @@
-import { StartGameButtonCustomProps } from './types'
+import { ButtonCustomProps } from '@shared/ui/buttonCustom'
+import { GameButtonsCustomProps } from './types'
+// export type ButtonType = 'startGame' | 'back'
 
-export const buttonDataStart: StartGameButtonCustomProps[] = [
+// type StartGameButtonCustomProps = ButtonCustomProps & {
+//   name: ButtonType
+// }
+export const buttonDataStart: GameButtonsCustomProps[] = [
   {
     name: 'startGame',
     text: 'Начать играть',
@@ -12,7 +17,7 @@ export const buttonDataStart: StartGameButtonCustomProps[] = [
   },
 ]
 
-export const buttonDataEnd: StartGameButtonCustomProps[] = [
+export const buttonDataEnd: GameButtonsCustomProps[] = [
   {
     name: 'endGame',
     text: 'Повторить',
@@ -23,3 +28,5 @@ export const buttonDataEnd: StartGameButtonCustomProps[] = [
     view: 'outlined-contrast',
   },
 ]
+
+// import { ButtonCustomProps } from '@shared/ui/buttonCustom'

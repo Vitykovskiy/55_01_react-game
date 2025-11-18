@@ -1,10 +1,15 @@
 // import { useNavigate } from 'react-router-dom'
 import Section from '@shared/ui/Section'
-import { buttonDataStart } from './model/consts'
+// import { buttonDataStart } from './model/consts'
 import { ButtonsProps, ButtonType } from './model/types'
 import { ButtonCustom } from '@shared/ui/buttonCustom'
 
-export const Buttons = ({ objHandleClick, buttonData }: ButtonsProps) => {
+export const Buttons = ({
+  objHandleClick,
+  buttonData,
+  // setIsCounter,
+  classNamesButtonsComponents,
+}: ButtonsProps) => {
   // const navigate = useNavigate()
 
   const handleClick = (name: ButtonType) => {
@@ -12,7 +17,10 @@ export const Buttons = ({ objHandleClick, buttonData }: ButtonsProps) => {
   }
 
   return (
-    <Section>
+    <Section
+      classNamesSectionComponents={{
+        section: classNamesButtonsComponents?.buttons,
+      }}>
       {buttonData.map(button => {
         const { name, text, view } = button
         return (
