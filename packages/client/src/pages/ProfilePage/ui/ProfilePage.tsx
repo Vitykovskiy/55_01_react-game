@@ -32,24 +32,16 @@ export const ProfilePage = () => {
     return null
   }
 
-  const handleButtonAuthClick = () => {
+  const handleButtonComeback = () => {
     navigate(RoutePath.Main)
   }
 
   const onSubmit = async (data: Schema) => {
-    try {
-      await updatePassword(data.oldPassword, data.password)
-    } catch (error) {
-      console.error('Ошибка при изменении пароля:', error)
-    }
+    await updatePassword(data.oldPassword, data.password)
   }
 
   const handleAvatarChange = async (file: File) => {
-    try {
-      await updateAvatar(file)
-    } catch (error) {
-      console.error('Ошибка при обновлении аватара:', error)
-    }
+    await updateAvatar(file)
   }
 
   return (
@@ -68,7 +60,7 @@ export const ProfilePage = () => {
             <Button type={'submit'} view="action">
               Сохранить
             </Button>
-            <Button type={'button'} onClick={handleButtonAuthClick}>
+            <Button type={'button'} onClick={handleButtonComeback}>
               Назад
             </Button>
           </form>

@@ -1,5 +1,5 @@
 import { TextInput } from '@gravity-ui/uikit'
-import { ChangeEvent, Ref, useState } from 'react'
+import { ChangeEvent, Ref } from 'react'
 import { useController } from 'react-hook-form'
 
 type FormInputProps = {
@@ -9,7 +9,7 @@ type FormInputProps = {
   name: string
   disabled?: boolean
   placeholder?: string
-  value?: string
+  defaultValue?: string
   type?: 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url'
   onChangeFormInput?: (value: string) => void
 }
@@ -21,11 +21,10 @@ export const FormInput = ({
   className,
   disabled,
   placeholder,
-  value = '',
+  defaultValue = '',
   type = 'text',
   onChangeFormInput,
 }: FormInputProps) => {
-  const [inputValue, setInputValue] = useState(value)
   const {
     field: { onChange },
     fieldState: { error },
@@ -33,14 +32,13 @@ export const FormInput = ({
   const handleChange = ({
     currentTarget: { value },
   }: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(value)
     onChange(value)
     onChangeFormInput?.(value)
   }
 
   return (
     <TextInput
-      value={inputValue}
+      defaultValue={defaultValue}
       type={type}
       label={label}
       ref={ref}
