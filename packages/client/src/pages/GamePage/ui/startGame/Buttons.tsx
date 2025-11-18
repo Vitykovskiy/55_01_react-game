@@ -1,7 +1,12 @@
-import { useNavigate } from 'react-router-dom'
+import { ButtonCustom, ButtonCustomProps } from '@shared/ui/buttonCustom'
 import Section from '@shared/ui/Section'
-import { buttonData, ButtonType } from './model/consts'
-import { ButtonCustom } from '@shared/ui/buttonCustom'
+import { useNavigate } from 'react-router-dom'
+
+type ButtonType = 'startGame' | 'back'
+
+type StartGameButtonCustomProps = ButtonCustomProps & {
+  name: ButtonType
+}
 
 type ButtonsStyle = { buttons?: string }
 
@@ -9,6 +14,20 @@ type StartGameProps = {
   setIsCounter: React.Dispatch<React.SetStateAction<boolean>>
   classNamesButtonsComponents?: ButtonsStyle
 }
+
+export const COUNTER_STARTGAME = 1000
+
+export const buttonData: StartGameButtonCustomProps[] = [
+  {
+    name: 'startGame',
+    text: 'Начать играть',
+  },
+  {
+    name: 'back',
+    text: 'Назад',
+    view: 'outlined-contrast',
+  },
+]
 
 export const Buttons = ({
   setIsCounter,

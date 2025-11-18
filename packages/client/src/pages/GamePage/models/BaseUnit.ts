@@ -26,13 +26,13 @@ export class NotMovement implements MovementStrategy {
 }
 
 export abstract class BaseUnit implements Unit {
-  name: string
-  position: Position
-  hp: number
-  damage: number
-  damageCooldown = 2
-  private damageTimer = 0
-  size: Size
+  private _name: string
+  private _position: Position
+  private _hp: number
+  private _damage: number
+  private _damageCooldown = 2
+  private _damageTimer = 0
+  private _size: Size
 
   abstract movement?: MovementStrategy
 
@@ -42,78 +42,93 @@ export abstract class BaseUnit implements Unit {
     damage,
     size: { width, height },
   }: UnitInit) {
-    this.name = name
-    this.position = {
+    this._name = name
+    this._position = {
       x: x,
       y: y,
     }
-    this.size = {
+    this._size = {
       width,
       height,
     }
-    this.hp = name.length
-    this.damage = damage
+    this._hp = name.length
+    this._damage = damage
+  }
+
+  getSize = () => {
+    return { ...this._size }
+  }
+
+  getName = () => {
+    return this._name
   }
 
   getPosition(): Position {
-    return {
-      x: this.position.x,
-      y: this.position.y,
-    }
+    return { ...this._position }
   }
 
   isDead = () => {
-    return this.hp === 0
+    return this._hp === 0
   }
 
   getHp = () => {
-    return this.hp
+    return this._hp
   }
 
   getDamage = (): number => {
-    return this.damage
+    return this._damage
   }
 
   applyDamage = (damage: number) => {
-    console.log(this.hp)
-    if (this.hp < damage) {
-      this.hp = 0
+    if (this._hp < damage) {
+      this._hp = 0
       return
     }
 
-    this.hp -= damage
+    this._hp -= damage
+    this._resetDamageTimer()
   }
 
   setPosition({ x, y }: Position): void {
-    this.position = {
+    this._position = {
       x: x,
       y: y,
     }
   }
 
-  canDealDamage(): boolean {
-    return (
-      this.movement instanceof NotMovement &&
-      this.damageTimer >= this.damageCooldown
-    )
+  tryDealDamage(unit: Unit) {
+    if (!this._canDealDamage()) {
+      return
+    }
+
+    this._resetDamageTimer()
+
+    unit.applyDamage(this.getDamage())
   }
 
-  resetDamageTimer() {
-    this.damageTimer = 0
-  }
-
-  update(delta: number) {
+  update = (delta: number) => {
     this.movement?.update(this, delta)
-    if (this.damageTimer < this.damageCooldown) {
-      this.damageTimer += delta
+    if (this._damageTimer < this._damageCooldown) {
+      this._damageTimer += delta
     }
   }
 
-  stop() {
+  stop = () => {
     if (this.movement instanceof NotMovement) {
       return
     }
 
     this.movement = new NotMovement()
+  }
+
+  private _canDealDamage(): boolean {
+    return (
+      this.movement instanceof NotMovement &&
+      this._damageTimer >= this._damageCooldown
+    )
+  }
+
+  private _resetDamageTimer = () => {
+    this._damageTimer = 0
   }
 }

@@ -14,4 +14,9 @@ export interface Unit {
   getDamage(): number
   setPosition(position: Position): void
   getPosition(): Position
+  getSize(): Size
+  getName(): string
+  update(delta: number): void
+  stop(): void
+  tryDealDamage(unit: Unit): void
 }

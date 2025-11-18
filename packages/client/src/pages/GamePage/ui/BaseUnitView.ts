@@ -1,26 +1,20 @@
-import { Sceleton } from '../models/Sceleton'
-import { BaseUnitView } from './BaseUnitView'
-import sceleton from '/charactes/sceleton.png'
+import { Unit } from '../models/types'
 
-let heroImage: HTMLImageElement | null = null
-if (typeof window !== 'undefined') {
-  heroImage = new Image()
-  heroImage.src = sceleton
-}
-
-export class SceletonView extends BaseUnitView {
-  override render(ctx: CanvasRenderingContext2D, unit: Sceleton) {
+export abstract class BaseUnitView {
+  protected _render(
+    ctx: CanvasRenderingContext2D,
+    image: HTMLImageElement | null,
+    unit: Unit
+  ) {
     const { x, y } = unit.getPosition()
-    const { width, height } = unit.size
-
-    if (heroImage?.complete) {
-      ctx.drawImage(heroImage, x, y, width, height)
-    }
-
-    // вычисляем текст по текущему hp
-    const name = unit.name
+    const { width, height } = unit.getSize()
+    const name = unit.getName()
     const hp = unit.getHp()
-    const text = name.slice(name.length - hp)
+    const text = name.slice(name.length - hp) // вычисляем текст по текущему hp
+
+    if (image?.complete) {
+      ctx.drawImage(image, x, y, width, height)
+    }
 
     // параметры текста
     ctx.font = '14px Arial'
@@ -28,7 +22,7 @@ export class SceletonView extends BaseUnitView {
     ctx.textBaseline = 'middle'
 
     // измеряем ширину полного имени (для ширины подложки)
-    const fullTextWidth = ctx.measureText(unit.name).width
+    const fullTextWidth = ctx.measureText(name).width
     const textHeight = 16
 
     // позиция подложки
@@ -49,4 +43,6 @@ export class SceletonView extends BaseUnitView {
     ctx.fillStyle = 'white'
     ctx.fillText(text, boxX + boxWidth / 2, boxY + boxHeight / 2)
   }
+
+  abstract render(ctx: CanvasRenderingContext2D, unit: Unit): void
 }

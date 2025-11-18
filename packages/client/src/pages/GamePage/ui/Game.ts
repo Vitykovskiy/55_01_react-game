@@ -1,4 +1,4 @@
-import { ViewModel } from '../presenter/ViewModel'
+import { ViewModel } from '../lib/ViewModel'
 import background from '/sprites/background-with-wall.png'
 
 export class Game {
@@ -22,8 +22,8 @@ export class Game {
 
     this.background.src = background
 
-    window.addEventListener('resize', this.resize)
-    this.resize()
+    window.addEventListener('resize', this._resize)
+    this._resize()
 
     this.viewModel.on('end', () => {
       this.stop()
@@ -39,29 +39,31 @@ export class Game {
     this.lastTime = performance.now()
     this.canvas.focus()
     window.addEventListener('keyup', this.onKey)
-    requestAnimationFrame(this.loop)
+    requestAnimationFrame(this._loop)
   }
 
   stop() {
     this.running = false
-    window.removeEventListener('resize', this.resize)
+    window.removeEventListener('resize', this._resize)
     window.removeEventListener('keyup', this.onKey)
   }
 
-  private loop = (time: number) => {
-    if (!this.running) return
+  private _loop = (time: number) => {
+    if (!this.running) {
+      return
+    }
 
     const delta = (time - this.lastTime) / 1000
     this.lastTime = time
 
     this.viewModel.update(delta)
 
-    this.render()
+    this._render()
 
-    requestAnimationFrame(this.loop)
+    requestAnimationFrame(this._loop)
   }
 
-  private resize = () => {
+  private _resize = () => {
     const parent = this.canvas.parentElement
     if (!parent) return
 
@@ -74,7 +76,7 @@ export class Game {
     this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0)
   }
 
-  render() {
+  private _render() {
     const ctx = this.ctx
     const w = this.canvas.width / this.dpr
     const h = this.canvas.height / this.dpr

@@ -1,7 +1,7 @@
 import Layout from '@shared/ui/Layout'
 import { useEffect, useRef } from 'react'
-import { Game } from './Game/ui/Game'
 import s from './GamePage.module.scss'
+import { Game } from './ui/Game'
 
 export const GamePage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)

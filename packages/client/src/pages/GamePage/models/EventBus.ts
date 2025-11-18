@@ -2,6 +2,7 @@ export type EventCallback = (...args: unknown[]) => void
 
 export class EventBus<T extends string> {
   private listeners: Partial<Record<T, EventCallback[]>>
+
   constructor() {
     this.listeners = {}
   }
