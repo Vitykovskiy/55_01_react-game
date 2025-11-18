@@ -1,5 +1,5 @@
 import { Sceleton } from '../../models/Sceleton'
-import { BaseUnitView } from '../BaseUnitView'
+import { BaseUnitView } from '../../ui/BaseUnitView'
 import sceleton from '/charactes/sceleton.png'
 
 let sceletonView: HTMLImageElement | null = null

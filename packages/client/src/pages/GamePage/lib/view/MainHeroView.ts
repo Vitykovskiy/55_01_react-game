@@ -1,5 +1,5 @@
 import { MainHero } from '../../models/MainHero'
-import { BaseUnitView } from '../BaseUnitView'
+import { BaseUnitView } from '../../ui/BaseUnitView'
 import heroSprite from '/charactes/main-character.png'
 
 let heroImage: HTMLImageElement | null = null

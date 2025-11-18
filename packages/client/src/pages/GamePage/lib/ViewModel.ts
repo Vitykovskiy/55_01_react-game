@@ -4,8 +4,8 @@ import { MainHero } from '../models/MainHero'
 import { Sceleton } from '../models/Sceleton'
 import { Unit } from '../models/types'
 import { BaseUnitView } from '../ui/BaseUnitView'
-import { MainHeroView } from '../ui/views/MainHeroView'
-import { SceletonView } from '../ui/views/SceletonView'
+import { MainHeroView } from './view/MainHeroView'
+import { SceletonView } from './view/SceletonView'
 
 export type EventType = 'start' | 'end'
 
