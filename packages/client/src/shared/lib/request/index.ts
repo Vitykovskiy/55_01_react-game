@@ -7,7 +7,7 @@ import {
   ErrorType,
   ResponseType,
 } from './types'
-import { BaseUrl } from '@shared/config/routing/consts'
+import { BaseUrl } from '../../config/routing/consts'
 
 const REQUEST_TIMEOUT = 10000
 

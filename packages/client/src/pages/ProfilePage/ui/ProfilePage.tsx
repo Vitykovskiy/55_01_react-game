@@ -2,17 +2,17 @@ import { Button, Text } from '@gravity-ui/uikit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RoutePath, usePage } from '@shared/config/routing'
 import Layout from '@shared/ui/Layout'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { PROFILE_PAGE_TITLE, PROFILE_AVATAR } from '../model/consts'
 import { schema } from '../model/schemas'
-import { PasswordChangeData, Schema, User } from '../model/types'
+import { Schema } from '../model/types'
 import s from './ProfilePage.module.scss'
 import { ProfilePageInputs } from './ProfilePageInputs'
 import { AvatarLoad } from '@shared/ui/AvatarLoad'
-import { Api } from '@shared/lib'
-import { BaseUrl } from '@shared/config/routing/consts'
+import { BaseUrl } from '../../../shared/config/routing/consts'
+import { useProfile } from '../model/useProfile'
 
 export const ProfilePage = () => {
   usePage({})
@@ -20,27 +20,15 @@ export const ProfilePage = () => {
     resolver: zodResolver(schema),
   })
   const { handleSubmit } = methods
-  const [initiatedPage, setInitiatedPage] = useState(false)
   const navigate = useNavigate()
-  const [user, setUser] = useState<User | null>(null)
-
-  const getUser = async () => {
-    try {
-      const response = await Api.getRequest<User>('auth/user')
-      if (response) {
-        setUser(response)
-      }
-    } catch (e) {
-      console.error(e)
-    }
-  }
+  const { user, loadUser, updatePassword, updateAvatar, isLoading } =
+    useProfile()
 
   useEffect(() => {
-    setInitiatedPage(true)
-    getUser()
+    loadUser()
   }, [])
 
-  if (!initiatedPage) {
+  if (isLoading) {
     return null
   }
 
@@ -48,32 +36,19 @@ export const ProfilePage = () => {
     navigate(RoutePath.Main)
   }
 
-  const changePassword = async (data: Schema) => {
-    try {
-      await Api.putRequest<PasswordChangeData>('user/password', {
-        oldPassword: data.oldPassword,
-        newPassword: data.password,
-      })
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
   const onSubmit = async (data: Schema) => {
-    await changePassword(data)
-    handleButtonAuthClick()
+    try {
+      await updatePassword(data.oldPassword, data.password)
+    } catch (error) {
+      console.error('Ошибка при изменении пароля:', error)
+    }
   }
 
   const handleAvatarChange = async (file: File) => {
     try {
-      const formData = new FormData()
-      formData.append('avatar', file)
-
-      await Api.putRequest<User>('user/profile/avatar', formData, {
-        'Content-Type': 'multipart/form-data',
-      })
-    } catch (e) {
-      console.error(e)
+      await updateAvatar(file)
+    } catch (error) {
+      console.error('Ошибка при обновлении аватара:', error)
     }
   }
 

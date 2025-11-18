@@ -19,7 +19,7 @@ describe('schema', () => {
 
   test('password слишком длинный', () => {
     // Arrange
-    const input = { password: 'A'.repeat(PASSWORD_MAX + 1) + '1' }
+    const input = { password: 'A'.repeat(PASSWORD_MAX + 1) }
 
     // Act
     const result = schema.safeParse(input)

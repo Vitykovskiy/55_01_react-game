@@ -2,23 +2,24 @@ import { FormInput } from '@shared/ui/FormInput'
 import { User } from '@pages/ProfilePage/model/types'
 
 type ProfilePageInputsProps = {
-  data: User | null
+  data: User | undefined
 }
 export const ProfilePageInputs = (props: ProfilePageInputsProps) => {
   const { data } = props
   if (!data) return null
+
   return (
     <>
       <FormInput
         name={'firstName'}
         label={'Имя:'}
-        value={data.first_name}
+        value={data.firstName}
         disabled={true}
       />
       <FormInput
         name={'lastName'}
         label={'Фамилия:'}
-        value={data.second_name}
+        value={data.secondName}
         disabled={true}
       />
       <FormInput
