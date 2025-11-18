@@ -16,7 +16,7 @@ export const useProfile = () => {
       setUser(userData)
       setIsLoading(false)
     } catch (e) {
-      navigate(RoutePath.error)
+      //navigate(RoutePath.error)
       return new Error('Не удалось загрузить данные пользователя', { cause: e })
     }
   }
