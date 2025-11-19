@@ -1,5 +1,5 @@
 import { usePage } from '@shared/config/routing'
-import { StartGame } from './startGame'
+import { StartGame } from './StartGame'
 
 export const GamePage = () => {
   usePage({})

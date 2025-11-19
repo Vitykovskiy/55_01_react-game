@@ -1,9 +1,9 @@
 import { Button, Text } from '@gravity-ui/uikit'
-import Layout from '@shared/ui/Layout'
 import { usePage } from '@shared/config/routing'
+import Layout from '@shared/ui/Layout'
+import { useNavigate } from 'react-router-dom'
 import { errorData } from '../model/consts'
 import { ErrorCode } from '../model/types'
-import { useNavigate } from 'react-router-dom'
 
 type ErrorPageProps = {
   code?: ErrorCode

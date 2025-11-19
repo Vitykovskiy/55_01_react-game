@@ -1,11 +1,13 @@
-import Layout from '@shared/ui/Layout'
 import { Text } from '@gravity-ui/uikit'
-import s from './StartGame.module.scss'
-import { Buttons } from './buttons/Buttons'
+import { RoutePath } from '@shared/config/routing'
+import Layout from '@shared/ui/Layout'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { RoutePath } from '@shared/config/routing'
-import { COUNTER_STARTGAME } from './model/consts'
+
+import { Buttons } from './Buttons'
+import s from './StartGame.module.scss'
+
+export const COUNTER_STARTGAME = 1000
 
 export const StartGame = () => {
   const [isCounter, setIsCounter] = useState(false)

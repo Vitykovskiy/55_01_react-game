@@ -1,4 +1,6 @@
 import { ErrorCode } from '@pages/errorPage'
+import { RoutePath } from '@shared/config/routing'
+import { RouteObject } from 'react-router-dom'
 import {
   CreateTopicPage,
   ErrorPage,
@@ -11,8 +13,6 @@ import {
   RegisterPage,
   TopicPage,
 } from '../../pages'
-import { RoutePath } from '@shared/config/routing'
-import { RouteObject } from 'react-router-dom'
 
 export const routes: RouteObject[] = [
   {
