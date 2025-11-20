@@ -1,12 +1,13 @@
 import { User } from '../model/types'
 import { getUserApi } from '../api'
-import { useNavigate } from 'react-router-dom'
-import { RoutePath } from '@shared/config/routing'
-export const getUser = async (): Promise<User | undefined> => {
-  const navigate = useNavigate()
+import { Api } from '@shared/lib'
+import { ApiResponse } from '@shared/lib/request/types'
+
+export const getUser = async (): Promise<ApiResponse<User | undefined>> => {
   try {
-    return getUserApi()
-  } catch {
-    navigate(RoutePath.Error404)
+    const user = await getUserApi()
+    return Api.buildResponseSuccess(user)
+  } catch (error) {
+    return Api.handleError(error)
   }
 }

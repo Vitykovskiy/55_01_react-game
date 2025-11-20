@@ -21,7 +21,7 @@ export const ProfilePage = () => {
   const { handleSubmit } = methods
   const navigate = useNavigate()
   const { user, loadUser, updatePassword, updateAvatar, isLoading } =
-    useProfile()
+    useProfile(methods.setError)
 
   useEffect(() => {
     loadUser()

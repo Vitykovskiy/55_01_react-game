@@ -3,22 +3,28 @@ import { User } from './types'
 import { getUser } from '../lib/getUser'
 import { changePassword } from '../lib/changePassword'
 import { changeAvatar } from '../lib/changeAvatar'
-import { useForm } from 'react-hook-form'
-export const useProfile = () => {
+import { UseFormSetError } from 'react-hook-form'
+import { RoutePath } from '@shared/config/routing'
+import { useNavigate } from 'react-router-dom'
+import { Schema } from '../model/types'
+
+export const useProfile = (setError: UseFormSetError<Schema>) => {
   const [user, setUser] = useState<User | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(true)
-  const { setError } = useForm()
-
+  const navigate = useNavigate()
   const loadUser = async () => {
-    const userData = await getUser()
-    setUser(userData)
+    const response = await getUser()
+    if (response.type === 'SUCCESS') {
+      setUser(response.data)
+    } else {
+      navigate(RoutePath.Error404)
+    }
     setIsLoading(false)
   }
 
-  const updatePassword = (oldPassword: string, newPassword: string) => {
-    try {
-      changePassword({ oldPassword, newPassword })
-    } catch {
+  const updatePassword = async (oldPassword: string, newPassword: string) => {
+    const response = await changePassword({ oldPassword, newPassword })
+    if (response.type !== 'SUCCESS') {
       setError('password', {
         type: 'manual',
         message: 'Не удалось изменить пароль',
@@ -27,10 +33,10 @@ export const useProfile = () => {
   }
 
   const updateAvatar = async (file: File) => {
-    try {
-      const updatedUser = await changeAvatar(file)
-      setUser(updatedUser)
-    } catch {
+    const response = await changeAvatar(file)
+    if (response.type === 'SUCCESS') {
+      setUser(response.data)
+    } else {
       setError('avatar', {
         type: 'manual',
         message: 'Не удалось изменить аватар',

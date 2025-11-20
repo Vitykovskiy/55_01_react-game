@@ -21,7 +21,7 @@ export const changeAvatarApi = (file: File): Promise<User | undefined> => {
   const formData = new FormData()
   formData.append('avatar', file)
 
-  return Api.putRequest<User | undefined>('user/profile/avathgar', formData, {
+  return Api.putRequest<User | undefined>('user/profile/avatar', formData, {
     'Content-Type': 'multipart/form-data',
   })
 }
