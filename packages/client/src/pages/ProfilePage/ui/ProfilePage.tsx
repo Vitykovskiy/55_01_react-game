@@ -1,6 +1,6 @@
 import { Button, Text } from '@gravity-ui/uikit'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RoutePath, usePage } from '@shared/config/routing'
+import { RoutePath, usePage, BaseUrl } from '@shared/config/routing'
 import Layout from '@shared/ui/Layout'
 import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -11,7 +11,6 @@ import { Schema } from '../model/types'
 import s from './ProfilePage.module.scss'
 import { ProfilePageInputs } from './ProfilePageInputs'
 import { AvatarLoad } from '@shared/ui/AvatarLoad'
-import { BaseUrl } from '../../../shared/config/routing/consts'
 import { useProfile } from '../model/useProfile'
 
 export const ProfilePage = () => {
@@ -29,7 +28,7 @@ export const ProfilePage = () => {
   }, [])
 
   if (isLoading) {
-    return null
+    return 'Загрузка'
   }
 
   const handleButtonComeback = () => {
@@ -40,8 +39,8 @@ export const ProfilePage = () => {
     await updatePassword(data.oldPassword, data.password)
   }
 
-  const handleAvatarChange = async (file: File) => {
-    await updateAvatar(file)
+  const handleAvatarChange = (file: File) => {
+    updateAvatar(file)
   }
 
   return (

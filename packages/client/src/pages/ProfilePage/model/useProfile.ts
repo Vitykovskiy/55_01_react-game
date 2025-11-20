@@ -5,11 +5,13 @@ import { changePassword } from '../lib/changePassword'
 import { changeAvatar } from '../lib/changeAvatar'
 import { RoutePath } from '@shared/config/routing'
 import { useNavigate } from 'react-router-dom'
-
+import { useForm } from 'react-hook-form'
 export const useProfile = () => {
   const [user, setUser] = useState<User | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
+  const { setError } = useForm()
+
   const loadUser = async () => {
     try {
       const userData = await getUser()
@@ -20,13 +22,27 @@ export const useProfile = () => {
     }
   }
 
-  const updatePassword = async (oldPassword: string, newPassword: string) => {
-    await changePassword({ oldPassword, newPassword })
+  const updatePassword = (oldPassword: string, newPassword: string) => {
+    try {
+      changePassword({ oldPassword, newPassword })
+    } catch {
+      setError('password', {
+        type: 'manual',
+        message: 'Не удалось изменить пароль',
+      })
+    }
   }
 
   const updateAvatar = async (file: File) => {
-    const updatedUser = await changeAvatar(file)
-    setUser(updatedUser)
+    try {
+      const updatedUser = await changeAvatar(file)
+      setUser(updatedUser)
+    } catch {
+      setError('avatar', {
+        type: 'manual',
+        message: 'Не удалось изменить аватар',
+      })
+    }
   }
 
   return {
