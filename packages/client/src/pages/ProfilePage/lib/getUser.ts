@@ -7,7 +7,6 @@ export const getUser = async (): Promise<User | undefined> => {
   try {
     return getUserApi()
   } catch {
-    console.log(11)
     navigate(RoutePath.Error404)
   }
 }
