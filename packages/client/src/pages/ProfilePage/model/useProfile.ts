@@ -3,13 +3,10 @@ import { User } from './types'
 import { getUser } from '../lib/getUser'
 import { changePassword } from '../lib/changePassword'
 import { changeAvatar } from '../lib/changeAvatar'
-import { RoutePath } from '@shared/config/routing'
-import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 export const useProfile = () => {
   const [user, setUser] = useState<User | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(true)
-  const navigate = useNavigate()
   const { setError } = useForm()
 
   const loadUser = async () => {
