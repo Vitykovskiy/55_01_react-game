@@ -2,5 +2,9 @@ import { User } from '../model/types'
 import { getUserApi } from '../api'
 
 export const getUser = async (): Promise<User | undefined> => {
-  return getUserApi()
+  try {
+    return getUserApi()
+  } catch {
+    console.log(11)
+  }
 }

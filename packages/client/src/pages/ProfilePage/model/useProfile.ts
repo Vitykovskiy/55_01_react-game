@@ -13,13 +13,9 @@ export const useProfile = () => {
   const { setError } = useForm()
 
   const loadUser = async () => {
-    try {
-      const userData = await getUser()
-      setUser(userData)
-      setIsLoading(false)
-    } catch (e) {
-      navigate(RoutePath.Error404)
-    }
+    const userData = await getUser()
+    setUser(userData)
+    setIsLoading(false)
   }
 
   const updatePassword = (oldPassword: string, newPassword: string) => {
