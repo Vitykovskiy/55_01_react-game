@@ -37,7 +37,7 @@ export const useProfile = (setError: UseFormSetError<Schema>) => {
     if (response.type === 'SUCCESS') {
       setUser(response.data)
     } else {
-      setError('avatar', {
+      setError('password', {
         type: 'manual',
         message: 'Не удалось изменить аватар',
       })

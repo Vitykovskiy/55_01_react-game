@@ -11,5 +11,8 @@ export const schema = z.object({
     .string(errorMessages.password.min)
     .min(PASSWORD_MIN, errorMessages.password.min)
     .max(PASSWORD_MAX, errorMessages.password.max),
-  avatar: z.any().optional(),
+  avatar: z
+    .custom<File | null>(val => val instanceof File || val === null)
+    .optional()
+    .nullable(),
 })
