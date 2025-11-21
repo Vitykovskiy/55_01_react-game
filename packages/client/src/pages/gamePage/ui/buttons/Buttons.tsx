@@ -1,14 +1,22 @@
 import Section from '@shared/ui/Section'
-import { ButtonsProps, ButtonType } from './model/types'
+import { ButtonType, GameButtonsCustomProps } from '../../model/types'
 import { ButtonCustom } from '@shared/ui/buttonCustom'
 
+type ButtonsStyle = { buttons?: string }
+
+type ButtonsProps = {
+  clickHandlers: { [key: string]: () => void }
+  buttonData: GameButtonsCustomProps[]
+  classNamesButtonsComponents?: ButtonsStyle
+}
+
 export const Buttons = ({
-  objHandleClick,
+  clickHandlers,
   buttonData,
   classNamesButtonsComponents,
 }: ButtonsProps) => {
   const handleClick = (name: ButtonType) => {
-    return objHandleClick[name]
+    return clickHandlers[name]
   }
 
   return (

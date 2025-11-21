@@ -1,8 +1,7 @@
-import { Dispatch, SetStateAction } from 'react'
+import { ButtonCustomProps } from '@shared/ui/buttonCustom'
 
-export type StatusGame = 'start' | 'game' | 'end'
+export type ButtonType = 'startGame' | 'backStart' | 'endGame' | 'backEnd'
 
-export type StartGamePageProps = {
-  statusGame?: StatusGame
-  setStatusGame: Dispatch<SetStateAction<StatusGame>>
+export type GameButtonsCustomProps = ButtonCustomProps & {
+  name: ButtonType
 }

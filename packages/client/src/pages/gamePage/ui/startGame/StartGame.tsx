@@ -1,14 +1,14 @@
 import Layout from '@shared/ui/Layout'
-import { buttonDataStart } from '../buttons/model/consts'
 import { Text } from '@gravity-ui/uikit'
 import s from './StartGame.module.scss'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { COUNTER_STARTGAME } from './model/consts'
 import { Buttons } from '../buttons'
-import { StartGamePageProps } from '../../model/types'
+import { RoutePath } from '@shared/config/routing'
+import { GameButtonsCustomProps } from '../../model/types'
 
-export const StartGame = ({ setStatusGame }: StartGamePageProps) => {
+export const StartGame = () => {
   const [isCounter, setIsCounter] = useState(false)
   const [counter, setCounter] = useState(3)
 
@@ -18,7 +18,19 @@ export const StartGame = ({ setStatusGame }: StartGamePageProps) => {
     return setCounter(counter - 1)
   }
 
-  const objHandleClick = {
+  const buttonDataStart: GameButtonsCustomProps[] = [
+    {
+      name: 'startGame',
+      text: 'Начать играть',
+    },
+    {
+      name: 'backStart',
+      text: 'Назад',
+      view: 'outlined-contrast',
+    },
+  ]
+
+  const clickHandlers = {
     startGame: () => setIsCounter(true),
     backStart: () => navigate(-1),
   }
@@ -33,7 +45,7 @@ export const StartGame = ({ setStatusGame }: StartGamePageProps) => {
       return
     }
 
-    setStatusGame('game')
+    navigate(RoutePath.Main)
   }, [isCounter, counter])
 
   return (
@@ -63,7 +75,7 @@ export const StartGame = ({ setStatusGame }: StartGamePageProps) => {
           </Text>
           <Buttons
             classNamesButtonsComponents={{ buttons: s.buttons }}
-            objHandleClick={objHandleClick}
+            clickHandlers={clickHandlers}
             buttonData={buttonDataStart}
           />
         </>

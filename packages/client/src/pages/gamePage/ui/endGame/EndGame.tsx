@@ -2,18 +2,30 @@ import Layout from '@shared/ui/Layout'
 import { Text } from '@gravity-ui/uikit'
 import { useNavigate } from 'react-router-dom'
 import s from './EndGame.module.scss'
-import { StartGamePageProps } from '../../model/types'
 import Section from '@shared/ui/Section'
 import { Buttons } from '../buttons'
-import { buttonDataEnd } from '../buttons/model/consts'
+import { RoutePath } from '@shared/config/routing'
+import { GameButtonsCustomProps } from '../../model/types'
 
-export const EndGame = ({ setStatusGame }: StartGamePageProps) => {
+export const EndGame = () => {
   const navigate = useNavigate()
 
   const score = 23000
 
-  const objHandleClick = {
-    endGame: () => setStatusGame('start'),
+  const buttonDataEnd: GameButtonsCustomProps[] = [
+    {
+      name: 'endGame',
+      text: 'Повторить',
+    },
+    {
+      name: 'backEnd',
+      text: 'Назад',
+      view: 'outlined-contrast',
+    },
+  ]
+
+  const clickHandlers = {
+    endGame: () => navigate(RoutePath.Main),
     backEnd: () => navigate(-1),
   }
 
@@ -41,7 +53,7 @@ export const EndGame = ({ setStatusGame }: StartGamePageProps) => {
       </Section>
       <Buttons
         classNamesButtonsComponents={{ buttons: s.buttons }}
-        objHandleClick={objHandleClick}
+        clickHandlers={clickHandlers}
         buttonData={buttonDataEnd}
       />
     </Layout>
