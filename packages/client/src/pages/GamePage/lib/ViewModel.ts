@@ -10,9 +10,9 @@ import { SceletonView } from './view/SceletonView'
 export type EventType = 'start' | 'end'
 
 export class ViewModel extends EventBus<EventType> {
-  private _canvas: HTMLCanvasElement
   private _units: { model: Unit; view: BaseUnitView }[] = []
   private _hero: MainHero
+  private _currentScore = 0
   private _enemy?: {
     index: number
     unit: Unit
@@ -22,7 +22,6 @@ export class ViewModel extends EventBus<EventType> {
 
   constructor(canvas: HTMLCanvasElement) {
     super()
-    this._canvas = canvas
     const { width, height } = canvas
     this._hero = new MainHero(0, 0)
     this._hero.setPosition({
@@ -84,14 +83,95 @@ export class ViewModel extends EventBus<EventType> {
     }
   }
 
-  onKey = (_: string) => {
-    //TODO добавить механику ввода и убийства вражеских юнитов
+  onKey = (key: string) => {
+    this._trySetEnemy(key)
+    this._tryHitEnemy(key)
+    this._tryKillEnemy()
   }
 
   renderUnits(ctx: CanvasRenderingContext2D) {
     for (const { model, view } of this._units) {
       view.render(ctx, model)
     }
+  }
+
+  private _trySetEnemy = (key: string) => {
+    console.log(this._enemy)
+    if (!this._enemy) {
+      const enemyIndex = this._units.findIndex(
+        unit => unit.model.getName()[0] === key
+      )
+
+      if (enemyIndex >= 0) {
+        this._enemy = {
+          index: enemyIndex,
+          unit: this._units[enemyIndex].model,
+        }
+      }
+
+      //TODO установить звук промаха
+    }
+  }
+
+  private _tryKillEnemy = () => {
+    if (this._enemy && this._enemy.unit.isDead()) {
+      this._updateScore(1)
+      const word = this._enemy.unit.getName()
+      this._usedWords.push(word)
+
+      const indexInCurrent = this._currentWords.indexOf(word)
+      if (indexInCurrent !== -1) {
+        this._currentWords.splice(indexInCurrent, 1)
+      }
+
+      this._units.splice(this._enemy.index, 1)
+      this._enemy = undefined
+
+      if (this._units.length === 1) {
+        this.generateUnitsBatch(3)
+      }
+    }
+  }
+
+  private _updateScore = (addedPoints: number) => {
+    //TODO избавиться от addedPoints
+    //TODO Добавить логику добавления очков к счёту в зависимости от вида моба(врага)
+    this._currentScore += addedPoints
+    //TODO Сделать вывод новых очков в canvas
+    console.log(this._currentScore)
+  }
+
+  private _tryHitEnemy = (key: string) => {
+    if (!this._enemy) {
+      //TODO добавить воспроизведение звука промоха
+      return
+    }
+
+    const enemyUnit = this._enemy.unit
+    const unitName = enemyUnit.getName()
+    const unitHp = enemyUnit.getHp()
+
+    const targetKey = unitName[unitName.length - unitHp]
+
+    if (targetKey == key) {
+      this._enemy.unit.applyDamage(1)
+    }
+  }
+
+  generateUnit = () => {
+    const sceletonName = this.getRandomWord(
+      words,
+      this._usedWords,
+      this._currentWords
+    )
+    if (!sceletonName) {
+      throw new Error('cannot init skeleton')
+    }
+    const sceleton = new Sceleton(200, 100, sceletonName)
+    const skeletonView = new SceletonView()
+
+    this._units.push({ model: sceleton, view: skeletonView })
+    this._currentWords.push(sceletonName)
   }
 
   private getRandomWord = (
