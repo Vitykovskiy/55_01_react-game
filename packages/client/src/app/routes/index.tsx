@@ -1,5 +1,8 @@
 import { ErrorCode } from '@pages/errorPage'
+import { RoutePath } from '@shared/config/routing'
+import { RouteObject } from 'react-router-dom'
 import {
+  CreateTopicPage,
   ErrorPage,
   ForumPage,
   GamePage,
@@ -10,8 +13,6 @@ import {
   RegisterPage,
   TopicPage,
 } from '../../pages'
-import { RoutePath } from '@shared/config/routing'
-import { RouteObject } from 'react-router-dom'
 
 export const routes: RouteObject[] = [
   {
@@ -29,6 +30,7 @@ export const routes: RouteObject[] = [
     Component: LeaderboardPage,
   },
   { path: RoutePath.Forum, Component: ForumPage },
+  { path: RoutePath.ForumCreateTopic, Component: CreateTopicPage },
   { path: RoutePath.ForumTopic, Component: TopicPage },
   { path: '*', Component: ErrorPage },
 ].map(routeData => ({

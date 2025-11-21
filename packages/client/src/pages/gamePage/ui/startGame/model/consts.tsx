@@ -1,1 +1,0 @@
-export const COUNTER_STARTGAME = 1000
