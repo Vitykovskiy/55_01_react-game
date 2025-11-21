@@ -96,6 +96,7 @@ export class ViewModel extends EventBus<EventType> {
   }
 
   private _trySetEnemy = (key: string) => {
+    //TODO Убрать, когда появится вывод на канвас выделенного врага
     console.log(this._enemy)
     if (!this._enemy) {
       const enemyIndex = this._units.findIndex(
@@ -114,22 +115,24 @@ export class ViewModel extends EventBus<EventType> {
   }
 
   private _tryKillEnemy = () => {
-    if (this._enemy && this._enemy.unit.isDead()) {
-      this._updateScore(1)
-      const word = this._enemy.unit.getName()
-      this._usedWords.push(word)
+    if (!this._enemy || !this._enemy.unit.isDead()) {
+      return
+    }
 
-      const indexInCurrent = this._currentWords.indexOf(word)
-      if (indexInCurrent !== -1) {
-        this._currentWords.splice(indexInCurrent, 1)
-      }
+    this._updateScore(1)
+    const word = this._enemy.unit.getName()
+    this._usedWords.push(word)
 
-      this._units.splice(this._enemy.index, 1)
-      this._enemy = undefined
+    const indexInCurrent = this._currentWords.indexOf(word)
+    if (indexInCurrent !== -1) {
+      this._currentWords.splice(indexInCurrent, 1)
+    }
 
-      if (this._units.length === 1) {
-        this.generateUnitsBatch(3)
-      }
+    this._units.splice(this._enemy.index, 1)
+    this._enemy = undefined
+
+    if (this._units.length === 1) {
+      this.generateUnitsBatch(3)
     }
   }
 
@@ -143,7 +146,6 @@ export class ViewModel extends EventBus<EventType> {
 
   private _tryHitEnemy = (key: string) => {
     if (!this._enemy) {
-      //TODO добавить воспроизведение звука промоха
       return
     }
 
@@ -153,25 +155,11 @@ export class ViewModel extends EventBus<EventType> {
 
     const targetKey = unitName[unitName.length - unitHp]
 
-    if (targetKey == key) {
-      this._enemy.unit.applyDamage(1)
+    if (targetKey !== key) {
+      //TODO добавить звук промаха
     }
-  }
 
-  generateUnit = () => {
-    const sceletonName = this.getRandomWord(
-      words,
-      this._usedWords,
-      this._currentWords
-    )
-    if (!sceletonName) {
-      throw new Error('cannot init skeleton')
-    }
-    const sceleton = new Sceleton(200, 100, sceletonName)
-    const skeletonView = new SceletonView()
-
-    this._units.push({ model: sceleton, view: skeletonView })
-    this._currentWords.push(sceletonName)
+    this._enemy.unit.applyDamage(1)
   }
 
   private getRandomWord = (
