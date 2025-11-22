@@ -1,7 +1,9 @@
 import Layout from '@shared/ui/Layout'
 import { useEffect, useRef } from 'react'
-import s from './GamePage.module.scss'
+// import s from './GamePage.module.scss'
 import { Game } from './Game'
+// import { StartGame } from './StartGame'
+import { EndGame } from './EndGame'
 
 export const GamePage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -23,7 +25,8 @@ export const GamePage = () => {
 
   return (
     <Layout variant="center" title="">
-      <canvas className={s.canvas} ref={canvasRef} />
+      {/* <canvas className={s.canvas} ref={canvasRef} /> */}
+      <EndGame />
     </Layout>
   )
 }

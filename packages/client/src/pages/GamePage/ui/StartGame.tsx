@@ -2,37 +2,38 @@ import { Text } from '@gravity-ui/uikit'
 import s from './StartGame.module.scss'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Buttons } from './Buttons'
+import { Buttons, GameButtonsCustomProps } from './Buttons'
 import { RoutePath } from '@shared/config/routing'
 import Layout from '@shared/ui/Layout'
-import { GameButtonsCustomProps } from '../models/types'
+
+const COUNTER_STARTGAME = 3
+const DELAY_COUNTER_STARTGAME = 1000
+
+const buttonDataStart: GameButtonsCustomProps[] = [
+  {
+    name: 'continue',
+    text: 'Начать играть',
+  },
+  {
+    name: 'back',
+    text: 'Назад',
+    view: 'outlined-contrast',
+  },
+]
 
 export const StartGame = () => {
-  const COUNTER_STARTGAME = 1000
   const [isCounter, setIsCounter] = useState(false)
-  const [counter, setCounter] = useState(3)
+  const [counter, setCounter] = useState(COUNTER_STARTGAME)
 
   const navigate = useNavigate()
 
-  const setCounterContent = () => {
+  const decrementCounter = () => {
     return setCounter(counter - 1)
   }
 
-  const buttonDataStart: GameButtonsCustomProps[] = [
-    {
-      name: 'startGame',
-      text: 'Начать играть',
-    },
-    {
-      name: 'backStart',
-      text: 'Назад',
-      view: 'outlined-contrast',
-    },
-  ]
-
   const clickHandlers = {
-    startGame: () => setIsCounter(true),
-    backStart: () => navigate(-1),
+    continue: () => setIsCounter(true),
+    back: () => navigate(-1),
   }
 
   useEffect(() => {
@@ -41,7 +42,9 @@ export const StartGame = () => {
     }
 
     if (counter > 0) {
-      setTimeout(setCounterContent, COUNTER_STARTGAME)
+      setTimeout(decrementCounter, DELAY_COUNTER_STARTGAME)
+      // setTimeout(() => setCounter(counter - 1), DELAY_COUNTER_STARTGAME)
+
       return
     }
 

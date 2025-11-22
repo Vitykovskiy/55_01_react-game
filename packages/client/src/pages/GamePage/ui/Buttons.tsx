@@ -1,11 +1,18 @@
 import Section from '@shared/ui/Section'
-import { ButtonType, GameButtonsCustomProps } from '../models/types'
-import { ButtonCustom } from '@shared/ui/buttonCustom'
+import { ButtonCustom, ButtonCustomProps } from '@shared/ui/buttonCustom'
+
+type ButtonType = 'continue' | 'back'
+
+export type GameButtonsCustomProps = ButtonCustomProps & {
+  name: ButtonType
+}
 
 type ButtonsStyle = { buttons?: string }
 
 type ButtonsProps = {
-  clickHandlers: { [key: string]: () => void }
+  // clickHandlers: { [key: string]: () => void }
+  clickHandlers: Record<ButtonType, () => void>
+
   buttonData: GameButtonsCustomProps[]
   classNamesButtonsComponents?: ButtonsStyle
 }
