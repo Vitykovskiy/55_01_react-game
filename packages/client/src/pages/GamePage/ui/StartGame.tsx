@@ -1,21 +1,39 @@
 import { Text } from '@gravity-ui/uikit'
-import { RoutePath } from '@shared/config/routing'
-import Layout from '@shared/ui/Layout'
+import s from './StartGame.module.scss'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Buttons, GameButtonsCustomProps } from './Buttons'
+import { RoutePath } from '@shared/config/routing'
+import Layout from '@shared/ui/Layout'
 
-import { Buttons } from './Buttons'
-import s from './StartGame.module.scss'
+const COUNTER_STARTGAME = 3
+const DELAY_COUNTER_STARTGAME = 1000
 
-export const COUNTER_STARTGAME = 1000
+const buttonDataStart: GameButtonsCustomProps[] = [
+  {
+    name: 'continue',
+    text: 'Начать играть',
+  },
+  {
+    name: 'back',
+    text: 'Назад',
+    view: 'outlined-contrast',
+  },
+]
 
 export const StartGame = () => {
   const [isCounter, setIsCounter] = useState(false)
-  const [counter, setCounter] = useState(3)
+  const [counter, setCounter] = useState(COUNTER_STARTGAME)
 
   const navigate = useNavigate()
-  const setCounterContent = () => {
+
+  const decrementCounter = () => {
     return setCounter(counter - 1)
+  }
+
+  const clickHandlers = {
+    continue: () => setIsCounter(true),
+    back: () => navigate(-1),
   }
 
   useEffect(() => {
@@ -24,7 +42,7 @@ export const StartGame = () => {
     }
 
     if (counter > 0) {
-      setTimeout(setCounterContent, COUNTER_STARTGAME)
+      setTimeout(decrementCounter, DELAY_COUNTER_STARTGAME)
       return
     }
 
@@ -34,6 +52,7 @@ export const StartGame = () => {
   return (
     <Layout
       title="начало игры"
+      variant="center"
       classNamesLayoutComponents={{
         layout: s.layout,
         main: s.main,
@@ -56,8 +75,9 @@ export const StartGame = () => {
             максимальным счётом.
           </Text>
           <Buttons
-            setIsCounter={setIsCounter}
             classNamesButtonsComponents={{ buttons: s.buttons }}
+            clickHandlers={clickHandlers}
+            buttonData={buttonDataStart}
           />
         </>
       )}
