@@ -19,4 +19,5 @@ export interface Unit {
   update(delta: number): void
   stop(): void
   tryDealDamage(unit: Unit): void
+  isDead(): boolean
 }
