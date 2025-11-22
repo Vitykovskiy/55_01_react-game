@@ -43,8 +43,6 @@ export const StartGame = () => {
 
     if (counter > 0) {
       setTimeout(decrementCounter, DELAY_COUNTER_STARTGAME)
-      // setTimeout(() => setCounter(counter - 1), DELAY_COUNTER_STARTGAME)
-
       return
     }
 

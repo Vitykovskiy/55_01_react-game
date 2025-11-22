@@ -10,9 +10,7 @@ export type GameButtonsCustomProps = ButtonCustomProps & {
 type ButtonsStyle = { buttons?: string }
 
 type ButtonsProps = {
-  // clickHandlers: { [key: string]: () => void }
   clickHandlers: Record<ButtonType, () => void>
-
   buttonData: GameButtonsCustomProps[]
   classNamesButtonsComponents?: ButtonsStyle
 }
