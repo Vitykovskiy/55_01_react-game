@@ -13,10 +13,7 @@ export class ViewModel extends EventBus<EventType> {
   private _units: { model: Unit; view: BaseUnitView }[] = []
   private _hero: MainHero
   private _currentScore = 0
-  private _enemy?: {
-    index: number
-    unit: Unit
-  }
+  private _enemy?: Unit
   private _usedWords: string[] = []
   private _currentWords: string[] = []
 
@@ -99,36 +96,30 @@ export class ViewModel extends EventBus<EventType> {
     //TODO Убрать, когда появится вывод на канвас выделенного врага
     console.log(this._enemy)
     if (!this._enemy) {
-      const enemyIndex = this._units.findIndex(
+      const foundEnemy = this._units.find(
         unit => unit.model.getName()[0] === key
       )
 
-      if (enemyIndex >= 0) {
-        this._enemy = {
-          index: enemyIndex,
-          unit: this._units[enemyIndex].model,
-        }
+      if (!foundEnemy) {
+        //TODO установить звук промаха
+        return
       }
 
-      //TODO установить звук промаха
+      this._enemy = foundEnemy.model
     }
   }
 
   private _tryKillEnemy = () => {
-    if (!this._enemy || !this._enemy.unit.isDead()) {
+    if (!this._enemy || !this._enemy.isDead()) {
       return
     }
 
     this._updateScore(1)
-    const word = this._enemy.unit.getName()
-    this._usedWords.push(word)
+    const enemyName = this._enemy.getName()
+    this._usedWords.push(enemyName)
 
-    const indexInCurrent = this._currentWords.indexOf(word)
-    if (indexInCurrent !== -1) {
-      this._currentWords.splice(indexInCurrent, 1)
-    }
-
-    this._units.splice(this._enemy.index, 1)
+    this._currentWords = this._currentWords.filter(word => word !== enemyName)
+    this._units = this._units.filter(unit => unit.model !== this._enemy)
     this._enemy = undefined
 
     if (this._units.length === 1) {
@@ -149,7 +140,7 @@ export class ViewModel extends EventBus<EventType> {
       return
     }
 
-    const enemyUnit = this._enemy.unit
+    const enemyUnit = this._enemy
     const unitName = enemyUnit.getName()
     const unitHp = enemyUnit.getHp()
 
@@ -157,9 +148,10 @@ export class ViewModel extends EventBus<EventType> {
 
     if (targetKey !== key) {
       //TODO добавить звук промаха
+      return
     }
 
-    this._enemy.unit.applyDamage(1)
+    this._enemy.applyDamage(1)
   }
 
   private getRandomWord = (
