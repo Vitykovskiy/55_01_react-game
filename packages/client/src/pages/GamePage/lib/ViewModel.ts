@@ -25,13 +25,13 @@ export class ViewModel extends EventBus<EventType> {
       x: width / 2 - this._hero.getSize().width / 2,
       y: height - 200,
     })
-    this.addInitialUnits()
+    this._addInitialUnits()
   }
 
-  private addInitialUnits() {
+  private _addInitialUnits() {
     const heroView = new MainHeroView()
     this._units.push({ model: this._hero, view: heroView })
-    this.generateUnitsBatch(3)
+    this._generateUnitsBatch(3)
   }
 
   update(delta: number) {
@@ -53,12 +53,12 @@ export class ViewModel extends EventBus<EventType> {
     }
   }
 
-  generateUnitsBatch = (count: number) => {
+  private _generateUnitsBatch = (count: number) => {
     const startX = 100
     const stepX = 60
 
     for (let i = 0; i < count; i++) {
-      const sceletonName = this.getRandomWord(
+      const sceletonName = this._getRandomWord(
         words,
         this._usedWords,
         this._currentWords
@@ -123,7 +123,7 @@ export class ViewModel extends EventBus<EventType> {
     this._enemy = undefined
 
     if (this._units.length === 1) {
-      this.generateUnitsBatch(3)
+      this._generateUnitsBatch(3)
     }
   }
 
@@ -154,7 +154,7 @@ export class ViewModel extends EventBus<EventType> {
     this._enemy.applyDamage(1)
   }
 
-  private getRandomWord = (
+  private _getRandomWord = (
     words: string[],
     usedWords: string[],
     currentWords: string[]
