@@ -1,13 +1,9 @@
 import { Api } from '@shared/lib'
 import { PasswordChangeData, User } from '../model/types'
-import { mapUserDtoToUser, UserDto } from './dto'
+import { UserDto } from './dto'
 
-export const getUserApi = async (): Promise<User | undefined> => {
-  const response = await Api.getRequest<UserDto>('auth/user')
-  if (response) {
-    return mapUserDtoToUser(response)
-  }
-  return response
+export const getUserApi = (): Promise<UserDto | undefined> => {
+  return Api.getRequest<UserDto | undefined>('auth/user')
 }
 
 export const changePasswordApi = (data: PasswordChangeData): Promise<void> => {

@@ -7,6 +7,7 @@ import { UseFormSetError } from 'react-hook-form'
 import { RoutePath } from '@shared/config/routing'
 import { useNavigate } from 'react-router-dom'
 import { Schema } from '../model/types'
+import { ResponseType } from '@shared/lib'
 
 export const useProfile = (setError: UseFormSetError<Schema>) => {
   const [user, setUser] = useState<User | undefined>(undefined)
@@ -14,7 +15,7 @@ export const useProfile = (setError: UseFormSetError<Schema>) => {
   const navigate = useNavigate()
   const loadUser = async () => {
     const response = await getUser()
-    if (response.type === 'SUCCESS') {
+    if (response.type === ResponseType.Success) {
       setUser(response.data)
     } else {
       navigate(RoutePath.Error404)
@@ -24,7 +25,7 @@ export const useProfile = (setError: UseFormSetError<Schema>) => {
 
   const updatePassword = async (oldPassword: string, newPassword: string) => {
     const response = await changePassword({ oldPassword, newPassword })
-    if (response.type !== 'SUCCESS') {
+    if (response.type !== ResponseType.Success) {
       setError('password', {
         type: 'manual',
         message: 'Не удалось изменить пароль',
@@ -34,7 +35,7 @@ export const useProfile = (setError: UseFormSetError<Schema>) => {
 
   const updateAvatar = async (file: File) => {
     const response = await changeAvatar(file)
-    if (response.type === 'SUCCESS') {
+    if (response.type === ResponseType.Success) {
       setUser(response.data)
     }
   }
