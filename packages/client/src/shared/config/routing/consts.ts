@@ -11,4 +11,4 @@ export const enum RoutePath {
   Error404 = '/404',
 }
 
-export const BaseUrl = 'https://ya-praktikum.tech/api/v2'
+export const BASE_URL = 'https://ya-praktikum.tech/api/v2'

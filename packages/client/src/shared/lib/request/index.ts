@@ -7,12 +7,12 @@ import {
   ErrorType,
   ResponseType,
 } from './types'
-import { BaseUrl } from '../../config/routing/consts'
+import { BASE_URL } from '../../config/routing/consts'
 
 const REQUEST_TIMEOUT = 10000
 
 const api = axios.create({
-  baseURL: BaseUrl,
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },

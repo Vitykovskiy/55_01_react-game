@@ -4,8 +4,8 @@ import { Api } from '@shared/lib'
 
 export const changePassword = async (data: PasswordChangeData) => {
   try {
-    const password = await changePasswordApi(data)
-    return Api.buildResponseSuccess(password)
+    await changePasswordApi(data)
+    return Api.buildResponseSuccess
   } catch (error) {
     return Api.handleError(error)
   }

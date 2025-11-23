@@ -1,6 +1,6 @@
 import { Button, Text } from '@gravity-ui/uikit'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RoutePath, usePage, BaseUrl } from '@shared/config/routing'
+import { RoutePath, usePage, BASE_URL } from '@shared/config/routing'
 import Layout from '@shared/ui/Layout'
 import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -50,7 +50,7 @@ export const ProfilePage = () => {
           {PROFILE_PAGE_TITLE}
         </Text>
         <AvatarLoad
-          img={user?.avatar ? BaseUrl + user.avatar : PROFILE_AVATAR}
+          img={user?.avatar ? BASE_URL + user.avatar : PROFILE_AVATAR}
           imageChange={handleAvatarChange}
         />
         <FormProvider {...methods}>

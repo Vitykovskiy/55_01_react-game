@@ -4,13 +4,13 @@ import { User } from '../model/types'
 
 export const changeAvatar = async (file: File): Promise<ApiResponse<User>> => {
   try {
-    const avatar = await changeAvatarApi(file)
+    const user = await changeAvatarApi(file)
 
-    if (!avatar) {
+    if (!user) {
       return Api.buildResponseError(CommonErrorType.UnknownError)
     }
 
-    return Api.buildResponseSuccess(avatar)
+    return Api.buildResponseSuccess(user)
   } catch (error) {
     return Api.handleError(error)
   }

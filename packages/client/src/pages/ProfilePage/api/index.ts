@@ -7,7 +7,7 @@ export const getUserApi = (): Promise<UserDto | undefined> => {
 }
 
 export const changePasswordApi = (data: PasswordChangeData): Promise<void> => {
-  return Api.putRequest<undefined>('user/password', {
+  return Api.putRequest<void>('user/password', {
     oldPassword: data.oldPassword,
     newPassword: data.newPassword,
   })
