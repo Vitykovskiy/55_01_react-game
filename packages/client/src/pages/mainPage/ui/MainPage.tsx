@@ -1,7 +1,7 @@
 import { Text } from '@gravity-ui/uikit'
 import s from './MainPage.module.scss'
 import Layout from '@shared/ui/Layout'
-import logoMain from '../../../../public/main/logo.svg'
+import logoMain from '../../../../public/mainImg/logo.svg'
 import { Buttons } from './Buttons'
 
 export const MainPage = () => {

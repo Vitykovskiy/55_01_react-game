@@ -1,41 +1,35 @@
-// !!!имена папок в public не должны совпадать с названием url-ов!!!
 const CACHE_NAME = 'magic_type-cache-v4';
 
 const URLS = [
+
   '/',
-  // '/App.tsx',
-  // '/index.scss',
-  // '/mainPage/index.ts',
-  // '/mainPage/ui/MainPage.tsx',
-  // '/mainPage/ui/MainPage.module.scss',
-
-  '/game',
   
-  '/forum',
-  // '/forum/create',
-  // '/forum/:topicId', // ???
+  '/assets/index-22f406cc.css',
+  '/assets/index-e4be429c.js',
+  '/assets/logo-a158fc4d.svg',
 
-  '/profile',
-  // '/src/pages/ProfilePage.tsx',
+  '/avatar/tip.png',
 
-  '/leaderboard',
+  '/charactes/main-character.png',
+  '/charactes/sceleton-mage.png',
+  '/charactes/sceleton.png',
 
-  '/login',
-  '/register',
+  '/gameImg/imgGame.png',
+  '/gameImg/startGame.png',
 
-  // '/public/main/logo.svg',
-  // '/avatar/tip.png',
-  // '../../../../public/gameImg/startGame.png'
-  // '/public/gameImg/startGame.png',
+  '/main/logo.svg',
+
+  '/sprites/background-with-wall-and-keyboard.png',
+  '/sprites/background-with-wall.png',
+  '/sprites/only-grass.png',
+
+  '/index.html'
 ];
   
 this.addEventListener("install", event => {
-  console.log("install");
-  // console.log(event);
   event.waitUntil(
       caches.open(CACHE_NAME)
       .then(cache => {
-        console.log("Opened cache");
         return cache.addAll(URLS);
       })
       .catch(err => { 
@@ -46,8 +40,6 @@ this.addEventListener("install", event => {
 });
 
 this.addEventListener("activate", event => {
-  console.log("activate");
-  // console.log(event);
   event.waitUntil( 
     caches.keys().then(cacheNames => { 
       return Promise.all( 
@@ -58,37 +50,28 @@ this.addEventListener("activate", event => {
 });
 
 this.addEventListener('fetch', event => {
-  console.log('fetch')
-  // console.log(event)
-  // console.log(caches.keys())
   event.respondWith( 
-    // Пытаемся найти ответ на такой запрос в кеше 
     caches.match(event.request) 
       .then(response => {
-        // console.log(response)
-        // Если ответ найден, выдаём его 
+
         if (response) { 
           return response; 
         } 
 
-        const fetchRequest = event.request.clone(); 
-        // В противном случае делаем запрос на сервер 
+        const fetchRequest = event.request.clone();
+
         return fetch(fetchRequest) 
-          // Можно задавать дополнительные параметры запроса, если ответ вернулся некорректный. 
           .then(response => { 
-            // Если что-то пошло не так, выдаём в основной поток результат, но не кладём его в кеш 
             if(!response || response.status !== 200 || response.type !== 'basic') { 
               return response; 
             } 
 
-            const responseToCache = response.clone(); 
-            // Получаем доступ к кешу по CACHE_NAME 
+            const responseToCache = response.clone();
+
             caches.open(CACHE_NAME) 
-            .then(cache => { 
-              // Записываем в кеш ответ, используя в качестве ключа запрос 
-              cache.put(event.request, responseToCache); 
-            }); 
-            // Отдаём в основной поток ответ 
+              .then(cache => { 
+                cache.put(event.request, responseToCache); 
+              }); 
             return response; 
          } 
         ); 
