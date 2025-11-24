@@ -1,24 +1,27 @@
-import { useNavigate } from 'react-router-dom'
 import Section from '@shared/ui/Section'
-import { buttonData, ButtonType } from './model/consts'
-import { ButtonCustom } from '@shared/ui/buttonCustom'
+import { ButtonCustom, ButtonCustomProps } from '@shared/ui/buttonCustom'
+
+type ButtonType = 'continue' | 'back'
+
+export type GameButtonsCustomProps = ButtonCustomProps & {
+  name: ButtonType
+}
 
 type ButtonsStyle = { buttons?: string }
 
-type StartGameProps = {
-  setIsCounter: React.Dispatch<React.SetStateAction<boolean>>
+type ButtonsProps = {
+  clickHandlers: Record<ButtonType, () => void>
+  buttonData: GameButtonsCustomProps[]
   classNamesButtonsComponents?: ButtonsStyle
 }
 
 export const Buttons = ({
-  setIsCounter,
+  clickHandlers,
+  buttonData,
   classNamesButtonsComponents,
-}: StartGameProps) => {
-  const navigate = useNavigate()
-
-  const handleClick = (name: ButtonType) => () => {
-    name === 'startGame' && setIsCounter(true)
-    name === 'back' && navigate(-1)
+}: ButtonsProps) => {
+  const handleClick = (name: ButtonType) => {
+    return clickHandlers[name]
   }
 
   return (
@@ -28,7 +31,6 @@ export const Buttons = ({
       }}>
       {buttonData.map(button => {
         const { name, text, view } = button
-
         return (
           <ButtonCustom
             key={name}
