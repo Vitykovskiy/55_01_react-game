@@ -9,6 +9,9 @@ import { SceletonView } from './view/SceletonView'
 
 export type EventType = 'start' | 'end'
 
+const MIN_UNITS_TO_ADD_NEW_ENEMIES = 1
+const NUMBER_ADDED_ENEMIES = 3
+
 export class ViewModel extends EventBus<EventType> {
   private _units: { model: Unit; view: BaseUnitView }[] = []
   private _hero: MainHero
@@ -120,11 +123,17 @@ export class ViewModel extends EventBus<EventType> {
 
     this._currentWords = this._currentWords.filter(word => word !== enemyName)
     this._units = this._units.filter(unit => unit.model !== this._enemy)
-    this._enemy = undefined
+    delete this._enemy
 
-    if (this._units.length === 1) {
-      this._generateUnitsBatch(3)
+    this._tryAddEnemies()
+  }
+
+  private _tryAddEnemies() {
+    if (this._units.length !== MIN_UNITS_TO_ADD_NEW_ENEMIES) {
+      return
     }
+
+    this._generateUnitsBatch(NUMBER_ADDED_ENEMIES)
   }
 
   private _updateScore = (addedPoints: number) => {
