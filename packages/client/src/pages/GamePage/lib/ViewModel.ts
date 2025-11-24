@@ -9,33 +9,32 @@ import { SceletonView } from './view/SceletonView'
 
 export type EventType = 'start' | 'end'
 
+const MIN_UNITS_TO_ADD_NEW_ENEMIES = 1
+const NUMBER_ADDED_ENEMIES = 3
+
 export class ViewModel extends EventBus<EventType> {
-  private _canvas: HTMLCanvasElement
   private _units: { model: Unit; view: BaseUnitView }[] = []
   private _hero: MainHero
-  private _enemy?: {
-    index: number
-    unit: Unit
-  }
+  private _currentScore = 0
+  private _enemy?: Unit
   private _usedWords: string[] = []
   private _currentWords: string[] = []
 
   constructor(canvas: HTMLCanvasElement) {
     super()
-    this._canvas = canvas
     const { width, height } = canvas
     this._hero = new MainHero(0, 0)
     this._hero.setPosition({
       x: width / 2 - this._hero.getSize().width / 2,
       y: height - 200,
     })
-    this.addInitialUnits()
+    this._addInitialUnits()
   }
 
-  private addInitialUnits() {
+  private _addInitialUnits() {
     const heroView = new MainHeroView()
     this._units.push({ model: this._hero, view: heroView })
-    this.generateUnitsBatch(3)
+    this._generateUnitsBatch(3)
   }
 
   update(delta: number) {
@@ -57,12 +56,12 @@ export class ViewModel extends EventBus<EventType> {
     }
   }
 
-  generateUnitsBatch = (count: number) => {
+  private _generateUnitsBatch = (count: number) => {
     const startX = 100
     const stepX = 60
 
     for (let i = 0; i < count; i++) {
-      const sceletonName = this.getRandomWord(
+      const sceletonName = this._getRandomWord(
         words,
         this._usedWords,
         this._currentWords
@@ -84,8 +83,10 @@ export class ViewModel extends EventBus<EventType> {
     }
   }
 
-  onKey = (_: string) => {
-    //TODO добавить механику ввода и убийства вражеских юнитов
+  onKey = (key: string) => {
+    this._trySetEnemy(key)
+    this._tryHitEnemy(key)
+    this._tryKillEnemy()
   }
 
   renderUnits(ctx: CanvasRenderingContext2D) {
@@ -94,7 +95,75 @@ export class ViewModel extends EventBus<EventType> {
     }
   }
 
-  private getRandomWord = (
+  private _trySetEnemy = (key: string) => {
+    //TODO Убрать, когда появится вывод на канвас выделенного врага
+    console.log(this._enemy)
+    if (!this._enemy) {
+      const foundEnemy = this._units.find(
+        unit => unit.model.getName()[0] === key
+      )
+
+      if (!foundEnemy) {
+        //TODO установить звук промаха
+        return
+      }
+
+      this._enemy = foundEnemy.model
+    }
+  }
+
+  private _tryKillEnemy = () => {
+    if (!this._enemy || !this._enemy.isDead()) {
+      return
+    }
+
+    this._updateScore(1)
+    const enemyName = this._enemy.getName()
+    this._usedWords.push(enemyName)
+
+    this._currentWords = this._currentWords.filter(word => word !== enemyName)
+    this._units = this._units.filter(unit => unit.model !== this._enemy)
+    delete this._enemy
+
+    this._tryAddEnemies()
+  }
+
+  private _tryAddEnemies() {
+    if (this._units.length !== MIN_UNITS_TO_ADD_NEW_ENEMIES) {
+      return
+    }
+
+    this._generateUnitsBatch(NUMBER_ADDED_ENEMIES)
+  }
+
+  private _updateScore = (addedPoints: number) => {
+    //TODO избавиться от addedPoints
+    //TODO Добавить логику добавления очков к счёту в зависимости от вида моба(врага)
+    this._currentScore += addedPoints
+    //TODO Сделать вывод новых очков в canvas
+    console.log(this._currentScore)
+  }
+
+  private _tryHitEnemy = (key: string) => {
+    if (!this._enemy) {
+      return
+    }
+
+    const enemyUnit = this._enemy
+    const unitName = enemyUnit.getName()
+    const unitHp = enemyUnit.getHp()
+
+    const targetKey = unitName[unitName.length - unitHp]
+
+    if (targetKey !== key) {
+      //TODO добавить звук промаха
+      return
+    }
+
+    this._enemy.applyDamage(1)
+  }
+
+  private _getRandomWord = (
     words: string[],
     usedWords: string[],
     currentWords: string[]
