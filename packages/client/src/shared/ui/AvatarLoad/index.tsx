@@ -1,6 +1,6 @@
 import { Avatar } from '@gravity-ui/uikit'
 import s from './style.module.scss'
-import { ChangeEvent, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
 interface AvatarLoadProps {
   img: string
@@ -18,13 +18,29 @@ export const AvatarLoad = (props: AvatarLoadProps) => {
     const target = event.target as HTMLInputElement
     if (target && target.files && target.files.length > 0) {
       const file = target.files[0]
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file')
+        return
+      }
       if (file) {
-        const imageUrl = URL.createObjectURL(file)
-        setAvatar(imageUrl)
-        props.imageChange?.(file, imageUrl)
+        try {
+          const imageUrl = URL.createObjectURL(file)
+          setAvatar(imageUrl)
+          props.imageChange?.(file, imageUrl)
+        } catch (e) {
+          console.error(e)
+        }
       }
     }
   }
+
+  useEffect(() => {
+    return () => {
+      if (avatar) {
+        URL.revokeObjectURL(avatar)
+      }
+    }
+  }, [avatar])
 
   return (
     <div className={s.avatarContainer} onClick={handleAvatarClick}>

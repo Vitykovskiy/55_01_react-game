@@ -4,56 +4,63 @@ import { User } from '../model/types'
 type ProfilePageInputsProps = {
   data: User | undefined
 }
+
+type FieldConfig = {
+  name: string
+  label: string
+  value?: string
+  disabled?: boolean
+  type?: 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url'
+}
 export const ProfilePageInputs = ({ data }: ProfilePageInputsProps) => {
   if (!data) {
     return null
   }
+  const fields: FieldConfig[] = [
+    { name: 'firstName', label: 'Имя:', value: data.firstName, disabled: true },
+    {
+      name: 'lastName',
+      label: 'Фамилия:',
+      value: data.lastName,
+      disabled: true,
+    },
+    { name: 'login', label: 'Логин:', value: data.login, disabled: true },
+    { name: 'email', label: 'Email:', value: data.email, disabled: true },
+    {
+      name: 'phone',
+      label: 'Телефон:',
+      type: 'tel',
+      value: data.phone,
+      disabled: true,
+    },
+    {
+      name: 'oldPassword',
+      label: 'Старый пароль:',
+      type: 'password',
+      value: data.oldPassword,
+      disabled: false,
+    },
+    {
+      name: 'password',
+      label: 'Новый пароль:',
+      type: 'password',
+      value: data.password,
+      disabled: false,
+    },
+  ]
 
   return (
     <>
-      <FormInput
-        name={'firstName'}
-        label={'Имя:'}
-        defaultValue={data.firstName}
-        disabled={true}
-      />
-      <FormInput
-        name={'lastName'}
-        label={'Фамилия:'}
-        defaultValue={data.secondName}
-        disabled={true}
-      />
-      <FormInput
-        name={'login'}
-        label={'Логин:'}
-        defaultValue={data.login}
-        disabled={true}
-      />
-      <FormInput
-        name={'email'}
-        label={'Email:'}
-        defaultValue={data.email}
-        disabled={true}
-      />
-      <FormInput
-        name={'phone'}
-        type={'tel'}
-        label={'Телефон:'}
-        defaultValue={data.phone}
-        disabled={true}
-      />
-      <FormInput
-        name={'oldPassword'}
-        type={'password'}
-        defaultValue={data.oldPassword}
-        label={'Старый пароль:'}
-      />
-      <FormInput
-        name={'password'}
-        type={'password'}
-        defaultValue={data.password}
-        label={'Новый пароль:'}
-      />
+      {fields.map(field => (
+        <FormInput
+          key={field.name}
+          name={field.name}
+          label={field.label}
+          defaultValue={field.value || ''}
+          disabled={field?.disabled || false}
+          type={field?.type}
+        />
+      ))}
     </>
   )
 }

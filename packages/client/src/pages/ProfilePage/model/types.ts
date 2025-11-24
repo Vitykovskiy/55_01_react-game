@@ -6,7 +6,7 @@ export type Schema = z.infer<typeof schema>
 export type User = {
   avatar: string
   firstName: string
-  secondName: string
+  lastName: string
   login: string
   password: string
   oldPassword: string
