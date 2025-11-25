@@ -7,13 +7,16 @@ import {
   ErrorType,
   ResponseType,
 } from './types'
+import { BASE_URL } from '../../config/routing/consts'
 
 const REQUEST_TIMEOUT = 10000
 
 const api = axios.create({
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 })
 
 async function getRequest<T>(
@@ -56,6 +59,20 @@ async function postRequest<T, D = unknown>(
   return response.data
 }
 
+async function putRequest<T, D = unknown>(
+  url: string,
+  data: D,
+  headers?: Record<string, string | number | undefined>,
+  signal?: AbortSignal
+): Promise<T | undefined> {
+  const response = await api.put<T>(url, data, {
+    ...(headers && { headers: { ...headers } }),
+    signal,
+  })
+
+  return response.data
+}
+
 function handleError(
   error: unknown,
   fallbackError = CommonErrorType.UnknownError
@@ -81,6 +98,7 @@ function handleError(
 export const Api = {
   getRequest,
   postRequest,
+  putRequest,
   handleError,
   responseTypes: ResponseType,
   codes: ApiCode,
