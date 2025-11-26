@@ -4,9 +4,9 @@ const URLS = [
 
   '/',
   
-  '/assets/index-22f406cc.css',
-  '/assets/index-e4be429c.js',
-  '/assets/logo-a158fc4d.svg',
+  '/assets/index.css',
+  '/assets/index.js',
+  '/assets/logo.svg',
 
   '/avatar/tip.png',
 

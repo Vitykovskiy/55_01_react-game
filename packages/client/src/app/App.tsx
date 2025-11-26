@@ -8,7 +8,6 @@ import { ErrorBoundary } from '@shared/ui/ErrorBoundary'
 const router = createBrowserRouter(routes)
 
 export const App = () => {
-  // serviceWorker
   async function startServiceWorker() {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
@@ -28,7 +27,6 @@ export const App = () => {
   }
 
   startServiceWorker()
-  //
 
   return (
     <ThemeProvider theme="light">
