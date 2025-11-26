@@ -1,30 +1,46 @@
-const CACHE_NAME = 'magic_type-cache-v4';
+// import { precacheAndRoute } from 'workbox-precaching';
 
-const URLS = [
+// Эта переменная заменится на список файлов при сборке
+const manifest = self.__WB_MANIFEST
+// precacheAndRoute(manifest);
 
-  '/',
+const URLS = ['/'];
+
+// console.log(manifest);
+manifest.forEach((item) => {
+  if (!item.url.includes('server')) {
+    URLS.push(`/${item.url.split('/').splice(1).join('/')}`)
+  }
+});
+// console.log(URLS);
+
+const CACHE_NAME = 'magic_type-cache-v5';
+
+// const URLS = [
+
+//   '/',
   
-  '/assets/index-22f406cc.css',
-  '/assets/index-e4be429c.js',
-  '/assets/logo-a158fc4d.svg',
+//   '/assets/index.css',
+//   '/assets/index.js',
+//   '/assets/logo.svg',
 
-  '/avatar/tip.png',
+//   '/avatar/tip.png',
 
-  '/charactes/main-character.png',
-  '/charactes/sceleton-mage.png',
-  '/charactes/sceleton.png',
+//   '/charactes/main-character.png',
+//   '/charactes/sceleton-mage.png',
+//   '/charactes/sceleton.png',
 
-  '/gameImg/imgGame.png',
-  '/gameImg/startGame.png',
+//   '/gameImg/imgGame.png',
+//   '/gameImg/startGame.png',
 
-  '/main/logo.svg',
+//   '/mainImg/logo.svg',
 
-  '/sprites/background-with-wall-and-keyboard.png',
-  '/sprites/background-with-wall.png',
-  '/sprites/only-grass.png',
+//   '/sprites/background-with-wall-and-keyboard.png',
+//   '/sprites/background-with-wall.png',
+//   '/sprites/only-grass.png',
 
-  '/index.html'
-];
+//   '/index.html'
+// ];
   
 this.addEventListener("install", event => {
   event.waitUntil(

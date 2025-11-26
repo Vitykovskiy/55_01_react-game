@@ -16,6 +16,30 @@ export default defineConfig({
   },
   build: {
     outDir: path.join(__dirname, 'dist/client'),
+    // rollupOptions: {
+    //   // input: {
+    //     // // Define entry points for the build
+    //     // main: resolve(__dirname, "index.html"),
+    //     // // background: resolve(__dirname, "src/background.ts"),
+    //     // content: resolve(__dirname, "src/"),
+    //   // },
+    //   output: {
+    //     // entryFileNames: `assets/[name].js`,
+    //     // chunkFileNames: `assets/[name].js`,
+    //     // assetFileNames: `assets/[name].[ext]`,
+    //     entryFileNames: (chunkInfo) => {
+    //       // Filenames you want to keep unhashed
+    //       const noHashFiles = ["index"];
+    //       if (noHashFiles.includes(chunkInfo.name)) {
+    //         return "assets/[name].js"; // Keep file unhashed
+    //       }
+    //       return "[name].js"; // Hash other entry files
+    //     },
+    //     // Naming patterns for various output file types
+    //     chunkFileNames: "assets/[name].js",
+    //     assetFileNames: "assets/[name].[ext]",
+    //   },
+    // },
   },
   ssr: {
     format: 'cjs',
