@@ -9,21 +9,21 @@ const router = createBrowserRouter(routes)
 
 export const App = () => {
   async function startServiceWorker() {
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', async () => {
-        navigator.serviceWorker
-          .register('./sw.js')
-          .then(registration => {
-            console.log(
-              'ServiceWorker registration successful with scope: ',
-              registration.scope
-            )
-          })
-          .catch((error: string) => {
-            console.log('ServiceWorker registration failed: ', error)
-          })
-      })
+    if (!navigator?.serviceWorker) {
+      return
     }
+
+    window.addEventListener('load', async () => {
+      try {
+        const registration = await navigator.serviceWorker.register('./sw.js')
+        console.log(
+          'ServiceWorker registration successful with scope: ',
+          registration.scope
+        )
+      } catch (error: unknown) {
+        console.log('ServiceWorker registration failed: ', error)
+      }
+    })
   }
 
   startServiceWorker()

@@ -1,30 +1,15 @@
-const CACHE_NAME = 'magic_type-cache-v4';
 
-const URLS = [
+const manifest = self.__WB_MANIFEST
 
-  '/',
-  
-  '/assets/index.css',
-  '/assets/index.js',
-  '/assets/logo.svg',
+const URLS = ['/'];
 
-  '/avatar/tip.png',
+manifest.forEach((item) => {
+  if (!item.url.includes('server')) {
+    URLS.push(`/${item.url.split('/').splice(1).join('/')}`)
+  }
+});
 
-  '/charactes/main-character.png',
-  '/charactes/sceleton-mage.png',
-  '/charactes/sceleton.png',
-
-  '/gameImg/imgGame.png',
-  '/gameImg/startGame.png',
-
-  '/main/logo.svg',
-
-  '/sprites/background-with-wall-and-keyboard.png',
-  '/sprites/background-with-wall.png',
-  '/sprites/only-grass.png',
-
-  '/index.html'
-];
+const CACHE_NAME = 'magic_type-cache-v5';
   
 this.addEventListener("install", event => {
   event.waitUntil(

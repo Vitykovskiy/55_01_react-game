@@ -15,22 +15,6 @@ export default defineConfig({
   },
   build: {
     outDir: path.join(__dirname, 'dist/client'),
-    rollupOptions: {
-      output: {
-        // entryFileNames: `assets/[name].js`,
-        // chunkFileNames: `assets/[name].js`,
-        // assetFileNames: `assets/[name].[ext]`,
-        entryFileNames: chunkInfo => {
-          const noHashFiles = ['index']
-          if (noHashFiles.includes(chunkInfo.name)) {
-            return 'assets/[name].js'
-          }
-          return '[name].js'
-        },
-        chunkFileNames: 'assets/[name].js',
-        assetFileNames: 'assets/[name].[ext]',
-      },
-    },
   },
   ssr: {
     format: 'cjs',
