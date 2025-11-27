@@ -1,0 +1,26 @@
+.layout {
+  padding: 0 !important; 
+  background-image: url('../../../../public/game/startGame.png');
+  background-size: contain;
+}
+
+.buttons {
+  width: 100%;
+  margin-top: auto;
+}
+
+.main {
+  padding: var(--g-spacing-5);
+  background: rgba(255,255,255,.6);
+  background-color: transparent;
+  backdrop-filter: blur(10px);
+}
+
+.content {
+  justify-content: space-between;
+}
+
+.text {
+  color: #ffffff;
+  text-align: center;
+}

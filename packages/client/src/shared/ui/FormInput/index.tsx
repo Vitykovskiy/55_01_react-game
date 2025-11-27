@@ -9,6 +9,7 @@ type FormInputProps = {
   name: string
   disabled?: boolean
   placeholder?: string
+  defaultValue?: string
   type?: 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url'
   onChangeFormInput?: (value: string) => void
 }
@@ -20,6 +21,7 @@ export const FormInput = ({
   className,
   disabled,
   placeholder,
+  defaultValue = '',
   type = 'text',
   onChangeFormInput,
 }: FormInputProps) => {
@@ -27,7 +29,6 @@ export const FormInput = ({
     field: { onChange },
     fieldState: { error },
   } = useController({ name: name })
-
   const handleChange = ({
     currentTarget: { value },
   }: ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +38,7 @@ export const FormInput = ({
 
   return (
     <TextInput
+      defaultValue={defaultValue}
       type={type}
       label={label}
       ref={ref}
