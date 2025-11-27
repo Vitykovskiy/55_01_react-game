@@ -7,7 +7,7 @@ import { RoutePath } from '@shared/config/routing'
 import { useNavigate } from 'react-router-dom'
 import { Schema } from '../model/types'
 import { ResponseType } from '@shared/lib'
-import { selectUser, setUser } from '../../../store/userSlice'
+import { selectUser, setUser } from '@features/user/userSlice'
 import { useDispatch, useSelector } from '@app/store'
 
 export const useProfile = (setError: UseFormSetError<Schema>) => {

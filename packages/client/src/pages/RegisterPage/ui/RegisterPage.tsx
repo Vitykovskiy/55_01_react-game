@@ -10,7 +10,6 @@ import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
 import s from './RegisterPage.module.scss'
 import { RegisterPageInputs } from './RegisterPageInputs'
-import { Api } from '@shared/lib'
 
 export const RegisterPage = () => {
   usePage({})
@@ -31,14 +30,6 @@ export const RegisterPage = () => {
 
   const onSubmit = (data: Schema) => {
     console.log(data)
-    Api.postRequest<void>('auth/signup', {
-      first_name: 'string1',
-      second_name: 'string',
-      login: 'string58585',
-      email: 'strin58g@mail.ru',
-      password: 'string1',
-      phone: '880055535335',
-    })
   }
 
   const handleButtonAuthClick = () => {

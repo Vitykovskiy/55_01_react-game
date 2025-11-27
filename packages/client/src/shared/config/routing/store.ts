@@ -8,7 +8,7 @@ import {
 import { combineReducers } from 'redux'
 
 import { ssrReducer } from './ssrSlice'
-import { userReducer } from '../../../store/userSlice'
+import { userReducer } from '@features/user/userSlice'
 
 // Глобально декларируем в window наш ключик
 // и задаем ему тип такой же как у стейта в сторе
