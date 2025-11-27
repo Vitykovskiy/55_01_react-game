@@ -8,6 +8,7 @@ import {
 import { combineReducers } from 'redux'
 
 import { ssrReducer } from './ssrSlice'
+import { userReducer } from '../../../store/userSlice'
 
 // Глобально декларируем в window наш ключик
 // и задаем ему тип такой же как у стейта в сторе
@@ -19,6 +20,7 @@ declare global {
 
 export const reducer = combineReducers({
   ssr: ssrReducer,
+  user: userReducer,
 })
 
 export const store = configureStore({
