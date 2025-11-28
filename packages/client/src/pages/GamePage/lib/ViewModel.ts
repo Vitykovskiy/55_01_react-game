@@ -22,7 +22,7 @@ export class ViewModel extends EventBus<EventType> {
 
   constructor(canvas: HTMLCanvasElement) {
     super()
-    const { width, height } = canvas
+    const { width, height } = canvas.getBoundingClientRect()
     this._hero = new MainHero(0, 0)
     this._hero.setPosition({
       x: width / 2 - this._hero.getSize().width / 2,

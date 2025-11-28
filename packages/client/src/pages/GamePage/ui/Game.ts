@@ -1,6 +1,9 @@
 import { ViewModel } from '../lib/ViewModel'
 import background from '/sprites/background-with-wall.png'
 
+const ASPECT_RATIO_WIDTH = 9
+const ASPECT_RATIO_HEIGHT = 16
+
 export class Game {
   private ctx: CanvasRenderingContext2D
   private viewModel: ViewModel
@@ -22,7 +25,11 @@ export class Game {
 
     this.background.src = background
 
-    window.addEventListener('resize', this._resize)
+    const parentElement = this.canvas.parentElement
+    if (parentElement) {
+      parentElement.removeEventListener('resize', this._resize)
+    }
+
     this._resize()
 
     this.viewModel.on('end', () => {
@@ -44,7 +51,10 @@ export class Game {
 
   stop() {
     this.running = false
-    window.removeEventListener('resize', this._resize)
+    const parentElement = this.canvas.parentElement
+    if (parentElement) {
+      parentElement.removeEventListener('resize', this._resize)
+    }
     window.removeEventListener('keyup', this.onKey)
   }
 
@@ -65,10 +75,12 @@ export class Game {
 
   private _resize = () => {
     const parent = this.canvas.parentElement
-    if (!parent) return
+    if (!parent) {
+      return
+    }
 
-    const w = parent.clientWidth
-    const h = parent.clientHeight
+    const w = parent.getBoundingClientRect().width
+    const h = (w * ASPECT_RATIO_HEIGHT) / ASPECT_RATIO_WIDTH
 
     this.canvas.width = w * this.dpr
     this.canvas.height = h * this.dpr
