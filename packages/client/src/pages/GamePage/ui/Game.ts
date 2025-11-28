@@ -26,7 +26,7 @@ export class Game {
 
     const parentElement = this.canvas.parentElement
     if (parentElement) {
-      parentElement.removeEventListener('resize', this._resize)
+      parentElement.addEventListener('resize', this._resize)
     }
 
     this._resize()
