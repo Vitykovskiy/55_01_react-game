@@ -3,7 +3,6 @@ import s from './StartGame.module.scss'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Buttons, GameButtonsCustomProps } from './Buttons'
-import { RoutePath } from '@shared/config/routing'
 import Layout from '@shared/ui/Layout'
 
 const COUNTER_STARTGAME = 3
@@ -21,19 +20,24 @@ const buttonDataStart: GameButtonsCustomProps[] = [
   },
 ]
 
-export const StartGame = () => {
+type StartGameProps = {
+  onStart: () => void
+  onBack?: () => void
+}
+
+export const StartGame = ({ onStart, onBack }: StartGameProps) => {
   const [isCounter, setIsCounter] = useState(false)
   const [counter, setCounter] = useState(COUNTER_STARTGAME)
 
   const navigate = useNavigate()
 
   const decrementCounter = () => {
-    return setCounter(counter - 1)
+    return setCounter(prev => prev - 1)
   }
 
   const clickHandlers = {
     continue: () => setIsCounter(true),
-    back: () => navigate(-1),
+    back: () => (onBack ? onBack() : navigate(-1)),
   }
 
   useEffect(() => {
@@ -42,12 +46,12 @@ export const StartGame = () => {
     }
 
     if (counter > 0) {
-      setTimeout(decrementCounter, DELAY_COUNTER_STARTGAME)
-      return
+      const timer = setTimeout(decrementCounter, DELAY_COUNTER_STARTGAME)
+      return () => clearTimeout(timer)
     }
 
-    navigate(RoutePath.Main)
-  }, [isCounter, counter])
+    onStart()
+  }, [isCounter, counter, onStart])
 
   return (
     <Layout

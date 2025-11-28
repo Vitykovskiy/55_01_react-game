@@ -5,6 +5,11 @@ import background from '/sprites/background-with-wall.png'
 const ASPECT_RATIO_WIDTH = 9
 const ASPECT_RATIO_HEIGHT = 16
 
+type GameOptions = {
+  onStart?: () => void
+  onEnd?: (score: number) => void
+}
+
 export class Game {
   private readonly context: CanvasRenderingContext2D
   private readonly background = new Image()
@@ -14,7 +19,10 @@ export class Game {
   private lastTime = 0
   private dpr = window.devicePixelRatio
 
-  constructor(private readonly canvas: HTMLCanvasElement) {
+  constructor(
+    private readonly canvas: HTMLCanvasElement,
+    private readonly options: GameOptions = {}
+  ) {
     const context = canvas.getContext('2d')
 
     if (!context) {
@@ -22,20 +30,13 @@ export class Game {
     }
 
     this.context = context
-    this.background.src = background
-
-    const parentElement = this.canvas.parentElement
-    if (parentElement) {
-      parentElement.addEventListener('resize', this._resize)
-    }
-
+    window.addEventListener('resize', this._resize)
     this._resize()
 
+    this.background.src = background
     this.viewModel = new ViewModel(canvas, assetsManager)
 
-    this.viewModel.on('end', () => {
-      this.stop()
-    })
+    this.viewModel.on('end', this._handleEnd)
   }
 
   onKey = (e: KeyboardEvent) => {
@@ -47,16 +48,24 @@ export class Game {
     this.lastTime = performance.now()
     this.canvas.focus()
     window.addEventListener('keyup', this.onKey)
+    this.options.onStart?.()
     requestAnimationFrame(this._loop)
   }
 
   stop() {
     this.running = false
-    const parentElement = this.canvas.parentElement
-    if (parentElement) {
-      parentElement.removeEventListener('resize', this._resize)
-    }
+    window.removeEventListener('resize', this._resize)
     window.removeEventListener('keyup', this.onKey)
+    this.viewModel.off('end', this._handleEnd)
+  }
+
+  private _handleEnd = (score: unknown) => {
+    if (typeof score !== 'number') {
+      return
+    }
+
+    this.stop()
+    this.options.onEnd?.(score)
   }
 
   private _loop = (time: number) => {
