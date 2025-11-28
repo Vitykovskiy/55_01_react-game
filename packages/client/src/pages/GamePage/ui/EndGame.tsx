@@ -6,7 +6,11 @@ import Section from '@shared/ui/Section'
 import { Buttons, GameButtonsCustomProps } from './Buttons'
 import { RoutePath } from '@shared/config/routing'
 
-type EndGameProps = { score: number }
+type EndGameProps = {
+  score: number
+  onRestart: () => void
+  onExit?: () => void
+}
 
 const buttonDataEnd: GameButtonsCustomProps[] = [
   {
@@ -20,12 +24,12 @@ const buttonDataEnd: GameButtonsCustomProps[] = [
   },
 ]
 
-export const EndGame = ({ score = 0 }: EndGameProps) => {
+export const EndGame = ({ score = 0, onRestart, onExit }: EndGameProps) => {
   const navigate = useNavigate()
 
   const clickHandlers = {
-    continue: () => navigate(RoutePath.Main),
-    back: () => navigate(-1),
+    continue: () => onRestart(),
+    back: () => (onExit ? onExit() : navigate(RoutePath.Main)),
   }
 
   return (

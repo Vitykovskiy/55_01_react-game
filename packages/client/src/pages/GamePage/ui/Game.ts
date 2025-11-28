@@ -1,6 +1,11 @@
 import { ViewModel } from '../lib/ViewModel'
 import background from '/sprites/background-with-wall.png'
 
+type GameOptions = {
+  onStart?: () => void
+  onEnd?: (score: number) => void
+}
+
 export class Game {
   private ctx: CanvasRenderingContext2D
   private viewModel: ViewModel
@@ -10,7 +15,10 @@ export class Game {
   private lastTime = 0
   private dpr = window.devicePixelRatio
 
-  constructor(private canvas: HTMLCanvasElement) {
+  constructor(
+    private canvas: HTMLCanvasElement,
+    private options: GameOptions = {}
+  ) {
     const ctx = canvas.getContext('2d')
 
     if (!ctx) {
@@ -18,16 +26,13 @@ export class Game {
     }
 
     this.ctx = ctx
-    this.viewModel = new ViewModel(canvas)
-
-    this.background.src = background
-
     window.addEventListener('resize', this._resize)
     this._resize()
 
-    this.viewModel.on('end', () => {
-      this.stop()
-    })
+    this.background.src = background
+    this.viewModel = new ViewModel(canvas)
+
+    this.viewModel.on('end', this._handleEnd)
   }
 
   onKey = (e: KeyboardEvent) => {
@@ -39,6 +44,7 @@ export class Game {
     this.lastTime = performance.now()
     this.canvas.focus()
     window.addEventListener('keyup', this.onKey)
+    this.options.onStart?.()
     requestAnimationFrame(this._loop)
   }
 
@@ -46,6 +52,16 @@ export class Game {
     this.running = false
     window.removeEventListener('resize', this._resize)
     window.removeEventListener('keyup', this.onKey)
+    this.viewModel.off('end', this._handleEnd)
+  }
+
+  private _handleEnd = (score: unknown) => {
+    if (typeof score !== 'number') {
+      return
+    }
+
+    this.stop()
+    this.options.onEnd?.(score)
   }
 
   private _loop = (time: number) => {
