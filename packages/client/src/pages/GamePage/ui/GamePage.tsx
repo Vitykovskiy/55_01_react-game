@@ -4,6 +4,19 @@ import s from './GamePage.module.scss'
 import { initAssets } from '../lib/AssetsManager/assets'
 import { Game } from './Game'
 
+function toggleFullScreen(element: Element) {
+  if (document.fullscreenElement) {
+    document.exitFullscreen?.()
+    return
+  }
+
+  element.requestFullscreen()
+}
+
+const handleWindowDoubleClick = () => {
+  toggleFullScreen(window.document.body)
+}
+
 export const GamePage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isLoading, setLoading] = useState(true)
@@ -22,6 +35,7 @@ export const GamePage = () => {
       }
 
       const canvas = canvasRef.current
+      window.addEventListener('dblclick', handleWindowDoubleClick)
 
       if (!canvas) {
         return
@@ -35,6 +49,7 @@ export const GamePage = () => {
 
     return () => {
       game?.stop()
+      window.removeEventListener('dblclick', handleWindowDoubleClick)
     }
   }, [])
   // TODO: Вывод прогресса загрузки
