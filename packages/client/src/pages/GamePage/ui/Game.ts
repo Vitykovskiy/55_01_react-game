@@ -7,52 +7,52 @@ type GameOptions = {
 }
 
 export class Game {
-  private ctx: CanvasRenderingContext2D
-  private viewModel: ViewModel
-  private background = new Image()
+  private _ctx: CanvasRenderingContext2D
+  private _viewModel: ViewModel
+  private _background = new Image()
 
-  private running = false
-  private lastTime = 0
-  private dpr = window.devicePixelRatio
+  private _running = false
+  private _lastTime = 0
+  private _dpr = window.devicePixelRatio
 
   constructor(
-    private canvas: HTMLCanvasElement,
-    private options: GameOptions = {}
+    private _canvas: HTMLCanvasElement,
+    private _options: GameOptions = {}
   ) {
-    const ctx = canvas.getContext('2d')
+    const ctx = _canvas.getContext('2d')
 
     if (!ctx) {
       throw new Error('Ctx is required')
     }
 
-    this.ctx = ctx
+    this._ctx = ctx
     window.addEventListener('resize', this._resize)
     this._resize()
 
-    this.background.src = background
-    this.viewModel = new ViewModel(canvas)
+    this._background.src = background
+    this._viewModel = new ViewModel(_canvas)
 
-    this.viewModel.on('end', this._handleEnd)
+    this._viewModel.on('end', this._handleEnd)
   }
 
   onKey = (e: KeyboardEvent) => {
-    this.viewModel.onKey(e.key)
+    this._viewModel.onKey(e.key)
   }
 
   start() {
-    this.running = true
-    this.lastTime = performance.now()
-    this.canvas.focus()
+    this._running = true
+    this._lastTime = performance.now()
+    this._canvas.focus()
     window.addEventListener('keyup', this.onKey)
-    this.options.onStart?.()
+    this._options.onStart?.()
     requestAnimationFrame(this._loop)
   }
 
   stop() {
-    this.running = false
+    this._running = false
     window.removeEventListener('resize', this._resize)
     window.removeEventListener('keyup', this.onKey)
-    this.viewModel.off('end', this._handleEnd)
+    this._viewModel.off('end', this._handleEnd)
   }
 
   private _handleEnd = (score: unknown) => {
@@ -61,18 +61,18 @@ export class Game {
     }
 
     this.stop()
-    this.options.onEnd?.(score)
+    this._options.onEnd?.(score)
   }
 
   private _loop = (time: number) => {
-    if (!this.running) {
+    if (!this._running) {
       return
     }
 
-    const delta = (time - this.lastTime) / 1000
-    this.lastTime = time
+    const delta = (time - this._lastTime) / 1000
+    this._lastTime = time
 
-    this.viewModel.update(delta)
+    this._viewModel.update(delta)
 
     this._render()
 
@@ -80,29 +80,29 @@ export class Game {
   }
 
   private _resize = () => {
-    const parent = this.canvas.parentElement
+    const parent = this._canvas.parentElement
     if (!parent) return
 
     const w = parent.clientWidth
     const h = parent.clientHeight
 
-    this.canvas.width = w * this.dpr
-    this.canvas.height = h * this.dpr
+    this._canvas.width = w * this._dpr
+    this._canvas.height = h * this._dpr
 
-    this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0)
+    this._ctx.setTransform(this._dpr, 0, 0, this._dpr, 0, 0)
   }
 
   private _render() {
-    const ctx = this.ctx
-    const w = this.canvas.width / this.dpr
-    const h = this.canvas.height / this.dpr
+    const ctx = this._ctx
+    const w = this._canvas.width / this._dpr
+    const h = this._canvas.height / this._dpr
 
     ctx.clearRect(0, 0, w, h)
 
-    if (this.background.complete) {
-      ctx.drawImage(this.background, 0, 0, w, h)
+    if (this._background.complete) {
+      ctx.drawImage(this._background, 0, 0, w, h)
     }
 
-    this.viewModel.renderUnits(ctx)
+    this._viewModel.renderUnits(ctx)
   }
 }

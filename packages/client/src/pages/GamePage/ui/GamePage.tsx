@@ -13,6 +13,15 @@ export const GamePage = () => {
   const [phase, setPhase] = useState<GamePhases>('start')
   const [score, setScore] = useState(0)
 
+  const handleStart = () => {
+    setScore(0)
+    setPhase('playing')
+  }
+
+  const handleRestart = () => {
+    setPhase('start')
+  }
+
   useEffect(() => {
     if (phase !== 'playing') {
       return
@@ -41,18 +50,11 @@ export const GamePage = () => {
   }, [phase])
 
   if (phase === 'start') {
-    return (
-      <StartGame
-        onStart={() => {
-          setScore(0)
-          setPhase('playing')
-        }}
-      />
-    )
+    return <StartGame onStart={handleStart} />
   }
 
   if (phase === 'end') {
-    return <EndGame score={score} onRestart={() => setPhase('start')} />
+    return <EndGame score={score} onRestart={handleRestart} />
   }
 
   return (
