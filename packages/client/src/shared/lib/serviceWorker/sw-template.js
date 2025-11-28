@@ -4,12 +4,13 @@ const manifest = self.__WB_MANIFEST
 const URLS = ['/'];
 
 manifest.forEach((item) => {
-  if (!item.url.includes('server')) {
-    URLS.push(`/${item.url.split('/').splice(1).join('/')}`)
+  const {url} = item
+  if (!url.includes('server')) {
+    URLS.push(`/${url.split('/').splice(1).join('/')}`)
   }
 });
 
-const CACHE_NAME = 'magic_type-cache-v5';
+const CACHE_NAME = 'magic_type-cache-v1';
   
 this.addEventListener("install", event => {
   event.waitUntil(

@@ -1,14 +1,16 @@
 import { injectManifest } from 'workbox-build';
 
-async function build() {
+const MAX_FILE_SIZE_CACHE = 5242880;
+
+const build = async () => {
   const { count, size } = await injectManifest({
-    swSrc: './src/sw-template.js',
+    swSrc: './src/shared/lib/serviceWorker/sw-template.js',
     swDest: './dist/client/sw.js',
     globDirectory: './dist',
     globPatterns: [
       '**/*.{js,css,html,png,svg,jpg,ico}'
     ],
-    maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
+    maximumFileSizeToCacheInBytes: MAX_FILE_SIZE_CACHE, // 5MB
   });
 
   console.log(`✅ Generated SW: ${count} files, ${size} bytes`);
