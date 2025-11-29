@@ -19,6 +19,7 @@ export class ViewModel extends EventBus<EventType> {
   private _enemy?: Unit
   private _usedWords: string[] = []
   private _currentWords: string[] = []
+  private _isGameEnded = false
 
   constructor(canvas: HTMLCanvasElement) {
     super()
@@ -38,6 +39,10 @@ export class ViewModel extends EventBus<EventType> {
   }
 
   update(delta: number) {
+    if (this._isGameEnded) {
+      return
+    }
+
     for (const { model } of this._units) {
       model.update(delta)
 
@@ -54,6 +59,8 @@ export class ViewModel extends EventBus<EventType> {
       model.stop()
       model.tryDealDamage(this._hero)
     }
+
+    this._checkHeroState()
   }
 
   private _generateUnitsBatch = (count: number) => {
@@ -191,5 +198,12 @@ export class ViewModel extends EventBus<EventType> {
     }
 
     return false
+  }
+
+  private _checkHeroState() {
+    if (this._hero.isDead()) {
+      this._isGameEnded = true
+      this.emit('end', this._currentScore)
+    }
   }
 }
