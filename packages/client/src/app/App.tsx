@@ -4,7 +4,7 @@ import '@gravity-ui/uikit/styles/styles.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { routes } from './routes'
 import { ErrorBoundary } from '@shared/ui/ErrorBoundary'
-import { startServiceWorker } from '@shared/lib/serviceWorker/helper'
+import { startServiceWorker } from './lib/serviceWorker/helper'
 
 const router = createBrowserRouter(routes)
 

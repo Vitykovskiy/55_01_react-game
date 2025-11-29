@@ -4,7 +4,7 @@ const MAX_FILE_SIZE_CACHE = 5242880;
 
 const build = async () => {
   const { count, size } = await injectManifest({
-    swSrc: './src/shared/lib/serviceWorker/sw-template.js',
+    swSrc: './src/app/lib/serviceWorker/sw-template.js',
     swDest: './dist/client/sw.js',
     globDirectory: './dist',
     globPatterns: [

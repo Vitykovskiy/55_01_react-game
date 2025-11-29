@@ -1,6 +1,8 @@
 export const startServiceWorker = async () => {
   if (!navigator?.serviceWorker) {
-    return
+    return console.log(
+      'Браузер не поддерживает сервис воркеры, оффлайн режим не доступен'
+    )
   }
 
   window.addEventListener('load', async () => {

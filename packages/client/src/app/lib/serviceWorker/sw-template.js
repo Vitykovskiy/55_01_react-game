@@ -1,7 +1,7 @@
 
 const manifest = self.__WB_MANIFEST
 
-const URLS = ['/'];
+const URLS = ['/', '/profile', '/login', '/register', '/game', '/leaderboard', '/forum'];
 
 manifest.forEach((item) => {
   const {url} = item
