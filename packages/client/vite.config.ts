@@ -29,6 +29,7 @@ export default defineConfig({
       '@entities': path.join(srcPath, 'entities'),
       '@shared': path.join(srcPath, 'shared'),
       '@components': path.join(srcPath, 'components'),
+      '@assets': path.join(srcPath, 'assets'),
     },
   },
   css: {

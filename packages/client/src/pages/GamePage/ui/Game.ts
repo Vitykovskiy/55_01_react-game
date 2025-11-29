@@ -18,7 +18,11 @@ export class Game {
     }
 
     this.ctx = ctx
-    this.viewModel = new ViewModel(canvas)
+    this.viewModel = new ViewModel({
+      context: ctx,
+      width: canvas.width,
+      height: canvas.height,
+    })
 
     this.background.src = background
 
@@ -87,6 +91,6 @@ export class Game {
       ctx.drawImage(this.background, 0, 0, w, h)
     }
 
-    this.viewModel.renderUnits(ctx)
+    this.viewModel.renderUnits()
   }
 }
