@@ -24,5 +24,6 @@ dist-ssr
 *.sw?
 
 tsconfig.server.tsbuildinfo
+tsconfig.prod.tsbuildinfo
 server/index.js
 server/index.d.ts
