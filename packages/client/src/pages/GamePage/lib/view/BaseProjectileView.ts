@@ -1,4 +1,4 @@
-import { Position } from '../ViewModel'
+import { Position } from '../../models/types'
 
 export abstract class BaseProjectileView {
   protected _angle: number

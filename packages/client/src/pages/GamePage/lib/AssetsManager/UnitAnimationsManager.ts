@@ -8,6 +8,8 @@ import {
   FramesModes,
 } from './types'
 
+const ANGLE_STR_LENGTH = 3
+
 export class UnitAnimationsManager {
   private _map: UnitAnimations = new Map<
     UnitStates | MainHeroStates,
@@ -34,7 +36,7 @@ export class UnitAnimationsManager {
 
       const angleEntries = await Promise.all(
         angles.map(async angle => {
-          const angleStr = angle.toString().padStart(3, '0') // Углы в именах ассетов всегда имеют 3 символа
+          const angleStr = angle.toString().padStart(ANGLE_STR_LENGTH, '0')
 
           const source =
             mode === FramesModes.Frames

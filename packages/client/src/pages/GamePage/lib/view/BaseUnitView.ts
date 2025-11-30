@@ -2,19 +2,27 @@
 import { UnitAnimationsManager } from '../AssetsManager/UnitAnimationsManager'
 import { UnitStates, UnitViewState } from './types'
 
-export const DEATH_ANIMATION_DURATION_MS = 1500
-export const ATTACK_ANIMATION_DURATION_MS = 600
+export const DEFAULT_DEATH_ANIMATION_DURATION_MS = 1500
+export const DEFAULT_ATTACK_ANIMATION_DURATION_MS = 600
 
 export abstract class BaseUnitView {
   private _viewState: UnitViewState
   private _animator: number | null = null // Таймер анимации
-  private _animationProgress = 0 // От 0 to 99
+  private _progress = 0
 
   protected abstract _unitAnimationsManager: UnitAnimationsManager
 
   constructor(defaultState: UnitViewState) {
     this._viewState = defaultState
     this.startAnimationLoop()
+  }
+
+  private set _animationProgress(value: number) {
+    this._progress = value === 0 ? 0 : value % 100
+  }
+
+  private get _animationProgress(): number {
+    return this._progress
   }
 
   protected setViewState(state: Partial<UnitViewState>): void {
@@ -64,7 +72,7 @@ export abstract class BaseUnitView {
   async showDeath(): Promise<void> {
     this.setViewState({
       state: UnitStates.Death,
-      duration: DEATH_ANIMATION_DURATION_MS,
+      duration: DEFAULT_DEATH_ANIMATION_DURATION_MS,
     })
     await this.showAnimationOnce()
   }
@@ -72,7 +80,7 @@ export abstract class BaseUnitView {
   async showAttack(): Promise<void> {
     this.setViewState({
       state: UnitStates.Attack,
-      duration: ATTACK_ANIMATION_DURATION_MS,
+      duration: DEFAULT_ATTACK_ANIMATION_DURATION_MS,
     })
     await this.showAnimationOnce()
   }
@@ -80,7 +88,7 @@ export abstract class BaseUnitView {
   showIddle(): void {
     this.setViewState({
       state: UnitStates.Idle,
-      duration: DEATH_ANIMATION_DURATION_MS,
+      duration: DEFAULT_DEATH_ANIMATION_DURATION_MS,
     })
     this.startAnimationLoop()
   }
@@ -91,7 +99,7 @@ export abstract class BaseUnitView {
     const updateAnimation = () => {
       const step = performance.now() - startTime
 
-      this._animationProgress = ((step / this._viewState.duration) * 100) % 100
+      this._animationProgress = (step / this._viewState.duration) * 100
       requestAnimationFrame(updateAnimation)
     }
 

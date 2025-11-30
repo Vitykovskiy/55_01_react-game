@@ -1,14 +1,11 @@
-﻿import { AssetsManager } from '@pages/GamePage/lib/AssetsManager/AnimationsManager'
-import {
-  FramesModes,
-  StateAnimationParamsMap,
-} from '@pages/GamePage/lib/AssetsManager/types'
+﻿import { AssetsManager } from './AnimationsManager'
+import { FramesModes, StateAnimationParamsMap } from './types'
 import {
   MainHeroStates,
   ProjectilesTypes,
   UnitStates,
   UnitsTypes,
-} from '@pages/GamePage/lib/view/types'
+} from '../../lib/view/types'
 
 const SPRITE_SHEETS = import.meta.glob('@assets/**/*.png', {
   eager: true,

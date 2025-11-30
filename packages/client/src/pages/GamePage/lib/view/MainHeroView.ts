@@ -3,9 +3,9 @@ import { UnitAnimationsManager } from '../AssetsManager/UnitAnimationsManager'
 import { BaseUnitView } from './BaseUnitView'
 import { MainHeroStates, UnitsTypes } from './types'
 
-const ATTACK_ANIMATION_DURATION_MS = 600
-const DEATH_ANIMATION_DURATION_MS = 1500
-const IDDLE_ANIMATION_DURATION_MS = 1500
+const MAIN_HERO_ATTACK_ANIMATION_DURATION_MS = 600
+const MAIN_HERO_DEATH_ANIMATION_DURATION_MS = 1500
+const MAIN_HERO_IDDLE_ANIMATION_DURATION_MS = 1500
 
 export class MainHeroView extends BaseUnitView {
   protected _unitAnimationsManager: UnitAnimationsManager
@@ -24,7 +24,7 @@ export class MainHeroView extends BaseUnitView {
   async showDeath(): Promise<void> {
     this.setViewState({
       state: MainHeroStates.DeathBow,
-      duration: DEATH_ANIMATION_DURATION_MS,
+      duration: MAIN_HERO_DEATH_ANIMATION_DURATION_MS,
     })
     await this.showAnimationOnce()
   }
@@ -32,7 +32,7 @@ export class MainHeroView extends BaseUnitView {
   async showAttack(): Promise<void> {
     this.setViewState({
       state: MainHeroStates.AttackBow,
-      duration: ATTACK_ANIMATION_DURATION_MS,
+      duration: MAIN_HERO_ATTACK_ANIMATION_DURATION_MS,
     })
     await this.showAnimationOnce()
   }
@@ -40,7 +40,7 @@ export class MainHeroView extends BaseUnitView {
   showIddle(): void {
     this.setViewState({
       state: MainHeroStates.IdleBow,
-      duration: IDDLE_ANIMATION_DURATION_MS,
+      duration: MAIN_HERO_IDDLE_ANIMATION_DURATION_MS,
     })
     this.startAnimationLoop()
   }

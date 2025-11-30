@@ -1,7 +1,7 @@
 import Layout from '@shared/ui/Layout'
 import { useEffect, useRef, useState } from 'react'
 import s from './GamePage.module.scss'
-import { initAssets } from '@pages/GamePage/lib/AssetsManager/assets'
+import { initAssets } from '../lib/AssetsManager/assets'
 import { Game } from './Game'
 
 export const GamePage = () => {

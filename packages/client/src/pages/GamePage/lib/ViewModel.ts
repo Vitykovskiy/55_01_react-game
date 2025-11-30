@@ -12,8 +12,6 @@ import { AssetsManager } from './AssetsManager/AnimationsManager'
 
 export type EventType = 'start' | 'end'
 
-export type Position = { x: number; y: number }
-
 const MIN_UNITS_TO_ADD_NEW_ENEMIES = 1
 const NUMBER_ADDED_ENEMIES = 3
 

@@ -41,8 +41,9 @@ export class SpriteAnimation {
     const index = Math.round(((this._frames.length - 1) * progress) / 100)
 
     if (!this._frames[index]) {
-      throw new Error(`Frame with index "${index}" is missing`)
+      throw new Error(`Кадр с индексом "${index}" не найден`)
     }
+
     return this._frames[index]
   }
 
@@ -52,7 +53,7 @@ export class SpriteAnimation {
     )
 
     if (!entry) {
-      throw new Error(`Sheet "${sheetSource}" not found`)
+      throw new Error(`Лист "${sheetSource}" не найден`)
     }
 
     return entry[1]
@@ -65,7 +66,7 @@ export class SpriteAnimation {
     const sheetHeight = sheet.height
 
     if (!sheetWidth || !sheetHeight || this._columns <= 0 || this._rows <= 0) {
-      throw new Error(`Sheet sizes are invalid "${this._sheetUrl}"`)
+      throw new Error(`Некорректные параметры листа "${this._sheetUrl}"`)
     }
 
     const frameWidth = sheetWidth / this._columns
@@ -77,7 +78,7 @@ export class SpriteAnimation {
       !Number.isFinite(frameWidth) ||
       !Number.isFinite(frameHeight)
     ) {
-      throw new Error(`Frame sizes are invalid "${this._sheetUrl}"`)
+      throw new Error(`Некорректные параметры листа "${this._sheetUrl}"`)
     }
 
     const cropWidth = frameWidth / this._scale
@@ -121,7 +122,7 @@ export class SpriteAnimation {
       const img = await loadImage(url)
 
       if (!img.width || !img.height) {
-        throw new Error('Frame sizes are invalid for "' + this._sheetUrl + '"')
+        throw new Error(`Некорректные параметры листа "${this._sheetUrl}"`)
       }
 
       const frameWidth = img.width

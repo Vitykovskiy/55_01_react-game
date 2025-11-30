@@ -3,10 +3,13 @@ import { AssetsManager } from '../AssetsManager/AnimationsManager'
 import { UnitAnimationsManager } from '../AssetsManager/UnitAnimationsManager'
 import { UnitStates, UnitsTypes } from './types'
 
+const SCELETONE_WALK_DURATION_MS = 1200
+const SCELETONE_VIEW_ANGLE = 180
+
 const SCELETON_WALK_STATE = {
-  angle: 180,
+  angle: SCELETONE_VIEW_ANGLE,
   state: UnitStates.Walk,
-  duration: 1200,
+  duration: SCELETONE_WALK_DURATION_MS,
 }
 
 export class SceletonView extends BaseUnitView {

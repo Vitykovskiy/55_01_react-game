@@ -1,7 +1,7 @@
-import { Position } from '../ViewModel'
 import { BaseProjectileView } from './BaseProjectileView'
 import { ProjectilesTypes } from './types'
 import { AssetsManager } from '../AssetsManager/AnimationsManager'
+import { Position } from '../../models/types'
 
 const BOW_SPEED = 1400
 const ARROW_SIZE = { width: 20, height: 40 }
