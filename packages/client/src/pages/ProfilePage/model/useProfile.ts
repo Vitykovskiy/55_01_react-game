@@ -12,7 +12,7 @@ import {
   setUserSuccess,
   useDispatch,
   useSelector,
-} from '../../../entities/user'
+} from '@entities/user'
 
 export const useProfile = (setError: UseFormSetError<Schema>) => {
   const [isLoading, setIsLoading] = useState(true)

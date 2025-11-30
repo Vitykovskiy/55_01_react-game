@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { StrictMode } from 'react'
 import { App } from './App'
 import './index.scss'
-import { userStore } from '../entities/user'
+import { userStore } from '@entities/user'
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
