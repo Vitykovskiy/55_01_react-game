@@ -1,15 +1,22 @@
-import { Sceleton } from '../../models/Sceleton'
 import { BaseUnitView } from './BaseUnitView'
-import sceleton from '/charactes/sceleton.png'
+import { AssetsManager } from '../AssetsManager/AnimationsManager'
+import { UnitAnimationsManager } from '../AssetsManager/UnitAnimationsManager'
+import { UnitStates, UnitsTypes } from './types'
 
-let sceletonView: HTMLImageElement | null = null
-if (typeof window !== 'undefined') {
-  sceletonView = new Image()
-  sceletonView.src = sceleton
+const SCELETON_WALK_STATE = {
+  angle: 180,
+  state: UnitStates.Walk,
+  duration: 1200,
 }
 
 export class SceletonView extends BaseUnitView {
-  override render(ctx: CanvasRenderingContext2D, unit: Sceleton) {
-    this._render(ctx, sceletonView, unit)
+  protected _unitAnimationsManager: UnitAnimationsManager
+
+  constructor(animationManager: AssetsManager) {
+    super({ ...SCELETON_WALK_STATE })
+
+    this._unitAnimationsManager = animationManager.getUnitManager(
+      UnitsTypes.Orc
+    )
   }
 }

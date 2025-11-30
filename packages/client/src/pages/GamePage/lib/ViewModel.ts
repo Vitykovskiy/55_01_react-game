@@ -6,42 +6,48 @@ import { Unit } from '../models/types'
 import { BaseUnitView } from './view/BaseUnitView'
 import { MainHeroView } from './view/MainHeroView'
 import { SceletonView } from './view/SceletonView'
+import { BaseProjectileView } from './view/BaseProjectileView'
+import { ArrowProjectileView } from './view/ArrowProjectileView'
+import { AssetsManager } from './AssetsManager/AnimationsManager'
 
 export type EventType = 'start' | 'end'
+
+export type Position = { x: number; y: number }
 
 const MIN_UNITS_TO_ADD_NEW_ENEMIES = 1
 const NUMBER_ADDED_ENEMIES = 3
 
 export class ViewModel extends EventBus<EventType> {
   private _units: { model: Unit; view: BaseUnitView }[] = []
-  private _hero: MainHero
+  private _projectiles: BaseProjectileView[] = []
+  private _hero: { model: MainHero; view: MainHeroView }
   private _currentScore = 0
   private _enemy?: Unit
   private _usedWords: string[] = []
   private _currentWords: string[] = []
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(
+    canvas: HTMLCanvasElement,
+    private _assetsManager: AssetsManager
+  ) {
     super()
     const { width, height } = canvas
-    this._hero = new MainHero(0, 0)
-    this._hero.setPosition({
-      x: width / 2 - this._hero.getSize().width / 2,
+    this._hero = {
+      model: new MainHero(0, 0),
+      view: new MainHeroView(this._assetsManager),
+    }
+    this._hero.model.setPosition({
+      x: width / 2 - this._hero.model.getSize().width / 2,
       y: height - 200,
     })
     this._addInitialUnits()
   }
 
-  private _addInitialUnits() {
-    const heroView = new MainHeroView()
-    this._units.push({ model: this._hero, view: heroView })
-    this._generateUnitsBatch(3)
-  }
-
-  update(delta: number) {
+  public update(delta: number) {
     for (const { model } of this._units) {
       model.update(delta)
 
-      if (model == this._hero) {
+      if (model == this._hero.model) {
         continue
       }
 
@@ -52,7 +58,11 @@ export class ViewModel extends EventBus<EventType> {
       }
 
       model.stop()
-      model.tryDealDamage(this._hero)
+      model.tryDealDamage(this._hero.model)
+    }
+
+    for (const projectile of this._projectiles) {
+      projectile.update(delta)
     }
   }
 
@@ -73,10 +83,10 @@ export class ViewModel extends EventBus<EventType> {
       }
 
       const x = startX + i * stepX + Math.random() * 90 - 10 // смещение по X
-      const y = 100 + Math.random() * 40 - 20 // случайное смещение по Y ±20
+      const y = Math.random() * 40 - 40 // случайное смещение по Y ±20
 
       const sceleton = new Sceleton(x, y, sceletonName)
-      const skeletonView = new SceletonView()
+      const skeletonView = new SceletonView(this._assetsManager)
 
       this._units.push({ model: sceleton, view: skeletonView })
       this._currentWords.push(sceletonName)
@@ -90,9 +100,20 @@ export class ViewModel extends EventBus<EventType> {
   }
 
   renderUnits(ctx: CanvasRenderingContext2D) {
+    this._sortUnitsByYCoordinate()
+
     for (const { model, view } of this._units) {
       view.render(ctx, model)
     }
+
+    for (const projectile of this._projectiles) {
+      projectile.render(ctx)
+    }
+  }
+
+  private _addInitialUnits(): void {
+    this._units.push({ model: this._hero.model, view: this._hero.view })
+    this._generateUnitsBatch(3)
   }
 
   private _trySetEnemy = (key: string) => {
@@ -112,20 +133,59 @@ export class ViewModel extends EventBus<EventType> {
     }
   }
 
-  private _tryKillEnemy = () => {
+  private _tryKillEnemy = async () => {
     if (!this._enemy || !this._enemy.isDead()) {
       return
     }
 
     this._updateScore(1)
-    const enemyName = this._enemy.getName()
+
+    const enemy = this._enemy
+    const viewModel = this._units.find(({ model }) => model === enemy)?.view
+
+    if (!viewModel) {
+      return
+    }
+
+    const enemyName = enemy.getName()
     this._usedWords.push(enemyName)
 
-    this._currentWords = this._currentWords.filter(word => word !== enemyName)
-    this._units = this._units.filter(unit => unit.model !== this._enemy)
-    delete this._enemy
+    await this._hero.view.showAttack()
+    this._hero.view.showIddle()
 
+    const arrow = this._shootArrowToTarget(enemy)
+
+    await arrow.start()
+    enemy.stop()
+
+    delete this._enemy
+    await viewModel.showDeath()
+
+    this._removeProjectile(arrow)
+    this._removeNameFromDictionary(enemyName)
+    this._removeEnemy(enemy)
     this._tryAddEnemies()
+  }
+
+  private _shootArrowToTarget(target: Unit): ArrowProjectileView {
+    const arrow = new ArrowProjectileView(
+      this._assetsManager,
+      {
+        x:
+          this._hero.model.getPosition().x +
+          this._hero.model.getSize().width / 2,
+        y:
+          this._hero.model.getPosition().y -
+          this._hero.model.getSize().height / 2,
+      },
+      {
+        x: target.getPosition().x + target.getSize().width / 2,
+        y: target.getPosition().y,
+      }
+    )
+    this._projectiles.push(arrow)
+
+    return arrow
   }
 
   private _tryAddEnemies() {
@@ -185,11 +245,29 @@ export class ViewModel extends EventBus<EventType> {
     return candidates[index]
   }
 
-  private _isUnitNearHero(y: number) {
-    if (y >= this._hero.getPosition().y - this._hero.getSize().height) {
-      return true
-    }
+  private _isUnitNearHero(y: number): boolean {
+    return (
+      y >= this._hero.model.getPosition().y - this._hero.model.getSize().height
+    )
+  }
 
-    return false
+  private _removeProjectile(value: BaseProjectileView): void {
+    this._projectiles = this._projectiles.filter(item => item !== value)
+  }
+
+  private _removeNameFromDictionary(value: string): void {
+    this._currentWords = this._currentWords.filter(word => word !== value)
+  }
+
+  private _removeEnemy(value: Unit): void {
+    this._units = this._units.filter(unit => unit.model !== value)
+  }
+
+  // Кто позднее отрендерился, тот и сверху
+  // Сортируем по Y координате для корректного наложения
+  private _sortUnitsByYCoordinate(): void {
+    this._units.sort(
+      (a, b) => a.model.getPosition().y - b.model.getPosition().y
+    )
   }
 }
