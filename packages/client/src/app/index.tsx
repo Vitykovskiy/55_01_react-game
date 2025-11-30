@@ -5,10 +5,11 @@ import { Provider } from 'react-redux'
 import { StrictMode } from 'react'
 import { App } from './App'
 import './index.scss'
+import { userStore } from '../entities/user'
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
-  <Provider store={store}>
+  <Provider store={(store, userStore)}>
     <StrictMode>
       <App />
     </StrictMode>

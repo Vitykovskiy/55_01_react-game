@@ -7,24 +7,28 @@ import { RoutePath } from '@shared/config/routing'
 import { useNavigate } from 'react-router-dom'
 import { Schema } from '../model/types'
 import { ResponseType } from '@shared/lib'
-import { selectUser, setUser } from '@features/user/userSlice'
-import { useDispatch, useSelector } from '@app/store'
+import {
+  selectUser,
+  setUserSuccess,
+  useDispatch,
+  useSelector,
+} from '../../../entities/user'
 
 export const useProfile = (setError: UseFormSetError<Schema>) => {
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
-  const reduxUser = useSelector(selectUser)
+  const user = useSelector(selectUser)
   const dispatch = useDispatch()
 
   const loadUser = async () => {
-    if (reduxUser) {
+    if (user) {
       setIsLoading(false)
       return
     }
 
     const response = await getUser()
     if (response.type === ResponseType.Success) {
-      dispatch(setUser(response.data))
+      dispatch(setUserSuccess(response.data))
     } else {
       navigate(RoutePath.Error404)
     }
@@ -44,12 +48,12 @@ export const useProfile = (setError: UseFormSetError<Schema>) => {
   const updateAvatar = async (file: File) => {
     const response = await changeAvatar(file)
     if (response.type === ResponseType.Success) {
-      dispatch(setUser(response.data))
+      dispatch(setUserSuccess(response.data))
     }
   }
 
   return {
-    user: reduxUser,
+    user: user,
     isLoading,
     loadUser,
     updatePassword,

@@ -1,6 +1,6 @@
 import { changeAvatarApi } from '../api'
 import { Api, ApiResponse, CommonErrorType } from '@shared/lib'
-import { User } from '../model/types'
+import { User } from '@entities/user/model/types'
 
 export const changeAvatar = async (file: File): Promise<ApiResponse<User>> => {
   try {

@@ -1,5 +1,5 @@
 import { FormInput } from '@shared/ui/FormInput'
-import { User } from '../model/types'
+import { User } from '@entities/user'
 
 type ProfilePageInputsProps = {
   data: User | undefined
