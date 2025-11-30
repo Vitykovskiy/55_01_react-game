@@ -9,9 +9,11 @@ import { userStore } from '../entities/user'
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
-  <Provider store={(store, userStore)}>
-    <StrictMode>
-      <App />
-    </StrictMode>
+  <Provider store={store}>
+    <Provider store={userStore}>
+      <StrictMode>
+        <App />
+      </StrictMode>
+    </Provider>
   </Provider>
 )

@@ -33,15 +33,6 @@ export const userSlice = createSlice({
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload
     },
-    logout: state => {
-      state.data = null
-      state.error = null
-    },
-    updateUser: (state, action: PayloadAction<Partial<User>>) => {
-      if (state.data) {
-        state.data = { ...state.data, ...action.payload }
-      }
-    },
   },
 })
 
@@ -51,16 +42,17 @@ export const userStore = configureStore({
   },
 })
 
-export const { setUserSuccess, setLoading, setError, logout, updateUser } =
-  userSlice.actions
-
-export const selectUser = (state: { user: UserState }) => state.user.data
-export const selectUserLoading = (state: UserRootState) => state.user.isLoading
-export const selectUserError = (state: UserRootState) => state.user.error
-export const selectIsAuthenticated = (state: UserRootState) => !!state.user.data
-
 export type UserRootState = ReturnType<typeof userStore.getState>
 export type UserAppDispatch = typeof userStore.dispatch
 
-export const useDispatch: () => UserAppDispatch = useDispatchBase
+export const selectUser = (state: UserRootState) => {
+  if (!state.user) {
+    return null
+  }
+  return state.user.data
+}
+
+export const useDispatch = () => useDispatchBase<UserAppDispatch>()
 export const useSelector: TypedUseSelectorHook<UserRootState> = useSelectorBase
+
+export const { setUserSuccess, setLoading, setError } = userSlice.actions

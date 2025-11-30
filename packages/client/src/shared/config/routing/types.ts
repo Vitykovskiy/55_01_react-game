@@ -1,4 +1,4 @@
-import { AppDispatch, RootState } from './store'
+import { AppDispatch, RootState } from '../store'
 
 export type PageInitContext = {
   clientToken?: string
