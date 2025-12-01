@@ -47,8 +47,8 @@ export const render = async (req: ExpressRequest) => {
 
   // try {
   //   await fetchData({
-  //     dispatch: index.dispatch,
-  //     state: index.getState(),
+  //     dispatch: store.dispatch,
+  //     state: store.getState(),
   //     ctx: createContext(req),
   //   })
   // } catch (e) {
