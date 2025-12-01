@@ -7,16 +7,9 @@ import { RoutePath } from '@shared/config/routing'
 import { useNavigate } from 'react-router-dom'
 import { Schema } from '../model/types'
 import { ResponseType } from '@shared/lib'
-import {
-  selectUser,
-  setUser,
-  setError,
-  clearError,
-  useDispatch,
-  useSelector,
-} from '@entities/user'
+import { selectUser, setUser, useDispatch, useSelector } from '@entities/user'
 
-export const useProfile = (setFormError: UseFormSetError<Schema>) => {
+export const useProfile = (setError: UseFormSetError<Schema>) => {
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
   const user = useSelector(selectUser)
@@ -31,9 +24,7 @@ export const useProfile = (setFormError: UseFormSetError<Schema>) => {
     const response = await getUser()
     if (response.type === ResponseType.Success) {
       dispatch(setUser(response.data))
-      dispatch(clearError())
     } else {
-      dispatch(setError('Произошла ошибка при загрузке пользователя'))
       navigate(RoutePath.Error404)
     }
     setIsLoading(false)
@@ -42,7 +33,7 @@ export const useProfile = (setFormError: UseFormSetError<Schema>) => {
   const updatePassword = async (oldPassword: string, newPassword: string) => {
     const response = await changePassword({ oldPassword, newPassword })
     if (response.type !== ResponseType.Success) {
-      setFormError('password', {
+      setError('password', {
         type: 'manual',
         message: 'Не удалось изменить пароль',
       })
@@ -53,9 +44,6 @@ export const useProfile = (setFormError: UseFormSetError<Schema>) => {
     const response = await changeAvatar(file)
     if (response.type === ResponseType.Success) {
       dispatch(setUser(response.data))
-      dispatch(clearError())
-    } else {
-      dispatch(setError('Произошла ошибка при смене аватара'))
     }
   }
 

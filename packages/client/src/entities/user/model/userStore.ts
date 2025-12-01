@@ -12,12 +12,10 @@ export type UserAppDispatch = typeof userStore.dispatch
 
 interface UserState {
   data: User | null
-  error: string | null
 }
 
 const initialState: UserState = {
   data: null,
-  error: null,
 }
 
 export const userSlice = createSlice({
@@ -26,12 +24,6 @@ export const userSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.data = action.payload
-    },
-    setError: (state, action: PayloadAction<string>) => {
-      state.error = action.payload
-    },
-    clearError: state => {
-      state.error = null
     },
   },
 })
@@ -53,4 +45,4 @@ export const selectUser = (state: UserRootState) => {
 export const useDispatch = () => useDispatchBase<UserAppDispatch>()
 export const useSelector: TypedUseSelectorHook<UserRootState> = useSelectorBase
 
-export const { setUser, setError, clearError } = userSlice.actions
+export const { setUser } = userSlice.actions
