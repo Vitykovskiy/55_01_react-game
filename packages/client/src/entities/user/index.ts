@@ -1,2 +1,13 @@
 export type { User } from './model/types'
-export * from './model/userStore'
+export {
+  userSlice,
+  setError,
+  selectUser,
+  setUserSuccess,
+  setLoading,
+  userStore,
+  useDispatch,
+  type UserRootState,
+  type UserAppDispatch,
+  useSelector,
+} from './model/userStore'

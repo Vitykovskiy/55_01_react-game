@@ -53,7 +53,7 @@ export const useProfile = (setError: UseFormSetError<Schema>) => {
   }
 
   return {
-    user: user,
+    user,
     isLoading,
     loadUser,
     updatePassword,

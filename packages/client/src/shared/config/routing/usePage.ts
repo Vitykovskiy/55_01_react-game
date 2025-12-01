@@ -3,7 +3,7 @@ import {
   selectPageHasBeenInitializedOnServer,
   setPageHasBeenInitializedOnServer,
 } from './ssrSlice'
-import { useDispatch, useSelector, useStore } from '../store'
+import { useDispatch, useSelector, useStore } from '../store/store'
 import { PageInitArgs, PageInitContext } from './types'
 
 const getCookie = (name: string) => {
