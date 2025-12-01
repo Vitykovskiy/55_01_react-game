@@ -4,6 +4,6 @@ export {
   ssrReducer,
   ssrSlice,
 } from './ssrSlice'
-export { reducer, index } from '../store'
+export { reducer, store } from '../store'
 export type { PageInitContext } from './types'
 export { usePage } from './usePage'

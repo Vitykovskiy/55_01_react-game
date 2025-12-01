@@ -1,4 +1,4 @@
-import { index } from '@shared/config/routing'
+import { store } from '@shared/config/store'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 
@@ -9,7 +9,7 @@ import { userStore } from '@entities/user'
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
-  <Provider store={index}>
+  <Provider store={store}>
     <Provider store={userStore}>
       <StrictMode>
         <App />
