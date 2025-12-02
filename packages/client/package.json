@@ -7,7 +7,9 @@
     "preview": "node server/index.js",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "jest ./"
+    "test": "jest ./",
+    "assets:update": "git submodule update --init --recursive --remote",
+    "postinstall": "yarn assets:update"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

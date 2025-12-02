@@ -1,5 +1,6 @@
 import { BaseUnit, EnemyMovement } from './BaseUnit'
-import { DEFAULT_SIZE_UNIT } from './consts'
+
+const SCELETON_SIZE_PX = 120
 
 export class Sceleton extends BaseUnit {
   override movement = new EnemyMovement()
@@ -9,7 +10,7 @@ export class Sceleton extends BaseUnit {
       name: name,
       position: { x, y },
       damage: 1,
-      size: { width: DEFAULT_SIZE_UNIT, height: DEFAULT_SIZE_UNIT },
+      size: { width: SCELETON_SIZE_PX, height: SCELETON_SIZE_PX },
     })
   }
 }
