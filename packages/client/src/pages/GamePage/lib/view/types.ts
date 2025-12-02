@@ -6,7 +6,7 @@ export interface UnitViewState {
 
 export const enum UnitsTypes {
   MainHero = 'main_hero',
-  Sceleton = 'sceleton',
+  Skeleton = 'skeleton',
   Orc = 'orc',
 }
 

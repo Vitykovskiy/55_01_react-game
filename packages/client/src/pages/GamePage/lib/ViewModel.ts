@@ -1,11 +1,11 @@
 import { words } from '../models/consts'
 import { EventBus } from '../models/EventBus'
 import { MainHero } from '../models/MainHero'
-import { Sceleton } from '../models/Sceleton'
+import { Skeleton } from '../models/Skeleton'
 import { Unit } from '../models/types'
 import { BaseUnitView } from './view/BaseUnitView'
 import { MainHeroView } from './view/MainHeroView'
-import { SceletonView } from './view/SceletonView'
+import { SkeletonView } from './view/SkeletonView'
 import { BaseProjectileView } from './view/BaseProjectileView'
 import { ArrowProjectileView } from './view/ArrowProjectileView'
 import { AssetsManager } from './AssetsManager/AnimationsManager'
@@ -69,13 +69,13 @@ export class ViewModel extends EventBus<EventType> {
     const stepX = 60
 
     for (let i = 0; i < count; i++) {
-      const sceletonName = this._getRandomWord(
+      const skeletonName = this._getRandomWord(
         words,
         this._usedWords,
         this._currentWords
       )
 
-      if (!sceletonName) {
+      if (!skeletonName) {
         //TODO обрабатывать случаи, когда слова закончилисью. Можно генерировать рандомные или заканчивать уровень
         break
       }
@@ -83,11 +83,11 @@ export class ViewModel extends EventBus<EventType> {
       const x = startX + i * stepX + Math.random() * 90 - 10 // смещение по X
       const y = Math.random() * 40 - 40 // случайное смещение по Y ±20
 
-      const sceleton = new Sceleton(x, y, sceletonName)
-      const skeletonView = new SceletonView(this._assetsManager)
+      const skeleton = new Skeleton(x, y, skeletonName)
+      const skeletonView = new SkeletonView(this._assetsManager)
 
-      this._units.push({ model: sceleton, view: skeletonView })
-      this._currentWords.push(sceletonName)
+      this._units.push({ model: skeleton, view: skeletonView })
+      this._currentWords.push(skeletonName)
     }
   }
 
