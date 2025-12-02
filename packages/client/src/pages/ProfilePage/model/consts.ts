@@ -1,0 +1,6 @@
+const PASSWORD_MIN = 8
+const PASSWORD_MAX = 40
+const PROFILE_PAGE_TITLE = 'Профиль'
+const PROFILE_AVATAR = '/avatar/tip.png'
+
+export { PASSWORD_MAX, PASSWORD_MIN, PROFILE_PAGE_TITLE, PROFILE_AVATAR }
