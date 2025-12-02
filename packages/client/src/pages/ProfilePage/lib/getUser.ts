@@ -1,7 +1,7 @@
-import { User } from '../model/types'
 import { getUserApi } from '../api'
 import { Api, ApiResponse, CommonErrorType } from '@shared/lib'
 import { mapUserDtoToUser } from './mappers'
+import { User } from '@entities/user'
 
 export const getUser = async (): Promise<ApiResponse<User>> => {
   try {

@@ -1,5 +1,5 @@
-import { User } from '../model/types'
 import { UserDto } from '../api/dto'
+import { User } from '@entities/user'
 
 export const mapUserDtoToUser = (dto: UserDto): User => ({
   email: dto.email,
