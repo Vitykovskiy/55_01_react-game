@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import { User } from './types'
-import { getUser } from '../lib/getUser'
-import { changePassword } from '../lib/changePassword'
-import { changeAvatar } from '../lib/changeAvatar'
-import { UseFormSetError } from 'react-hook-form'
 import { RoutePath } from '@shared/config/routing'
-import { useNavigate } from 'react-router-dom'
-import { Schema } from '../model/types'
 import { ResponseType } from '@shared/lib'
+import { useState } from 'react'
+import { UseFormSetError } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { changeAvatar } from '../lib/changeAvatar'
+import { changePassword } from '../lib/changePassword'
+import { getUser } from '../lib/getUser'
+import { Schema } from '../model/types'
+import { User } from './types'
 
 export const useProfile = (setError: UseFormSetError<Schema>) => {
   const [user, setUser] = useState<User | undefined>(undefined)

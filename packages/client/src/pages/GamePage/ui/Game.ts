@@ -1,3 +1,4 @@
+import { assetsManager } from '../lib/AssetsManager/assets'
 import { ViewModel } from '../lib/ViewModel'
 import background from '/sprites/background-with-wall.png'
 
@@ -18,7 +19,7 @@ export class Game {
     }
 
     this.ctx = ctx
-    this.viewModel = new ViewModel(canvas)
+    this.viewModel = new ViewModel(canvas, assetsManager)
 
     this.background.src = background
 
