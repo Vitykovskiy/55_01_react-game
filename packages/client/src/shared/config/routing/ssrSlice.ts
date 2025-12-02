@@ -27,7 +27,7 @@ export const selectPageHasBeenInitializedOnServer = (state: RootState) => {
   if (!state.ssr) {
     return false
   }
-  return state.ssr.pageHasBeenInitializedOnServer
+  return Boolean(state.ssr.pageHasBeenInitializedOnServer)
 }
 
 export const { setPageHasBeenInitializedOnServer } = ssrSlice.actions

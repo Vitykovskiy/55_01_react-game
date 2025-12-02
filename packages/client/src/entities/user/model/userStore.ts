@@ -39,7 +39,7 @@ export const selectUser = (state: UserRootState) => {
     return null
   }
 
-  return state.user.data
+  return state.user?.data || null
 }
 
 export const useDispatch = () => useDispatchBase<UserAppDispatch>()
