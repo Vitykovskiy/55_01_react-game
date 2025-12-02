@@ -1,0 +1,3 @@
+[submodule "packages/client/src/assets"]
+	path = packages/client/src/assets
+	url = https://github.com/Vitykovskiy/55_01_react-game_assets.git
