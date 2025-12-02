@@ -6,8 +6,8 @@ import {
   PASSWORD_MAX,
   PASSWORD_MIN,
   PASSWORD_REGEX,
+  errorMessages,
 } from '@shared/lib/validation'
-import { errorMessages } from '@shared/lib/validation'
 
 export const schema = z.object({
   login: z
