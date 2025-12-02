@@ -3,52 +3,54 @@
 1. Убедитесь что у вас установлен `node` и `docker`
 2. Выполните команду `yarn bootstrap` - это обязательный шаг, без него ничего работать не будет :)
 3. Выполните команду `yarn dev`
-3. Выполните команду `yarn dev --scope=client` чтобы запустить только клиент
-4. Выполните команду `yarn dev --scope=server` чтобы запустить только server
+4. Выполните команду `yarn dev --scope=client` чтобы запустить только клиент
+5. Выполните команду `yarn dev --scope=server` чтобы запустить только server
 
+### Видео с презентацией игры
+
+https://disk.yandex.ru/i/mxbXGx9n9Uy7EQ
 
 ### Как добавить зависимости?
+
 В этом проекте используется `monorepo` на основе [`lerna`](https://github.com/lerna/lerna)
 
-Чтобы добавить зависимость для клиента 
-```yarn lerna add {your_dep} --scope client```
+Чтобы добавить зависимость для клиента
+`yarn lerna add {your_dep} --scope client`
 
 Для сервера
-```yarn lerna add {your_dep} --scope server```
+`yarn lerna add {your_dep} --scope server`
 
 И для клиента и для сервера
-```yarn lerna add {your_dep}```
-
+`yarn lerna add {your_dep}`
 
 Если вы хотите добавить dev зависимость, проделайте то же самое, но с флагом `dev`
-```yarn lerna add {your_dep} --dev --scope server```
-
+`yarn lerna add {your_dep} --dev --scope server`
 
 ### Тесты
 
 Для клиента используется [`react-testing-library`](https://testing-library.com/docs/react-testing-library/intro/)
 
-```yarn test```
+`yarn test`
 
 ### Линтинг
 
-```yarn lint```
+`yarn lint`
 
 ### Форматирование prettier
 
-```yarn format```
+`yarn format`
 
 ### Production build
 
-```yarn build```
+`yarn build`
 
 И чтобы посмотреть что получилось
-
 
 `yarn preview --scope client`
 `yarn preview --scope server`
 
 ## Хуки
+
 В проекте используется [lefthook](https://github.com/evilmartians/lefthook)
 Если очень-очень нужно пропустить проверки, используйте `--no-verify` (но не злоупотребляйте :)
 
@@ -57,6 +59,7 @@
 Откройте issue, я приду :)
 
 ## Автодеплой статики на vercel
+
 Зарегистрируйте аккаунт на [vercel](https://vercel.com/)
 Следуйте [инструкции](https://vitejs.dev/guide/static-deploy.html#vercel-for-git)
 В качестве `root directory` укажите `packages/client`
@@ -64,10 +67,11 @@
 Все ваши PR будут автоматически деплоиться на vercel. URL вам предоставит деплоящий бот
 
 ## Production окружение в докере
+
 Перед первым запуском выполните `node init.js`
 
-
 `docker compose up` - запустит три сервиса
+
 1. nginx, раздающий клиентскую статику (client)
 2. node, ваш сервер (server)
 3. postgres, вашу базу данных (postgres)
@@ -76,13 +80,16 @@
 `docker compose up {sevice_name}`, например `docker compose up server`
 
 ## Запуск сервис воркера
+
 1. Сделать сборку проекта
-    - войти в директорию /packages/client и выполнить команду `yarn build`
-    - при ошибках во время сборки удалить старую сборку (папку dist в каталоге /packages/client) и повторить сборку
+
+   - войти в директорию /packages/client и выполнить команду `yarn build`
+   - при ошибках во время сборки удалить старую сборку (папку dist в каталоге /packages/client) и повторить сборку
 
 2. Запустить проект из сборки:
-    - выполнить команду `yarn preview` (из директорию /packages/client)
+
+   - выполнить команду `yarn preview` (из директорию /packages/client)
 
 3. Проверка работы сервис воркера:
-    - оставновить проект (Ctrl C в консоли)
-    - перезапустить страницу в браузере, приложение должно продолжить работу офлайн
+   - оставновить проект (Ctrl C в консоли)
+   - перезапустить страницу в браузере, приложение должно продолжить работу офлайн
