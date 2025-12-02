@@ -1,22 +1,29 @@
 import { RoutePath } from '@shared/config/routing'
-import { ResponseType } from '@shared/lib'
 import { useState } from 'react'
+import { getUser } from '../lib/getUser'
 import { UseFormSetError } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { changeAvatar } from '../lib/changeAvatar'
 import { changePassword } from '../lib/changePassword'
-import { getUser } from '../lib/getUser'
 import { Schema } from '../model/types'
-import { User } from './types'
+import { ResponseType } from '@shared/lib'
+import { selectUser, setUser, useDispatch, useSelector } from '@entities/user'
 
 export const useProfile = (setError: UseFormSetError<Schema>) => {
-  const [user, setUser] = useState<User | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
+  const user = useSelector(selectUser)
+  const dispatch = useDispatch()
+
   const loadUser = async () => {
+    if (user) {
+      setIsLoading(false)
+      return
+    }
+
     const response = await getUser()
     if (response.type === ResponseType.Success) {
-      setUser(response.data)
+      dispatch(setUser(response.data))
     } else {
       navigate(RoutePath.Error404)
     }
@@ -36,7 +43,7 @@ export const useProfile = (setError: UseFormSetError<Schema>) => {
   const updateAvatar = async (file: File) => {
     const response = await changeAvatar(file)
     if (response.type === ResponseType.Success) {
-      setUser(response.data)
+      dispatch(setUser(response.data))
     }
   }
 
