@@ -1,4 +1,4 @@
-import { Button, Text } from '@gravity-ui/uikit'
+import { Alert, Button, Text } from '@gravity-ui/uikit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RoutePath, usePage } from '@shared/config/routing'
 import Layout from '@shared/ui/Layout'
@@ -10,6 +10,8 @@ import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
 import s from './LoginPage.module.scss'
 import { LoginPageInputs } from './LoginPageInputs'
+import { login } from '../lib/login'
+import { ResponseType } from '@shared/lib'
 
 export const LoginPage = () => {
   usePage({})
@@ -20,6 +22,7 @@ export const LoginPage = () => {
   const { handleSubmit } = methods
   const [initiatedPage, setInitiatedPage] = useState(false)
   const navigate = useNavigate()
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     setInitiatedPage(true)
@@ -29,8 +32,14 @@ export const LoginPage = () => {
     return null
   }
 
-  const onSubmit = (data: Schema) => {
-    console.log(data)
+  const onSubmit = async (data: Schema) => {
+    setError(null)
+    const response = await login(data)
+    if (response.type === ResponseType.Success) {
+      navigate(RoutePath.Main)
+    } else {
+      setError(response.message || 'Ошибка авторизации')
+    }
   }
 
   const handleButtonRegisterClick = () => {
@@ -52,6 +61,7 @@ export const LoginPage = () => {
             Регистрация
           </Button>
         </form>
+        {error && <Alert theme="danger" message={error} />}
       </FormProvider>
     </Layout>
   )

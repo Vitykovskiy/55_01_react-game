@@ -13,27 +13,33 @@ import {
   RegisterPage,
   TopicPage,
 } from '../../pages'
+import { PrivateRoute } from '@shared/ui/PrivateRoute'
 
-export const routes: RouteObject[] = [
+const routeConfig = [
+  { path: RoutePath.Main, element: MainPage, isPublic: false },
+  { path: RoutePath.Login, element: LoginPage, isPublic: true },
+  { path: RoutePath.Register, element: RegisterPage, isPublic: true },
+  { path: RoutePath.Profile, element: ProfilePage, isPublic: false },
+  { path: RoutePath.Game, element: GamePage, isPublic: false },
+  { path: RoutePath.Leaderboard, element: LeaderboardPage, isPublic: false },
+  { path: RoutePath.Forum, element: ForumPage, isPublic: false },
   {
-    path: RoutePath.Main,
-    Component: MainPage,
-    //TODO добавить fetchData функцию для SSR
-    //  fetchData: () => {}
+    path: RoutePath.ForumCreateTopic,
+    element: CreateTopicPage,
+    isPublic: false,
   },
-  { path: RoutePath.Login, Component: LoginPage },
-  { path: RoutePath.Register, Component: RegisterPage },
-  { path: RoutePath.Profile, Component: ProfilePage },
-  { path: RoutePath.Game, Component: GamePage },
-  {
-    path: RoutePath.Leaderboard,
-    Component: LeaderboardPage,
-  },
-  { path: RoutePath.Forum, Component: ForumPage },
-  { path: RoutePath.ForumCreateTopic, Component: CreateTopicPage },
-  { path: RoutePath.ForumTopic, Component: TopicPage },
-  { path: '*', Component: ErrorPage },
-].map(routeData => ({
-  ...routeData,
+  { path: RoutePath.ForumTopic, element: TopicPage, isPublic: false },
+  { path: '*', element: ErrorPage, isPublic: true },
+] as const
+
+export const routes: RouteObject[] = routeConfig.map(route => ({
+  path: route.path,
+  element: route.isPublic ? (
+    <route.element />
+  ) : (
+    <PrivateRoute>
+      <route.element />
+    </PrivateRoute>
+  ),
   errorElement: <ErrorPage code={ErrorCode.ServerError} />,
 }))
