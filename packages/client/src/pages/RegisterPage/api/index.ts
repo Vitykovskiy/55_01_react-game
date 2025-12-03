@@ -1,13 +1,8 @@
 import { UserDto } from '@entities/user'
 import { Api } from '@shared/lib'
 
-export type RegisterUserDto = Omit<
-  UserDto,
-  'avatar' | 'second_name' | 'phone'
-> & {
+export type RegisterUserDto = Omit<UserDto, 'avatar'> & {
   password: string
-  second_name?: string
-  phone?: string
 }
 
 export type RegisterResponse = {

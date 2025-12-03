@@ -1,5 +1,5 @@
-import * as z from 'zod'
 import {
+  errorMessages,
   LOGIN_MAX,
   LOGIN_MIN,
   LOGIN_REGEX,
@@ -10,7 +10,7 @@ import {
   PASSWORD_REGEX,
   PHONE_REGEX,
 } from '@shared/lib/validation'
-import { errorMessages } from '@shared/lib/validation'
+import * as z from 'zod'
 
 export const schema = z.object({
   firstName: z
@@ -18,10 +18,9 @@ export const schema = z.object({
     .max(NAME_MAX, errorMessages.firstName.max)
     .regex(NAME_REGEX, errorMessages.firstName.invalid),
   lastName: z
-    .string()
+    .string(errorMessages.lastName.required)
     .max(NAME_MAX, errorMessages.lastName.max)
-    .regex(NAME_REGEX, errorMessages.lastName.invalid)
-    .optional(),
+    .regex(NAME_REGEX, errorMessages.lastName.invalid),
   email: z.email(errorMessages.email.invalid),
   login: z
     .string(errorMessages.login.required)
@@ -35,6 +34,5 @@ export const schema = z.object({
     .regex(PASSWORD_REGEX, errorMessages.password.invalid),
   phone: z
     .string(errorMessages.phone.invalid)
-    .regex(PHONE_REGEX, errorMessages.phone.invalid)
-    .optional(),
+    .regex(PHONE_REGEX, errorMessages.phone.invalid),
 })

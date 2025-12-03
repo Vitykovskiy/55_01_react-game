@@ -8,7 +8,7 @@ const mapUserToDto = (user: RegisterUser): RegisterUserDto => ({
   login: user.login,
   email: user.email,
   phone: user.phone,
-  password: user.password,
+  password: user.password || '',
 })
 
 export const registerUser = async (user: RegisterUser) => {

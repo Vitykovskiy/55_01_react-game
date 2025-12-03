@@ -1,19 +1,15 @@
 import { Button, Text } from '@gravity-ui/uikit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RoutePath, usePage } from '@shared/config/routing'
-import { ResponseType } from '@shared/lib'
 import Layout from '@shared/ui/Layout'
-import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { registerUser } from '../lib/register'
 import { REGISTER_PAGE_TITLE } from '../model/consts'
 import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
 import s from './RegisterPage.module.scss'
 import { RegisterPageInputs } from './RegisterPageInputs'
-
-const ERROR_TEXT = 'Произошла ошибка регистрации'
+import { useRegister } from './useRegister'
 
 export const RegisterPage = () => {
   usePage({})
@@ -24,18 +20,7 @@ export const RegisterPage = () => {
   const { handleSubmit } = methods
 
   const navigate = useNavigate()
-  const [error, setError] = useState<string | undefined>(undefined)
-
-  const onSubmit = async (data: Schema) => {
-    const result = await registerUser(data)
-
-    if (result.type === ResponseType.Success) {
-      navigate(RoutePath.Main)
-      return
-    }
-
-    setError(ERROR_TEXT)
-  }
+  const { loading, onSubmit, error } = useRegister()
 
   const handleButtonAuthClick = () => {
     navigate(RoutePath.Login)
@@ -51,7 +36,7 @@ export const RegisterPage = () => {
           <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
             <RegisterPageInputs />
             {Boolean(error) && <Text>{error}</Text>}
-            <Button type={'submit'} view="action">
+            <Button type={'submit'} view="action" loading={loading}>
               Отправить
             </Button>
             <Button type={'button'} onClick={handleButtonAuthClick}>
