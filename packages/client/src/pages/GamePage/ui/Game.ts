@@ -3,28 +3,28 @@ import { ViewModel } from '../lib/ViewModel'
 import background from '/sprites/background-with-wall.png'
 
 export class Game {
-  private ctx: CanvasRenderingContext2D
-  private viewModel: ViewModel
-  private background = new Image()
+  private readonly context: CanvasRenderingContext2D
+  private readonly background = new Image()
+  private readonly viewModel: ViewModel
 
   private running = false
   private lastTime = 0
   private dpr = window.devicePixelRatio
 
-  constructor(private canvas: HTMLCanvasElement) {
-    const ctx = canvas.getContext('2d')
+  constructor(private readonly canvas: HTMLCanvasElement) {
+    const context = canvas.getContext('2d')
 
-    if (!ctx) {
-      throw new Error('Ctx is required')
+    if (!context) {
+      throw new Error('CanvasRenderingContext2D is required')
     }
 
-    this.ctx = ctx
-    this.viewModel = new ViewModel(canvas, assetsManager)
-
+    this.context = context
     this.background.src = background
 
     window.addEventListener('resize', this._resize)
     this._resize()
+
+    this.viewModel = new ViewModel(canvas, assetsManager)
 
     this.viewModel.on('end', () => {
       this.stop()
@@ -74,11 +74,11 @@ export class Game {
     this.canvas.width = w * this.dpr
     this.canvas.height = h * this.dpr
 
-    this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0)
+    this.context.setTransform(this.dpr, 0, 0, this.dpr, 0, 0)
   }
 
   private _render() {
-    const ctx = this.ctx
+    const ctx = this.context
     const w = this.canvas.width / this.dpr
     const h = this.canvas.height / this.dpr
 

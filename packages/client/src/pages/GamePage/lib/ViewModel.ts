@@ -1,26 +1,26 @@
 import { words } from '../models/consts'
 import { EventBus } from '../models/EventBus'
 import { MainHero } from '../models/MainHero'
-import { Sceleton } from '../models/Sceleton'
+import { Skeleton } from '../models/Skeleton'
 import { Unit } from '../models/types'
 import { BaseUnitView } from './view/BaseUnitView'
 import { MainHeroView } from './view/MainHeroView'
-import { SceletonView } from './view/SceletonView'
+import { SkeletonView } from './view/SkeletonView'
 import { BaseProjectileView } from './view/BaseProjectileView'
 import { ArrowProjectileView } from './view/ArrowProjectileView'
 import { AssetsManager } from './AssetsManager/AnimationsManager'
 
 export type EventType = 'start' | 'end'
 
-const MIN_UNITS_TO_ADD_NEW_ENEMIES = 1
+const MIN_UNITS_TO_ADD_NEW_ENEMIES = 0
 const NUMBER_ADDED_ENEMIES = 3
 
 export class ViewModel extends EventBus<EventType> {
-  private _units: { model: Unit; view: BaseUnitView }[] = []
+  private _enemies: { model: Unit; view: BaseUnitView }[] = []
   private _projectiles: BaseProjectileView[] = []
   private _hero: { model: MainHero; view: MainHeroView }
   private _currentScore = 0
-  private _enemy?: Unit
+  private _focusedEnemy: Unit | null = null
   private _usedWords: string[] = []
   private _currentWords: string[] = []
 
@@ -30,24 +30,23 @@ export class ViewModel extends EventBus<EventType> {
   ) {
     super()
     const { width, height } = canvas
+
     this._hero = {
       model: new MainHero(0, 0),
       view: new MainHeroView(this._assetsManager),
     }
+
     this._hero.model.setPosition({
       x: width / 2 - this._hero.model.getSize().width / 2,
       y: height - 200,
     })
+
     this._addInitialUnits()
   }
 
   public update(delta: number) {
-    for (const { model } of this._units) {
+    for (const { model } of this._enemies) {
       model.update(delta)
-
-      if (model == this._hero.model) {
-        continue
-      }
 
       const { y } = model.getPosition()
 
@@ -62,6 +61,8 @@ export class ViewModel extends EventBus<EventType> {
     for (const projectile of this._projectiles) {
       projectile.update(delta)
     }
+
+    this._hero.model.update(delta)
   }
 
   private _generateUnitsBatch = (count: number) => {
@@ -69,13 +70,13 @@ export class ViewModel extends EventBus<EventType> {
     const stepX = 60
 
     for (let i = 0; i < count; i++) {
-      const sceletonName = this._getRandomWord(
+      const skeletonName = this._getRandomWord(
         words,
         this._usedWords,
         this._currentWords
       )
 
-      if (!sceletonName) {
+      if (!skeletonName) {
         //TODO обрабатывать случаи, когда слова закончилисью. Можно генерировать рандомные или заканчивать уровень
         break
       }
@@ -83,11 +84,11 @@ export class ViewModel extends EventBus<EventType> {
       const x = startX + i * stepX + Math.random() * 90 - 10 // смещение по X
       const y = Math.random() * 40 - 40 // случайное смещение по Y ±20
 
-      const sceleton = new Sceleton(x, y, sceletonName)
-      const skeletonView = new SceletonView(this._assetsManager)
+      const skeleton = new Skeleton(x, y, skeletonName)
+      const skeletonView = new SkeletonView(this._assetsManager)
 
-      this._units.push({ model: sceleton, view: skeletonView })
-      this._currentWords.push(sceletonName)
+      this._enemies.push({ model: skeleton, view: skeletonView })
+      this._currentWords.push(skeletonName)
     }
   }
 
@@ -100,25 +101,26 @@ export class ViewModel extends EventBus<EventType> {
   renderUnits(ctx: CanvasRenderingContext2D) {
     this._sortUnitsByYCoordinate()
 
-    for (const { model, view } of this._units) {
+    for (const { model, view } of this._enemies) {
       view.render(ctx, model)
     }
 
     for (const projectile of this._projectiles) {
       projectile.render(ctx)
     }
+
+    this._hero.view.render(ctx, this._hero.model)
   }
 
   private _addInitialUnits(): void {
-    this._units.push({ model: this._hero.model, view: this._hero.view })
     this._generateUnitsBatch(3)
   }
 
   private _trySetEnemy = (key: string) => {
     //TODO Убрать, когда появится вывод на канвас выделенного врага
-    console.log(this._enemy)
-    if (!this._enemy) {
-      const foundEnemy = this._units.find(
+    console.log(this._focusedEnemy)
+    if (!this._focusedEnemy) {
+      const foundEnemy = this._enemies.find(
         unit => unit.model.getName()[0] === key
       )
 
@@ -127,19 +129,21 @@ export class ViewModel extends EventBus<EventType> {
         return
       }
 
-      this._enemy = foundEnemy.model
+      this._focusedEnemy = foundEnemy.model
     }
   }
 
   private _tryKillEnemy = async () => {
-    if (!this._enemy || !this._enemy.isDead()) {
+    if (!this._focusedEnemy || !this._focusedEnemy.isDead()) {
       return
     }
 
     this._updateScore(1)
 
-    const enemy = this._enemy
-    const viewModel = this._units.find(({ model }) => model === enemy)?.view
+    const enemy = this._focusedEnemy
+    this._focusedEnemy = null
+
+    const viewModel = this._enemies.find(({ model }) => model === enemy)?.view
 
     if (!viewModel) {
       return
@@ -156,7 +160,6 @@ export class ViewModel extends EventBus<EventType> {
     await arrow.start()
     enemy.stop()
 
-    delete this._enemy
     await viewModel.showDeath()
 
     this._removeProjectile(arrow)
@@ -187,7 +190,7 @@ export class ViewModel extends EventBus<EventType> {
   }
 
   private _tryAddEnemies() {
-    if (this._units.length !== MIN_UNITS_TO_ADD_NEW_ENEMIES) {
+    if (this._enemies.length !== MIN_UNITS_TO_ADD_NEW_ENEMIES) {
       return
     }
 
@@ -203,11 +206,11 @@ export class ViewModel extends EventBus<EventType> {
   }
 
   private _tryHitEnemy = (key: string) => {
-    if (!this._enemy) {
+    if (!this._focusedEnemy) {
       return
     }
 
-    const enemyUnit = this._enemy
+    const enemyUnit = this._focusedEnemy
     const unitName = enemyUnit.getName()
     const unitHp = enemyUnit.getHp()
 
@@ -218,7 +221,7 @@ export class ViewModel extends EventBus<EventType> {
       return
     }
 
-    this._enemy.applyDamage(1)
+    this._focusedEnemy.applyDamage(1)
   }
 
   private _getRandomWord = (
@@ -258,13 +261,13 @@ export class ViewModel extends EventBus<EventType> {
   }
 
   private _removeEnemy(value: Unit): void {
-    this._units = this._units.filter(unit => unit.model !== value)
+    this._enemies = this._enemies.filter(unit => unit.model !== value)
   }
 
   // Кто позднее отрендерился, тот и сверху
   // Сортируем по Y координате для корректного наложения
   private _sortUnitsByYCoordinate(): void {
-    this._units.sort(
+    this._enemies.sort(
       (a, b) => a.model.getPosition().y - b.model.getPosition().y
     )
   }

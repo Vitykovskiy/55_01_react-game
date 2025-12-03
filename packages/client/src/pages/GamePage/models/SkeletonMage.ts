@@ -1,7 +1,7 @@
 import { BaseUnit, EnemyMovement } from './BaseUnit'
 import { DEFAULT_SIZE_UNIT } from './consts'
 
-export class SceletonMage extends BaseUnit {
+export class SkeletonMage extends BaseUnit {
   override movement = new EnemyMovement()
 
   constructor(x: number, y: number, name: string) {

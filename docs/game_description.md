@@ -99,8 +99,8 @@
 | Бэкграунд                                     | ![background_wall](game_description/background_wall.png)                   |
 | Бэкграунд при активной виртуальной клавиатуре | ![background_wall_keyboard](game_description/background_wall_keyboard.png) |
 | Пример персонажа игрока                       | ![main_character_asset](game_description/main_character_asset.png)         |
-| Пример противника ближнего боя                | ![sceleton](game_description/sceleton.png)                                 |
-| Пример противника дальнего боя                | ![sceleton_mage](game_description/sceleton_mage.png)                       |
+| Пример противника ближнего боя                | ![skeleton](game_description/skeleton.png)                                 |
+| Пример противника дальнего боя                | ![skeleton_mage](game_description/skeleton_mage.png)                       |
 | Пример шкалы здоровья                         | ![health_bar](game_description/health_bar.png)                             |
 | Пример виртуальной клавиатуры                 | ![keyboard_example](game_description/keyboard_example.png)                 |
 

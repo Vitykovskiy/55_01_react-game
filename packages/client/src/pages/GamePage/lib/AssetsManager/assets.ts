@@ -13,16 +13,16 @@ const SPRITE_SHEETS = import.meta.glob('@assets/**/*.png', {
 }) as Record<string, string>
 
 const MAIN_HERO_ALLOWED_ANGLES = [315, 337, 0, 22, 45]
-const SCELETON_ALLOWED_ANGLES = [135, 157, 180, 202, 225]
+const SKELETON_ALLOWED_ANGLES = [135, 157, 180, 202, 225]
 const ORC_ALLOWED_ANGLES = [135, 157, 180, 202, 225]
 
-const SCELETON_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
+const SKELETON_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
   [
     UnitStates.Walk,
     {
       src: 'Walk',
       parts: ['Body'],
-      angles: SCELETON_ALLOWED_ANGLES,
+      angles: SKELETON_ALLOWED_ANGLES,
       columns: 4,
       rows: 2,
       scale: 2,
@@ -33,7 +33,7 @@ const SCELETON_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
     {
       src: 'Attack_01',
       parts: ['Body'],
-      angles: SCELETON_ALLOWED_ANGLES,
+      angles: SKELETON_ALLOWED_ANGLES,
       columns: 4,
       rows: 3,
       scale: 2,
@@ -44,7 +44,7 @@ const SCELETON_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
     {
       src: 'Death_from_Block',
       parts: ['Body'],
-      angles: SCELETON_ALLOWED_ANGLES,
+      angles: SKELETON_ALLOWED_ANGLES,
       columns: 4,
       rows: 4,
       scale: 2,
@@ -55,7 +55,7 @@ const SCELETON_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
     {
       src: 'Hit',
       parts: ['Body'],
-      angles: SCELETON_ALLOWED_ANGLES,
+      angles: SKELETON_ALLOWED_ANGLES,
       columns: 3,
       rows: 2,
       scale: 2,
@@ -66,7 +66,7 @@ const SCELETON_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
     {
       src: 'Idle_Simple',
       parts: ['Body'],
-      angles: SCELETON_ALLOWED_ANGLES,
+      angles: SKELETON_ALLOWED_ANGLES,
       columns: 4,
       rows: 3,
       scale: 2,
@@ -263,7 +263,7 @@ export const initAssets = async () => {
   initPromise = assetsManager.init(
     new Map([
       [UnitsTypes.MainHero, MAIN_HERO_ANIMATIONS_MAP],
-      [UnitsTypes.Sceleton, SCELETON_ANIMATIONS_MAP],
+      [UnitsTypes.Skeleton, SKELETON_ANIMATIONS_MAP],
       [UnitsTypes.Orc, ORC_ANIMATIONS_MAP],
     ]),
     new Map([[ProjectilesTypes.BowArrow, 'bow_arrow']])

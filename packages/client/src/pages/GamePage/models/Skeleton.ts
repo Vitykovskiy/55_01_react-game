@@ -1,8 +1,8 @@
 import { BaseUnit, EnemyMovement } from './BaseUnit'
 
-const SCELETON_SIZE_PX = 120
+const SKELETON_SIZE_PX = 120
 
-export class Sceleton extends BaseUnit {
+export class Skeleton extends BaseUnit {
   override movement = new EnemyMovement()
 
   constructor(x: number, y: number, name: string) {
@@ -10,7 +10,7 @@ export class Sceleton extends BaseUnit {
       name: name,
       position: { x, y },
       damage: 1,
-      size: { width: SCELETON_SIZE_PX, height: SCELETON_SIZE_PX },
+      size: { width: SKELETON_SIZE_PX, height: SKELETON_SIZE_PX },
     })
   }
 }
