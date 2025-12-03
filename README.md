@@ -10,6 +10,15 @@
 
 https://disk.yandex.ru/i/mxbXGx9n9Uy7EQ
 
+### Ассеты
+
+Игровые ассеты хранятся в сабрепозитории [`55_01_react-game_assets`](https://github.com/Vitykovskiy/55_01_react-game_assets).  
+Ассеты загружаются автоматически при инициализации проекта.  
+Для ручной загрузки актуальных для текущей сборки ассетов используются команды:
+
+- Для запуска из корня проекта `yarn workspace client assets:update`
+- Для запуска из папки клиента `yarn assets:update`
+
 ### Как добавить зависимости?
 
 В этом проекте используется `monorepo` на основе [`lerna`](https://github.com/lerna/lerna)
