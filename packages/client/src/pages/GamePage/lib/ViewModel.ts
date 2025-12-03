@@ -29,8 +29,7 @@ export class ViewModel extends EventBus<EventType> {
     private _assetsManager: AssetsManager
   ) {
     super()
-    const { width, height } = canvas
-
+    const { width, height } = canvas.getBoundingClientRect()
     this._hero = {
       model: new MainHero(0, 0),
       view: new MainHeroView(this._assetsManager),
