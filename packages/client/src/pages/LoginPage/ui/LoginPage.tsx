@@ -5,7 +5,7 @@ import Layout from '@shared/ui/Layout'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { LOGIN_PAGE_TITLE } from '../model/consts'
+import { DEFAULT_AUTH_ERROR, LOGIN_PAGE_TITLE } from '../model/consts'
 import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
 import s from './LoginPage.module.scss'
@@ -38,7 +38,7 @@ export const LoginPage = () => {
     if (response.type === ResponseType.Success) {
       navigate(RoutePath.Main)
     } else {
-      setError(response.message || 'Ошибка авторизации')
+      setError(response.message || DEFAULT_AUTH_ERROR)
     }
   }
 
