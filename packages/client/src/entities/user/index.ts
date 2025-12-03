@@ -1,11 +1,11 @@
-export type { User } from './model/types'
+export type { User, UserDto } from './model/types'
 export {
-  userSlice,
   selectUser,
   setUser,
-  userStore,
   useDispatch,
-  type UserRootState,
-  type UserAppDispatch,
+  userSlice,
+  userStore,
   useSelector,
+  type UserAppDispatch,
+  type UserRootState,
 } from './model/userStore'
