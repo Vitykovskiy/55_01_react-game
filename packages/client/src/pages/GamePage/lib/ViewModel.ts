@@ -12,7 +12,7 @@ import { AssetsManager } from './AssetsManager/AnimationsManager'
 
 export type EventType = 'start' | 'end'
 
-const MIN_UNITS_TO_ADD_NEW_ENEMIES = 1
+const MIN_UNITS_TO_ADD_NEW_ENEMIES = 0
 const NUMBER_ADDED_ENEMIES = 3
 
 export class ViewModel extends EventBus<EventType> {
@@ -30,24 +30,23 @@ export class ViewModel extends EventBus<EventType> {
   ) {
     super()
     const { width, height } = canvas
+
     this._hero = {
       model: new MainHero(0, 0),
       view: new MainHeroView(this._assetsManager),
     }
+
     this._hero.model.setPosition({
       x: width / 2 - this._hero.model.getSize().width / 2,
       y: height - 200,
     })
+
     this._addInitialUnits()
   }
 
   public update(delta: number) {
     for (const { model } of this._units) {
       model.update(delta)
-
-      if (model == this._hero.model) {
-        continue
-      }
 
       const { y } = model.getPosition()
 
@@ -62,6 +61,8 @@ export class ViewModel extends EventBus<EventType> {
     for (const projectile of this._projectiles) {
       projectile.update(delta)
     }
+
+    this._hero.model.update(delta)
   }
 
   private _generateUnitsBatch = (count: number) => {
@@ -107,10 +108,11 @@ export class ViewModel extends EventBus<EventType> {
     for (const projectile of this._projectiles) {
       projectile.render(ctx)
     }
+
+    this._hero.view.render(ctx, this._hero.model)
   }
 
   private _addInitialUnits(): void {
-    this._units.push({ model: this._hero.model, view: this._hero.view })
     this._generateUnitsBatch(3)
   }
 

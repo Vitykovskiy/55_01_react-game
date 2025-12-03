@@ -2,11 +2,11 @@ import { FramesModes, SpriteAnimationProps } from './types'
 import { loadImage } from './utils'
 
 export class SpriteAnimation {
-  private _sheetUrl: string
-  private _columns: number
-  private _rows: number
-  private _scale: number
-  private _mode: FramesModes
+  private readonly _sheetUrl: string
+  private readonly _columns: number
+  private readonly _rows: number
+  private readonly _scale: number
+  private readonly _mode: FramesModes
   private _frames: ImageBitmap[] = []
   private _spriteSheets: Record<string, string>
 

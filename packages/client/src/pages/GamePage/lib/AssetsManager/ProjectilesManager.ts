@@ -19,10 +19,10 @@ export class ProjectilesManger {
   }
 
   public async init(projectilesParamsMap: ProjectilesParamsMap): Promise<void> {
-    Array.from(projectilesParamsMap).map(async ([name, file]) => {
+    for await (const [name, file] of projectilesParamsMap) {
       const image = await this._createImage(name, file)
       this._projectilesMap.set(name, image)
-    })
+    }
   }
 
   private async _createImage(name: string, file: string): Promise<ImageBitmap> {
@@ -31,7 +31,7 @@ export class ProjectilesManger {
     )
 
     if (!entry) {
-      throw new Error(`Изображение "${name}.png" не найдено`)
+      throw new Error(`Изображение "${name}.png" отсутствует общем массиве`)
     }
 
     const [, url] = entry
