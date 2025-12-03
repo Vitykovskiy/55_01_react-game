@@ -36,7 +36,7 @@ export class ViewModel extends EventBus<EventType> {
     }
 
     this._hero.model.setPosition({
-      x: width / 2 -  this._hero.model.getSize().width / 2,
+      x: width / 2 - this._hero.model.getSize().width / 2,
       y: height - 200,
     })
 
