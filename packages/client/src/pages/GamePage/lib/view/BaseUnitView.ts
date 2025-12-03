@@ -94,13 +94,14 @@ export abstract class BaseUnitView {
   }
 
   protected startAnimationLoop(): void {
+    this.stopAnimation()
     const startTime = performance.now()
 
     const updateAnimation = () => {
       const step = performance.now() - startTime
 
       this._animationProgress = (step / this._viewState.duration) * 100
-      requestAnimationFrame(updateAnimation)
+      this._animator = requestAnimationFrame(updateAnimation)
     }
 
     this._animator = requestAnimationFrame(updateAnimation)
@@ -115,6 +116,7 @@ export abstract class BaseUnitView {
 
   protected showAnimationOnce(): Promise<void> {
     this.stopAnimation()
+    this._animationProgress = 0
 
     return new Promise(resolve => {
       const startTime = performance.now()

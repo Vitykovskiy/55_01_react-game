@@ -65,9 +65,9 @@ export class UnitAnimationsManager {
   public getFrame(
     state: UnitStates | MainHeroStates,
     angle: Angle,
-    frameIndex: number
+    animationProgress: number
   ): ImageBitmap {
-    const frame = this._map.get(state)?.get(angle)?.getFrame(frameIndex)
+    const frame = this._map.get(state)?.get(angle)?.getFrame(animationProgress)
 
     if (!frame) {
       throw new Error('Кадр не найден')
