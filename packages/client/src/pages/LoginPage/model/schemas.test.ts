@@ -1,5 +1,4 @@
-import { PASSWORD_MAX } from '@shared/lib/validation'
-import { errorMessages } from '@shared/lib/validation'
+import { PASSWORD_MAX, errorMessages } from '@shared/lib/validation'
 import { schema } from './schemas'
 
 const validData = {
