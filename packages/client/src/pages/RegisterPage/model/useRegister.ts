@@ -3,7 +3,7 @@ import { ResponseType } from '@shared/lib'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { registerUser } from '../lib/registerUser'
-import { Schema } from '../model/types'
+import { Schema } from './types'
 
 const ERROR_TEXT = 'Произошла ошибка регистрации'
 

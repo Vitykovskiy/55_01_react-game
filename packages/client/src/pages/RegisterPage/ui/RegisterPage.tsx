@@ -7,9 +7,9 @@ import { useNavigate } from 'react-router-dom'
 import { REGISTER_PAGE_TITLE } from '../model/consts'
 import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
+import { useRegister } from '../model/useRegister'
 import s from './RegisterPage.module.scss'
 import { RegisterPageInputs } from './RegisterPageInputs'
-import { useRegister } from './useRegister'
 
 export const RegisterPage = () => {
   usePage({})
