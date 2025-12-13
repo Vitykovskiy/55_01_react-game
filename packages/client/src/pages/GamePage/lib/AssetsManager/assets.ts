@@ -1,11 +1,7 @@
 ﻿import { AssetsManager } from './AnimationsManager'
 import { FramesModes, StateAnimationParamsMap } from './types'
-import {
-  MainHeroStates,
-  ProjectilesTypes,
-  UnitStates,
-  UnitsTypes,
-} from '../../lib/view/types'
+import { ProjectilesViewTypes, UnitsViewTypes } from '../../lib/view/types'
+import { MobStates, MainHeroStates } from '../../models/units/base/types'
 
 const SPRITE_SHEETS = import.meta.glob('@assets/**/*.png', {
   eager: true,
@@ -18,7 +14,7 @@ const ORC_ALLOWED_ANGLES = [135, 157, 180, 202, 225]
 
 const SKELETON_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
   [
-    UnitStates.Walk,
+    MobStates.Walk,
     {
       src: 'Walk',
       parts: ['Body'],
@@ -29,7 +25,7 @@ const SKELETON_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
     },
   ],
   [
-    UnitStates.Attack,
+    MobStates.Attack,
     {
       src: 'Attack_01',
       parts: ['Body'],
@@ -40,7 +36,7 @@ const SKELETON_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
     },
   ],
   [
-    UnitStates.Death,
+    MobStates.Death,
     {
       src: 'Death_from_Block',
       parts: ['Body'],
@@ -51,7 +47,7 @@ const SKELETON_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
     },
   ],
   [
-    UnitStates.Hit,
+    MobStates.Hit,
     {
       src: 'Hit',
       parts: ['Body'],
@@ -62,7 +58,7 @@ const SKELETON_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
     },
   ],
   [
-    UnitStates.Idle,
+    MobStates.Idle,
     {
       src: 'Idle_Simple',
       parts: ['Body'],
@@ -189,7 +185,7 @@ const MAIN_HERO_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
 
 const ORC_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
   [
-    UnitStates.Walk,
+    MobStates.Walk,
     {
       src: 'orc/Walk_Armed',
       parts: ['Body'],
@@ -201,7 +197,7 @@ const ORC_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
     },
   ],
   [
-    UnitStates.Attack,
+    MobStates.Attack,
     {
       src: 'orc/Attack_01',
       parts: ['Body'],
@@ -213,7 +209,7 @@ const ORC_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
     },
   ],
   [
-    UnitStates.Death,
+    MobStates.Death,
     {
       src: 'orc/Death_Armed',
       parts: ['Body'],
@@ -225,7 +221,7 @@ const ORC_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
     },
   ],
   [
-    UnitStates.Hit,
+    MobStates.Hit,
     {
       src: 'orc/Hit_Armed',
       parts: ['Body'],
@@ -237,7 +233,7 @@ const ORC_ANIMATIONS_MAP: StateAnimationParamsMap = new Map([
     },
   ],
   [
-    UnitStates.Idle,
+    MobStates.Idle,
     {
       src: 'orc/Idle_Armed',
       parts: ['Body'],
@@ -262,11 +258,11 @@ export const initAssets = async () => {
 
   initPromise = assetsManager.init(
     new Map([
-      [UnitsTypes.MainHero, MAIN_HERO_ANIMATIONS_MAP],
-      [UnitsTypes.Skeleton, SKELETON_ANIMATIONS_MAP],
-      [UnitsTypes.Orc, ORC_ANIMATIONS_MAP],
+      [UnitsViewTypes.MainHero, MAIN_HERO_ANIMATIONS_MAP],
+      [UnitsViewTypes.Skeleton, SKELETON_ANIMATIONS_MAP],
+      [UnitsViewTypes.Orc, ORC_ANIMATIONS_MAP],
     ]),
-    new Map([[ProjectilesTypes.BowArrow, 'bow_arrow']])
+    new Map([[ProjectilesViewTypes.BowArrow, 'bow_arrow']])
   )
 
   return initPromise

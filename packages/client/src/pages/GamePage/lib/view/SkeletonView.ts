@@ -1,25 +1,16 @@
-import { BaseUnitView } from './BaseUnitView'
-import { AssetsManager } from '../AssetsManager/AnimationsManager'
-import { UnitAnimationsManager } from '../AssetsManager/UnitAnimationsManager'
-import { UnitStates, UnitsTypes } from './types'
-
-const SKELETONE_WALK_DURATION_MS = 1200
-const SKELETONE_VIEW_ANGLE = 180
-
-const SKELETON_WALK_STATE = {
-  angle: SKELETONE_VIEW_ANGLE,
-  state: UnitStates.Walk,
-  duration: SKELETONE_WALK_DURATION_MS,
-}
+import { UnitsViewTypes } from './types'
+import { BaseUnitView } from './base/BaseUnitView'
+import { BaseUnit } from '@pages/GamePage/models/units/base/BaseUnit'
+import { assetsManager } from '../AssetsManager/assets'
 
 export class SkeletonView extends BaseUnitView {
-  protected _unitAnimationsManager: UnitAnimationsManager
-
-  constructor(animationManager: AssetsManager) {
-    super({ ...SKELETON_WALK_STATE })
-
-    this._unitAnimationsManager = animationManager.getUnitManager(
-      UnitsTypes.Orc
+  public static render(
+    context: CanvasRenderingContext2D,
+    unit: BaseUnit
+  ): void {
+    const unitAnimationsManager = assetsManager.getUnitManager(
+      UnitsViewTypes.Orc
     )
+    BaseUnitView._render(context, unit, unitAnimationsManager)
   }
 }

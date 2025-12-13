@@ -3,14 +3,23 @@ import { UnitAnimationParamsMap, ProjectilesParamsMap } from './types'
 import { UnitAnimationsManager } from './UnitAnimationsManager'
 
 export class AssetsManager {
-  private _unitManagers: Map<string, UnitAnimationsManager>
-  private _projectileMangers: ProjectilesManger
+  private _unitManagers!: Map<string, UnitAnimationsManager>
+  private _projectileMangers!: ProjectilesManger
+  private _spriteSheets: Record<string, string>
 
   private _initPromise: Promise<void> | null = null
 
-  constructor(private _spriteSheets: Record<string, string>) {
+  constructor(spriteSheets: Record<string, string>) {
+    this._spriteSheets = spriteSheets
     this._unitManagers = new Map<string, UnitAnimationsManager>()
-    this._projectileMangers = new ProjectilesManger(this._spriteSheets)
+    this._projectileMangers = new ProjectilesManger(this.spriteSheets)
+  }
+
+  public get spriteSheets() {
+    if (!this._spriteSheets) {
+      throw Error('Менеджер ассетов некорректно инициализирован')
+    }
+    return this._spriteSheets
   }
 
   public async init(
@@ -20,12 +29,13 @@ export class AssetsManager {
     if (this._initPromise) {
       return this._initPromise
     }
+
     // Паралелльная загрузка ассетов
     this._initPromise = (async () => {
       const params = Array.from(unitsParamsMap)
 
       const unitPromises = params.map(async ([name, statesParamsMap]) => {
-        const unitManager = new UnitAnimationsManager(this._spriteSheets)
+        const unitManager = new UnitAnimationsManager(this.spriteSheets)
         await unitManager.generateAnimationMap(statesParamsMap)
         this._unitManagers.set(name, unitManager)
       })

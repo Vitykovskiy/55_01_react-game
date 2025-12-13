@@ -10,3 +10,9 @@ export async function loadImage(src: string): Promise<HTMLImageElement> {
 
   return image
 }
+/**
+ * Конвертация угла в радианах в угол ассетов (смещение на Pi/2 + конвертация в градусы)
+ */
+export function convertAngleToAssetsAngle(angle: number): number {
+  return Math.floor(((angle + Math.PI / 2) / Math.PI) * 180) % 360
+}
