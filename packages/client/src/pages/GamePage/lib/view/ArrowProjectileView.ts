@@ -1,18 +1,26 @@
-import { BaseProjectileView } from './BaseProjectileView'
-import { ProjectilesTypes } from './types'
-import { AssetsManager } from '../AssetsManager/AnimationsManager'
-import { Position } from '../../models/types'
+import { assetsManager } from '../AssetsManager/assets'
+import { BaseProjectileView } from './base/BaseProjectileView'
+import { ProjectilesViewTypes } from './types'
+import { BaseProjectile } from '@pages/GamePage/models/units/base/BaseProjectile'
 
-const BOW_SPEED = 1400
 const ARROW_SIZE = { width: 20, height: 40 }
 
 export class ArrowProjectileView extends BaseProjectileView {
-  _speed = BOW_SPEED
-  _size = ARROW_SIZE
-  _image: ImageBitmap
+  private static _size = ARROW_SIZE
 
-  constructor(assetsManager: AssetsManager, from: Position, to: Position) {
-    super(from, to)
-    this._image = assetsManager.getProjectile(ProjectilesTypes.BowArrow)
+  public static render(
+    context: CanvasRenderingContext2D,
+    model: BaseProjectile
+  ): void {
+    const image: ImageBitmap = assetsManager.getProjectile(
+      ProjectilesViewTypes.BowArrow
+    )
+
+    ArrowProjectileView._render(
+      context,
+      model,
+      ArrowProjectileView._size,
+      image
+    )
   }
 }

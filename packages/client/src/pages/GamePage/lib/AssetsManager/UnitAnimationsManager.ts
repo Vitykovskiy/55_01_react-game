@@ -1,5 +1,5 @@
+import { MobStates, MainHeroStates } from '../../models/units/base/types'
 import { SpriteAnimation } from './SpriteAnimation'
-import { MainHeroStates, UnitStates } from '../view/types'
 import {
   UnitAnimations,
   InitialAnimationPropsMap,
@@ -12,7 +12,7 @@ const ANGLE_STR_LENGTH = 3
 
 export class UnitAnimationsManager {
   private _map: UnitAnimations = new Map<
-    UnitStates | MainHeroStates,
+    MobStates | MainHeroStates,
     StateAnimations
   >()
 
@@ -63,7 +63,7 @@ export class UnitAnimationsManager {
   }
 
   public getFrame(
-    state: UnitStates | MainHeroStates,
+    state: MobStates | MainHeroStates,
     angle: Angle,
     animationProgress: number
   ): ImageBitmap {

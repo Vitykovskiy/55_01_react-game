@@ -1,14 +1,14 @@
-import { Position } from '../../models/types'
+import { Position } from './types'
 
-export abstract class BaseProjectileView {
+export abstract class BaseProjectile {
   protected _angle: number
   private _position: Position
   private _target: Position
-  private _distance!: number
-  private _timer: ReturnType<typeof setTimeout> | null = null
+  private _distance: number
 
-  protected abstract _size: { width: number; height: number }
-  protected abstract _image: ImageBitmap | null
+  private _flyPromise: Promise<void> | null = null
+  private _flyPromiseResolver: (() => void) | null = null
+
   protected abstract _speed: number
 
   constructor(from: Position, to: Position) {
@@ -23,31 +23,41 @@ export abstract class BaseProjectileView {
     this._distance = Math.sqrt(diffX ** 2 + diffY ** 2)
   }
 
-  async start(): Promise<void> {
-    const flyTime = (this._distance / this._speed) * 1000
-
-    return new Promise(resolve => {
-      this._timer = setTimeout(() => {
-        this._image = null
-        this._timer = null
-        resolve()
-      }, flyTime)
-    })
+  public get position() {
+    return this._position
   }
 
-  update(delta: number): void {
+  public get angle() {
+    return this._angle
+  }
+
+  public async launch(): Promise<void> {
+    if (this._flyPromise) {
+      return this._flyPromise
+    }
+
+    this._flyPromise = new Promise(resolve => {
+      this._flyPromiseResolver = resolve
+    })
+
+    return this._flyPromise
+  }
+
+  public update(delta: number): void {
     if (
       this._position.x === this._target.x &&
       this._position.y === this._target.y
     ) {
+      this._flyPromiseResolver?.()
       return
     }
 
     const diffX = this._target.x - this._position.x
     const diffY = this._target.y - this._position.y
-    this._distance = Math.sqrt(diffX ** 2 + diffY ** 2)
+    this._distance = Math.round(Math.sqrt(diffX ** 2 + diffY ** 2))
 
     if (this._distance === 0) {
+      this._flyPromiseResolver?.()
       return
     }
 
@@ -65,29 +75,5 @@ export abstract class BaseProjectileView {
       x: this._position.x + normX * travelDistance,
       y: this._position.y + normY * travelDistance,
     }
-  }
-
-  render(context: CanvasRenderingContext2D): void {
-    if (!this._image) {
-      return
-    }
-
-    const { width, height } = this._size
-    const { x, y } = this._position
-
-    context.save()
-    context.translate(x + width / 2, y + height / 2)
-    context.rotate(this._angle + Math.PI / 2)
-    context.drawImage(this._image, -width / 2, -height / 2, width, height)
-
-    context.restore()
-  }
-
-  destroy(): void {
-    if (this._timer) {
-      clearTimeout(this._timer)
-      this._timer = null
-    }
-    this._image = null
   }
 }
