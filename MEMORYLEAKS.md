@@ -35,3 +35,16 @@
 - `55_01_react-game/packages/client/src/pages/GamePage/lib/view/BaseUnitView.ts`
 - `55_01_react-game/packages/client/src/pages/GamePage/lib/ViewModel.ts`
 - `55_01_react-game/packages/client/src/pages/GamePage/ui/Game.ts`
+
+## Canvas: Detatched <canvas> без накопления
+
+### Симптомы
+- В heap snapshot появлялся `Detached <canvas>` и `Detached CanvasRenderingContext2D`.
+
+### Как проверили
+1. Серия снимков A/B/C/D с принудительным GC (Collect rubbish).
+2. Сравнение показало, что количество `HTMLCanvasElement` и `CanvasRenderingContext2D` увеличивалось только один раз и дальше оставалось стабильным.
+3. В DOM после выхода в меню `<canvas>` не обнаружен.
+
+### Вывод
+- Накопления нет, поведение выглядит как шум DevTools/движка. Утечки не подтверждено.
