@@ -1,22 +1,23 @@
-import { configureStore } from '@reduxjs/toolkit'
-import {
-  TypedUseSelectorHook,
-  useDispatch as useDispatchBase,
-  useSelector as useSelectorBase,
-} from 'react-redux'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { User } from './types'
-
-export type UserRootState = ReturnType<typeof userStore.getState>
-export type UserAppDispatch = typeof userStore.dispatch
+import { getUser } from '@pages/ProfilePage/lib/getUser'
 
 interface UserState {
-  data: User | null
+  data: User | Record<string, undefined> | null
+  isLoadingUser: boolean
+  // isError: boolean
 }
 
 const initialState: UserState = {
   data: null,
+  isLoadingUser: false,
+  // isError: false
 }
+
+export const getUserData = createAsyncThunk('user/getUserData', async () => {
+  const response = await getUser()
+  return response
+})
 
 export const userSlice = createSlice({
   name: 'user',
@@ -26,23 +27,20 @@ export const userSlice = createSlice({
       state.data = action.payload
     },
   },
-})
-
-export const userStore = configureStore({
-  reducer: {
-    user: userSlice.reducer,
+  extraReducers: builder => {
+    // запрос данных пользователя
+    builder.addCase(getUserData.pending, state => {
+      state.isLoadingUser = true
+    })
+    builder.addCase(getUserData.fulfilled, (state, action) => {
+      // action.payload.type === 'ERROR' ? state.isError = true : state.isError = false
+      state.isLoadingUser = false
+      state.data = action.payload.data as
+        | User
+        | Record<string, undefined>
+        | null
+    })
   },
 })
-
-export const selectUser = (state: UserRootState) => {
-  if (!state.user) {
-    return null
-  }
-
-  return state.user?.data || null
-}
-
-export const useDispatch = () => useDispatchBase<UserAppDispatch>()
-export const useSelector: TypedUseSelectorHook<UserRootState> = useSelectorBase
 
 export const { setUser } = userSlice.actions

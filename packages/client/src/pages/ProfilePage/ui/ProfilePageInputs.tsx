@@ -2,13 +2,13 @@ import { FormInput } from '@shared/ui/FormInput'
 import { User } from '@entities/user'
 
 type ProfilePageInputsProps = {
-  data: User | undefined
+  data: User | null | Record<string, undefined>
 }
 
 type FieldConfig = {
   name: string
   label: string
-  value?: string
+  value?: string | unknown
   disabled?: boolean
   type?: 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url'
 }
@@ -56,7 +56,7 @@ export const ProfilePageInputs = ({ data }: ProfilePageInputsProps) => {
           key={field.name}
           name={field.name}
           label={field.label}
-          defaultValue={field.value || ''}
+          defaultValue={typeof field.value !== 'string' ? '' : field.value}
           disabled={field?.disabled || false}
           type={field?.type}
         />

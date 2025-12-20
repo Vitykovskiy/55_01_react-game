@@ -1,6 +1,7 @@
 import { User, UserDto } from '@entities/user'
 
 export const mapUserDtoToUser = (dto: UserDto): User => ({
+  id: dto.id,
   email: dto.email,
   firstName: dto.first_name,
   lastName: dto.second_name,
