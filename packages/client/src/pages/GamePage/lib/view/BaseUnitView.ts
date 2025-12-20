@@ -128,14 +128,15 @@ export abstract class BaseUnitView {
 
         if (progress >= 100) {
           this._animationProgress = 100
+          this._animator = null
           resolve()
         } else {
           this._animationProgress = progress
-          requestAnimationFrame(updateAnimation)
+          this._animator = requestAnimationFrame(updateAnimation)
         }
       }
 
-      requestAnimationFrame(updateAnimation)
+      this._animator = requestAnimationFrame(updateAnimation)
     })
   }
 }

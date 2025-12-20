@@ -57,6 +57,7 @@ export class Game {
     window.removeEventListener('resize', this._resize)
     window.removeEventListener('keyup', this.onKey)
     this.viewModel.off('end', this._handleEnd)
+    this.viewModel.destroy()
   }
 
   private _handleEnd = (score: unknown) => {
