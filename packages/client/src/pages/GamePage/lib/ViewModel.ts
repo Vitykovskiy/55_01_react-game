@@ -289,6 +289,10 @@ export class ViewModel extends EventBus<EventType> {
 
     this._hero.view.stopAnimation()
 
+    for (const projectile of this._projectiles) {
+      projectile.destroy()
+    }
+
     this._enemies = []
     this._projectiles = []
     this._focusedEnemy = null

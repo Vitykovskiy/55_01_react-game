@@ -48,3 +48,16 @@
 
 ### Вывод
 - Накопления нет, поведение выглядит как шум DevTools/движка. Утечки не подтверждено.
+
+## BaseProjectileView: таймеры полета снаряда
+
+### Риск
+- `setTimeout` удерживает объект снаряда до завершения полета, даже если игра уже завершена.
+
+### Решение
+- Добавлен `destroy()` у `BaseProjectileView` с отменой таймера и очисткой ссылки на изображение.
+- `ViewModel.destroy()` теперь вызывает `projectile.destroy()` для всех активных снарядов.
+
+Изменения:
+- `55_01_react-game/packages/client/src/pages/GamePage/lib/view/BaseProjectileView.ts`
+- `55_01_react-game/packages/client/src/pages/GamePage/lib/ViewModel.ts`

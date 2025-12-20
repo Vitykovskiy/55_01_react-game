@@ -5,6 +5,7 @@ export abstract class BaseProjectileView {
   private _position: Position
   private _target: Position
   private _distance!: number
+  private _timer: ReturnType<typeof setTimeout> | null = null
 
   protected abstract _size: { width: number; height: number }
   protected abstract _image: ImageBitmap | null
@@ -26,8 +27,9 @@ export abstract class BaseProjectileView {
     const flyTime = (this._distance / this._speed) * 1000
 
     return new Promise(resolve => {
-      setTimeout(() => {
+      this._timer = setTimeout(() => {
         this._image = null
+        this._timer = null
         resolve()
       }, flyTime)
     })
@@ -79,5 +81,13 @@ export abstract class BaseProjectileView {
     context.drawImage(this._image, -width / 2, -height / 2, width, height)
 
     context.restore()
+  }
+
+  destroy(): void {
+    if (this._timer) {
+      clearTimeout(this._timer)
+      this._timer = null
+    }
+    this._image = null
   }
 }
