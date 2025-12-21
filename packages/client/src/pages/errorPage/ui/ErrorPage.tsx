@@ -1,5 +1,5 @@
 import { Button, Text } from '@gravity-ui/uikit'
-import { usePage } from '@shared/config/routing'
+import { usePage } from '@shared/config'
 import Layout from '@shared/ui/Layout'
 import { useNavigate } from 'react-router-dom'
 import { errorData } from '../model/consts'

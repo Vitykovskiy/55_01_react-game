@@ -1,4 +1,4 @@
-import { RoutePath } from '@shared/config/routing'
+import { RoutePath } from '@shared/config'
 import { ResponseType } from '@shared/lib'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'

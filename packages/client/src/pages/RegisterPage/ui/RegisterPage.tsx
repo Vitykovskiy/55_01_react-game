@@ -1,6 +1,6 @@
 import { Button, Text } from '@gravity-ui/uikit'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RoutePath, usePage } from '@shared/config/routing'
+import { RoutePath, usePage } from '@shared/config'
 import Layout from '@shared/ui/Layout'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'

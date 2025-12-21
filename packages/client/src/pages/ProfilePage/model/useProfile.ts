@@ -1,13 +1,14 @@
-import { RoutePath } from '@shared/config/routing'
+import { selectUser, setUser } from '@entities/user'
+import { RoutePath } from '@shared/config'
+import { ResponseType } from '@shared/lib'
+import { useDispatch, useSelector } from '@shared/store'
 import { useState } from 'react'
-import { getUser } from '../lib/getUser'
 import { UseFormSetError } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { changeAvatar } from '../lib/changeAvatar'
 import { changePassword } from '../lib/changePassword'
+import { getUser } from '../lib/getUser'
 import { Schema } from '../model/types'
-import { ResponseType } from '@shared/lib'
-import { selectUser, setUser, useDispatch, useSelector } from '@entities/user'
 
 export const useProfile = (setError: UseFormSetError<Schema>) => {
   const [isLoading, setIsLoading] = useState(true)

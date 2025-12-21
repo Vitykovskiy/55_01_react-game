@@ -1,17 +1,17 @@
 import { Button, Text } from '@gravity-ui/uikit'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RoutePath, usePage, BASE_URL } from '@shared/config/routing'
+import { BASE_URL, RoutePath, usePage } from '@shared/config'
+import { AvatarLoad } from '@shared/ui/AvatarLoad'
 import Layout from '@shared/ui/Layout'
 import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { PROFILE_PAGE_TITLE, PROFILE_AVATAR } from '../model/consts'
+import { PROFILE_AVATAR, PROFILE_PAGE_TITLE } from '../model/consts'
 import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
+import { useProfile } from '../model/useProfile'
 import s from './ProfilePage.module.scss'
 import { ProfilePageInputs } from './ProfilePageInputs'
-import { AvatarLoad } from '@shared/ui/AvatarLoad'
-import { useProfile } from '../model/useProfile'
 
 export const ProfilePage = () => {
   usePage({})

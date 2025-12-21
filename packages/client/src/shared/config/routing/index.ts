@@ -1,9 +1,9 @@
-export { RoutePath, BASE_URL } from './consts'
+export { BASE_URL, RoutePath } from './consts'
 export {
   setPageHasBeenInitializedOnServer,
   ssrReducer,
   ssrSlice,
 } from './ssrSlice'
-export { reducer, store } from '../store'
 export type { PageInitContext } from './types'
+export { useAuth } from './useAuth'
 export { usePage } from './usePage'

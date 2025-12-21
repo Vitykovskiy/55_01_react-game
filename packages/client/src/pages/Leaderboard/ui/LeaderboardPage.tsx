@@ -1,10 +1,10 @@
-import { usePage } from '@shared/config/routing'
+import { Button, Text } from '@gravity-ui/uikit'
+import { usePage } from '@shared/config'
 import Layout from '@shared/ui/Layout'
-import { LeaderboardItem } from './LeaderboardItem'
-import s from './LeaderboardPage.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { users } from '../model/consts'
-import { Button, Text } from '@gravity-ui/uikit'
+import { LeaderboardItem } from './LeaderboardItem'
+import s from './LeaderboardPage.module.scss'
 
 export const LeaderboardPage = () => {
   usePage({})

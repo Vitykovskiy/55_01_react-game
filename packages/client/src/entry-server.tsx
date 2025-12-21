@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { Request as ExpressRequest } from 'express'
 import ReactDOM from 'react-dom/server'
-import { Helmet } from 'react-helmet'
+import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
 import { matchRoutes } from 'react-router-dom'
 import {
@@ -13,10 +13,7 @@ import { ServerStyleSheet } from 'styled-components'
 
 import { routes } from './app/routes'
 import { createFetchRequest, createUrl } from './entry-server.utils'
-import {
-  reducer,
-  setPageHasBeenInitializedOnServer,
-} from './shared/config/routing'
+import { reducer, setPageHasBeenInitializedOnServer } from './shared/config'
 
 export const render = async (req: ExpressRequest) => {
   const { query, dataRoutes } = createStaticHandler(routes)
@@ -60,17 +57,20 @@ export const render = async (req: ExpressRequest) => {
   const router = createStaticRouter(dataRoutes, context)
   const sheet = new ServerStyleSheet()
   try {
+    const helmetContext: Record<string, HelmetProvider> = {}
     const html = ReactDOM.renderToString(
       sheet.collectStyles(
-        <Provider store={store}>
-          <StaticRouterProvider router={router} context={context} />
-        </Provider>
+        <HelmetProvider context={helmetContext}>
+          <Provider store={store}>
+            <StaticRouterProvider router={router} context={context} />
+          </Provider>
+        </HelmetProvider>
       )
     )
 
     const styleTags = sheet.getStyleTags()
 
-    const helmet = Helmet.renderStatic()
+    const helmet = helmetContext.helmet || {}
 
     return {
       html,

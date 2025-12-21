@@ -1,14 +1,5 @@
-import { configureStore } from '@reduxjs/toolkit'
-import {
-  TypedUseSelectorHook,
-  useDispatch as useDispatchBase,
-  useSelector as useSelectorBase,
-} from 'react-redux'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { User } from './types'
-
-export type UserRootState = ReturnType<typeof userStore.getState>
-export type UserAppDispatch = typeof userStore.dispatch
 
 interface UserState {
   data: User | null
@@ -18,7 +9,7 @@ const initialState: UserState = {
   data: null,
 }
 
-export const userSlice = createSlice({
+const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
@@ -28,13 +19,7 @@ export const userSlice = createSlice({
   },
 })
 
-export const userStore = configureStore({
-  reducer: {
-    user: userSlice.reducer,
-  },
-})
-
-export const selectUser = (state: UserRootState) => {
+export const selectUser = (state: RootState) => {
   if (!state.user) {
     return null
   }
@@ -42,7 +27,6 @@ export const selectUser = (state: UserRootState) => {
   return state.user?.data || null
 }
 
-export const useDispatch = () => useDispatchBase<UserAppDispatch>()
-export const useSelector: TypedUseSelectorHook<UserRootState> = useSelectorBase
-
 export const { setUser } = userSlice.actions
+
+export const userReducer = userSlice.reducer
