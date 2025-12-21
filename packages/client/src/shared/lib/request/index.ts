@@ -1,4 +1,5 @@
 import axios, { isAxiosError } from 'axios'
+import { BASE_URL } from '../../config'
 import {
   ApiCode,
   ApiResponse,
@@ -7,7 +8,6 @@ import {
   ErrorType,
   ResponseType,
 } from './types'
-import { BASE_URL } from '../../config/routing/consts'
 
 const REQUEST_TIMEOUT = 10000
 

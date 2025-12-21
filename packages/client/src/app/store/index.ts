@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 
 import { userReducer } from '@entities/user'
-import { ssrReducer } from '@shared/config/routing'
+import { ssrReducer } from '@shared/config'
 
 // Глобально декларируем в window наш ключик
 // и задаем ему тип такой же как у стейта в сторе

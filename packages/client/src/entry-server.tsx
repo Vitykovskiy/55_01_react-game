@@ -11,9 +11,10 @@ import {
 } from 'react-router-dom/server'
 import { ServerStyleSheet } from 'styled-components'
 
+import { reducer } from '@app/store'
 import { routes } from './app/routes'
 import { createFetchRequest, createUrl } from './entry-server.utils'
-import { reducer, setPageHasBeenInitializedOnServer } from './shared/config'
+import { setPageHasBeenInitializedOnServer } from './shared/config'
 
 export const render = async (req: ExpressRequest) => {
   const { query, dataRoutes } = createStaticHandler(routes)

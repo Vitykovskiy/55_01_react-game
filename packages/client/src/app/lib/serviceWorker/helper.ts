@@ -4,8 +4,7 @@ export const startServiceWorker = async () => {
       'Браузер не поддерживает сервис воркеры, оффлайн режим не доступен'
     )
   }
-  // Register service worker only in production build
-  // Vite exposes `import.meta.env.PROD` at build time
+
   if (!import.meta.env.PROD) return
 
   window.addEventListener('load', async () => {
