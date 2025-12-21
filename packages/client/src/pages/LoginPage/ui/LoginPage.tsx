@@ -12,12 +12,9 @@ import s from './LoginPage.module.scss'
 import { LoginPageInputs } from './LoginPageInputs'
 import { login } from '../lib/login'
 import { ResponseType } from '@shared/lib'
-// import { useSelectorStore } from '@entities/storeRedux'
 
 export const LoginPage = () => {
   usePage({})
-  // const { data } = useSelectorStore((state) => state/.userSlice)
-  // console.log(data)
 
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),

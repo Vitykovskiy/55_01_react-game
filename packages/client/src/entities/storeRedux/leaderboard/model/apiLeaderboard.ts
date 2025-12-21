@@ -1,6 +1,9 @@
 import { LeaderboardDataUserGame } from '@entities/storeRedux/leaderboard/model/types'
 import { Api } from '../../../../shared/lib/request'
-import { TEAM_NAME } from '@entities/storeRedux/leaderboard/model/consts'
+import {
+  FIELD_SORT,
+  TEAM_NAME,
+} from '@entities/storeRedux/leaderboard/model/consts'
 
 type TypePostScore = {
   data: LeaderboardDataUserGame
@@ -13,7 +16,7 @@ export const postScore = (data: TypePostScore) =>
 
 export const postLeaderboardList = () =>
   Api.postRequest(`https://ya-praktikum.tech/api/v2/leaderboard/${TEAM_NAME}`, {
-    ratingFieldName: 'scoreUser',
+    ratingFieldName: FIELD_SORT,
     cursor: 0,
     limit: 10,
   })
