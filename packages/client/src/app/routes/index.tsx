@@ -13,7 +13,7 @@ import {
   RegisterPage,
   TopicPage,
 } from '../../pages'
-import { PrivateRoute } from '@app/PrivateRoute'
+import { PrivateRoute } from '../PrivateRoute'
 
 const routeConfig = [
   { path: RoutePath.Main, element: MainPage, isPublic: false },

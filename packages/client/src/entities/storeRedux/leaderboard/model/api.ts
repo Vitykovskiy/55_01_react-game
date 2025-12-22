@@ -1,9 +1,6 @@
-import { LeaderboardDataUserGame } from '@entities/storeRedux/leaderboard/model/types'
-import { Api } from '../../../../shared/lib/request'
-import {
-  FIELD_SORT,
-  TEAM_NAME,
-} from '@entities/storeRedux/leaderboard/model/consts'
+import { LeaderboardDataUserGame } from './types'
+import { Api } from '@shared/lib'
+import { FIELD_SORT, TEAM_NAME } from './consts'
 
 type TypePostScore = {
   data: LeaderboardDataUserGame

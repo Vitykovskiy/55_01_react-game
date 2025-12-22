@@ -4,14 +4,14 @@ import { getUserData } from '@entities/user/model/userStore'
 
 export const useAuth = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false)
-  const [isLoad, setIsLoad] = useState<boolean>(false)
+  const [isUpload, setIsUpload] = useState<boolean>(false)
   const user = useSelectorStore(state => state?.userSlice)
   const dispatch = useDispatch()
 
   useEffect(() => {
     ;(async () => {
       await dispatch(getUserData())
-      setIsLoad(true)
+      setIsUpload(true)
     })()
   }, [])
 
@@ -22,7 +22,7 @@ export const useAuth = () => {
     }
 
     setIsAuth(false)
-  }, [user, isLoad])
+  }, [user, isUpload])
 
-  return { isAuth, isLoad }
+  return { isAuth, isUpload }
 }

@@ -1,16 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
-import {
-  postLeaderboardList,
-  postScore,
-} from '@entities/storeRedux/leaderboard/model/apiLeaderboard'
+import { postLeaderboardList, postScore } from './api'
 import { LeaderboardDataUserGame } from './types'
 import { FIELD_SORT, TEAM_NAME } from './consts'
 
 type LeaderboardInitialState = {
-  leaderboardList: [] | [LeaderboardDataUserGame] | unknown
-  firstName: string | unknown
-  lastName: string | unknown
+  leaderboardList: []
+  firstName: string
+  lastName: string
   scoreUser: number
   isLoadingPostUserScore: boolean
   errorPostUserScore: string
@@ -64,7 +61,6 @@ export const leaderboardSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    // отправка результата игры
     builder.addCase(postResultGameUser.pending, state => {
       state.isLoadingPostUserScore = true
       state.errorPostUserScore = ''
@@ -78,7 +74,6 @@ export const leaderboardSlice = createSlice({
       state.errorPostUserScore = ''
     })
 
-    // запрос списка лидеров
     builder.addCase(getTopUserList.pending, state => {
       state.errorTopUserList = ''
       state.isLoadingTopUserList = true
@@ -90,11 +85,9 @@ export const leaderboardSlice = createSlice({
     builder.addCase(getTopUserList.fulfilled, (state, action) => {
       state.errorTopUserList = ''
       state.isLoadingTopUserList = false
-      state.leaderboardList = action.payload
+      state.leaderboardList = action.payload as []
     })
   },
 })
 
 export const { setLeaderboardScoreUser } = leaderboardSlice.actions
-
-// export default leaderboardSlice.reducer;

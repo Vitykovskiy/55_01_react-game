@@ -3,15 +3,15 @@ import { User } from './types'
 import { getUser } from '@pages/ProfilePage/lib/getUser'
 
 interface UserState {
-  data: User | Record<string, undefined> | null
+  data: User | null
   isLoadingUser: boolean
-  // isError: boolean
+  isError: boolean
 }
 
 const initialState: UserState = {
   data: null,
   isLoadingUser: false,
-  // isError: false
+  isError: false,
 }
 
 export const getUserData = createAsyncThunk('user/getUserData', async () => {
@@ -28,17 +28,17 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    // запрос данных пользователя
     builder.addCase(getUserData.pending, state => {
       state.isLoadingUser = true
     })
     builder.addCase(getUserData.fulfilled, (state, action) => {
-      // action.payload.type === 'ERROR' ? state.isError = true : state.isError = false
+      if (action.payload.type === 'ERROR') {
+        state.isError = true
+      } else {
+        state.isError = false
+        state.data = action.payload.data as User | null
+      }
       state.isLoadingUser = false
-      state.data = action.payload.data as
-        | User
-        | Record<string, undefined>
-        | null
     })
   },
 })

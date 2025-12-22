@@ -26,7 +26,7 @@ export const ProfilePage = () => {
   const { updatePassword, updateAvatar } = useProfile(methods.setError)
 
   if (isLoadingUser) {
-    return <p>'Загрузка'</p>
+    return <p>Загрузка</p>
   }
 
   const handleButtonComeback = () => {

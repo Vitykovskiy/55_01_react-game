@@ -24,7 +24,6 @@ export type ApiResponseError<T extends string = CommonErrorType> = {
   message: string
   code: number
   cause?: T
-  data?: null
 }
 
 export type ApiResponse<T, P extends string = CommonErrorType> =
