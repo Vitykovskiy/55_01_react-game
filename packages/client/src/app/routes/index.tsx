@@ -1,5 +1,5 @@
 import { ErrorCode } from '@pages/errorPage'
-import { RoutePath } from '@shared/config/routing'
+import { RoutePath } from '@shared/config'
 import { RouteObject } from 'react-router-dom'
 import {
   CreateTopicPage,
@@ -13,7 +13,7 @@ import {
   RegisterPage,
   TopicPage,
 } from '../../pages'
-import { PrivateRoute } from '@shared/ui/PrivateRoute'
+import { PrivateRoute } from '../ui/PrivateRoute'
 
 const routeConfig = [
   { path: RoutePath.Main, element: MainPage, isPublic: false },

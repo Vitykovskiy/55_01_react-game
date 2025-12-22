@@ -1,19 +1,19 @@
-import { store } from '@shared/config/store'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 
 import { StrictMode } from 'react'
+import { HelmetProvider } from 'react-helmet-async'
 import { App } from './App'
 import './index.scss'
-import { userStore } from '@entities/user'
+import { store } from './store'
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
-  <Provider store={store}>
-    <Provider store={userStore}>
-      <StrictMode>
+  <StrictMode>
+    <Provider store={store}>
+      <HelmetProvider>
         <App />
-      </StrictMode>
+      </HelmetProvider>
     </Provider>
-  </Provider>
+  </StrictMode>
 )

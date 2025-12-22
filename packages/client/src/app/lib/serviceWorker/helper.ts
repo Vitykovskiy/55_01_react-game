@@ -5,9 +5,11 @@ export const startServiceWorker = async () => {
     )
   }
 
+  if (!import.meta.env.PROD) return
+
   window.addEventListener('load', async () => {
     try {
-      const registration = await navigator.serviceWorker.register('./sw.js')
+      const registration = await navigator.serviceWorker.register('/sw.js')
       console.log(
         'ServiceWorker registration successful with scope: ',
         registration.scope

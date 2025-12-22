@@ -1,8 +1,8 @@
+import { RoutePath } from '@shared/config'
 import { ButtonCustom } from '@shared/ui/buttonCustom'
-import { buttonData, ButtonType } from '../model/consts'
-import { Link } from 'react-router-dom'
-import { RoutePath } from '@shared/config/routing'
 import Section from '@shared/ui/Section'
+import { Link } from 'react-router-dom'
+import { buttonData, ButtonType } from '../model/consts'
 
 type MainPageProps = {
   classNamesButtonsComponents?: { buttons: string }

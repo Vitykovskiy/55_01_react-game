@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { RoutePath } from '../../config/routing'
+import { RoutePath } from '../../config'
 import s from './style.module.scss'
 
 export const Header = () => {

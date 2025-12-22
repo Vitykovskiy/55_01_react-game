@@ -1,7 +1,6 @@
-import { Navigate } from 'react-router-dom'
-import { useAuth } from '../../config/routing/useAuth'
-import { RoutePath } from '../../config/routing'
 import { Loader } from '@gravity-ui/uikit'
+import { RoutePath, useAuth } from '@shared/config'
+import { Navigate } from 'react-router-dom'
 import s from './style.module.scss'
 
 export const PrivateRoute = ({ children }: { children: JSX.Element }) => {
