@@ -1,10 +1,10 @@
+import { setUser } from '@entities/user'
+import { ResponseType } from '@shared/lib'
+import { useDispatch } from '@shared/store'
 import { UseFormSetError } from 'react-hook-form'
 import { changeAvatar } from '../lib/changeAvatar'
 import { changePassword } from '../lib/changePassword'
 import { Schema } from '../model/types'
-import { ResponseType } from '@shared/lib'
-import { setUser } from '@entities/user'
-import { useDispatch } from '@entities/storeRedux'
 
 export const useProfile = (setError: UseFormSetError<Schema>) => {
   const dispatch = useDispatch()

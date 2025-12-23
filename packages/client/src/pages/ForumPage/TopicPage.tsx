@@ -1,6 +1,6 @@
-import { Text } from '@gravity-ui/uikit'
 import { mockForumTopics } from '@entities/forum'
-import { usePage } from '@shared/config/routing'
+import { Text } from '@gravity-ui/uikit'
+import { usePage } from '@shared/config'
 import Section from '@shared/ui/Section'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'

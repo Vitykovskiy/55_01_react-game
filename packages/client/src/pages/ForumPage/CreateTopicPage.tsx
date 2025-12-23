@@ -1,8 +1,8 @@
-import { Button, TextInput, Text, TextArea } from '@gravity-ui/uikit'
+import { Button, Text, TextArea, TextInput } from '@gravity-ui/uikit'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { RoutePath, usePage } from '@shared/config/routing'
+import { RoutePath, usePage } from '@shared/config'
 import Layout from '@shared/ui/Layout'
 import Section from '@shared/ui/Section'
 import styles from './CreateTopicPage.module.scss'

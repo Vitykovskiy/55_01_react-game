@@ -1,10 +1,10 @@
-import Layout from '@shared/ui/Layout'
 import { Text } from '@gravity-ui/uikit'
-import { useNavigate } from 'react-router-dom'
-import s from './EndGame.module.scss'
+import { RoutePath } from '@shared/config'
+import Layout from '@shared/ui/Layout'
 import Section from '@shared/ui/Section'
+import { useNavigate } from 'react-router-dom'
 import { Buttons, GameButtonsCustomProps } from './Buttons'
-import { RoutePath } from '@shared/config/routing'
+import s from './EndGame.module.scss'
 
 type EndGameProps = {
   score: number

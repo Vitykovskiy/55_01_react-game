@@ -1,17 +1,17 @@
 import { Alert, Button, Text } from '@gravity-ui/uikit'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RoutePath, usePage } from '@shared/config/routing'
+import { RoutePath, usePage } from '@shared/config'
+import { ResponseType } from '@shared/lib'
 import Layout from '@shared/ui/Layout'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { login } from '../lib/login'
 import { DEFAULT_AUTH_ERROR, LOGIN_PAGE_TITLE } from '../model/consts'
 import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
 import s from './LoginPage.module.scss'
 import { LoginPageInputs } from './LoginPageInputs'
-import { login } from '../lib/login'
-import { ResponseType } from '@shared/lib'
 
 export const LoginPage = () => {
   usePage({})

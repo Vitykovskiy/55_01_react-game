@@ -1,5 +1,5 @@
 import { Button } from '@gravity-ui/uikit'
-import { RoutePath } from '@shared/config/routing'
+import { RoutePath } from '@shared/config'
 import Layout from '@shared/ui/Layout'
 import Section from '@shared/ui/Section'
 import { ReactNode } from 'react'

@@ -1,5 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { postLeaderboardList, postScore } from './api'
 import { LeaderboardDataUserGame } from './types'
 import { FIELD_SORT, TEAM_NAME } from './consts'
@@ -52,7 +51,7 @@ export const getTopUserList = createAsyncThunk(
   }
 )
 
-export const leaderboardSlice = createSlice({
+const leaderboardSlice = createSlice({
   name: 'leaderboard',
   initialState,
   reducers: {
@@ -91,3 +90,5 @@ export const leaderboardSlice = createSlice({
 })
 
 export const { setLeaderboardScoreUser } = leaderboardSlice.actions
+
+export const leaderboardReducer = leaderboardSlice.reducer

@@ -1,17 +1,17 @@
-import { usePage } from '@shared/config/routing'
+import { Button, Loader, Text } from '@gravity-ui/uikit'
+import { usePage } from '@shared/config'
 import Layout from '@shared/ui/Layout'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { getTopUserList } from '@entities/leaderboard/model/leaderboardStore'
 import { LeaderboardItem } from './LeaderboardItem'
 import s from './LeaderboardPage.module.scss'
-import { useNavigate } from 'react-router-dom'
-import { Button, Loader, Text } from '@gravity-ui/uikit'
-import { useEffect } from 'react'
-import { getTopUserList } from '@entities/storeRedux/leaderboard/model/leaderboardSlice'
-import { useDispatch, useSelectorStore } from '@entities/storeRedux'
+import { useDispatch, useSelector } from '@shared/store'
 
 export const LeaderboardPage = () => {
   usePage({})
-  const { leaderboardList, isLoadingTopUserList } = useSelectorStore(
-    state => state.leaderboardSlice
+  const { leaderboardList, isLoadingTopUserList } = useSelector(
+    state => state.leaderboard
   )
 
   const dispatch = useDispatch()
@@ -22,19 +22,6 @@ export const LeaderboardPage = () => {
   }
 
   useEffect(() => {
-    // TODO: пример отправки результатов игры, удалить(перенести) в нужное место
-    // import { postResultGameUser} from '@entities/storeRedux/leaderboard/model/leaderboardSlice'
-    // import { useDispatch } from '@entities/storeRedux'
-
-    // const dispatch = useDispatch();
-    // const { data } = useSelectorStore((state) => state.userSlice)
-    // dispatch(postResultGameUser({
-    //   id: data?.id,
-    //   firstName: data?.firstName,
-    //   lastName: data?.lastName,
-    //   scoreUser: score // результат игры
-    // }))
-
     dispatch(getTopUserList())
   }, [])
 

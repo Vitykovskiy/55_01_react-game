@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { CSSProperties, PropsWithChildren, ReactNode } from 'react'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import s from './style.module.scss'
 
 type LayoutVariant = 'default' | 'center'

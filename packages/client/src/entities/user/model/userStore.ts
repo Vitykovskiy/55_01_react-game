@@ -19,7 +19,7 @@ export const getUserData = createAsyncThunk('user/getUserData', async () => {
   return response
 })
 
-export const userSlice = createSlice({
+const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
@@ -27,6 +27,7 @@ export const userSlice = createSlice({
       state.data = action.payload
     },
   },
+
   extraReducers: builder => {
     builder.addCase(getUserData.pending, state => {
       state.isLoadingUser = true
@@ -34,6 +35,7 @@ export const userSlice = createSlice({
     builder.addCase(getUserData.fulfilled, (state, action) => {
       if (action.payload.type === 'ERROR') {
         state.isError = true
+        console.log(action.payload)
       } else {
         state.isError = false
         state.data = action.payload.data as User | null
@@ -44,3 +46,5 @@ export const userSlice = createSlice({
 })
 
 export const { setUser } = userSlice.actions
+
+export const userReducer = userSlice.reducer

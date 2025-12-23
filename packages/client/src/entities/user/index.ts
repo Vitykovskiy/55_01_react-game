@@ -1,2 +1,2 @@
 export type { User, UserDto } from './model/types'
-export { setUser, userSlice } from './model/userStore'
+export { setUser, userReducer } from './model/userStore'

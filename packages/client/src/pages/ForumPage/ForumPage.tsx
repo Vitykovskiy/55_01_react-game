@@ -1,6 +1,6 @@
-import { Button, Text } from '@gravity-ui/uikit'
 import { ForumCard, mockForumTopics } from '@entities/forum'
-import { RoutePath, usePage } from '@shared/config/routing'
+import { Button, Text } from '@gravity-ui/uikit'
+import { RoutePath, usePage } from '@shared/config'
 import Layout from '@shared/ui/Layout'
 import Section from '@shared/ui/Section'
 import { Link } from 'react-router-dom'
