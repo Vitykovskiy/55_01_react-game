@@ -54,11 +54,7 @@ export const getTopUserList = createAsyncThunk(
 const leaderboardSlice = createSlice({
   name: 'leaderboard',
   initialState,
-  reducers: {
-    setLeaderboardScoreUser: (state, action) => {
-      state.scoreUser = action.payload
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder.addCase(postResultGameUser.pending, state => {
       state.isLoadingPostUserScore = true
@@ -88,7 +84,5 @@ const leaderboardSlice = createSlice({
     })
   },
 })
-
-export const { setLeaderboardScoreUser } = leaderboardSlice.actions
 
 export const leaderboardReducer = leaderboardSlice.reducer

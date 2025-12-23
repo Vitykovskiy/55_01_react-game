@@ -56,7 +56,7 @@ export const ProfilePageInputs = ({ data }: ProfilePageInputsProps) => {
           key={field.name}
           name={field.name}
           label={field.label}
-          defaultValue={typeof field.value !== 'string' ? '' : field.value}
+          defaultValue={field.value || ''}
           disabled={field?.disabled || false}
           type={field?.type}
         />

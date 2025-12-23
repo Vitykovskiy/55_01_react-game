@@ -3,10 +3,10 @@ import { usePage } from '@shared/config'
 import Layout from '@shared/ui/Layout'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { getTopUserList } from '@entities/leaderboard/model/leaderboardStore'
 import { LeaderboardItem } from './LeaderboardItem'
 import s from './LeaderboardPage.module.scss'
 import { useDispatch, useSelector } from '@shared/store'
+import { getTopUserList } from '@entities/leaderboard'
 
 export const LeaderboardPage = () => {
   usePage({})

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { User } from './types'
-import { getUser } from '@pages/ProfilePage/lib/getUser'
+import { getUser } from './api'
 
 interface UserState {
   data: User | null
@@ -31,6 +31,11 @@ const userSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(getUserData.pending, state => {
       state.isLoadingUser = true
+    })
+    builder.addCase(getUserData.rejected, (state, action) => {
+      state.isLoadingUser = false
+      state.isError = true
+      console.log(action.payload)
     })
     builder.addCase(getUserData.fulfilled, (state, action) => {
       if (action.payload.type === 'ERROR') {

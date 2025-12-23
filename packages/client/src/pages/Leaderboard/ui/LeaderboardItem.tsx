@@ -1,7 +1,7 @@
 import s from './LeaderboardPage.module.scss'
 import { Avatar, Text } from '@gravity-ui/uikit'
 import defaultAvatar from '../../../../public/avatar/tip.png'
-import { LeaderboardDataUserGame } from '@entities/leaderboard/model/types'
+import { LeaderboardDataUserGame } from '@entities/leaderboard'
 
 type LeaderboardItemProps = {
   user: { data: LeaderboardDataUserGame }
