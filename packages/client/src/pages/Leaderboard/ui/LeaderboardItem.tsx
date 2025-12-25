@@ -4,7 +4,7 @@ import defaultAvatar from '../../../../public/avatar/tip.png'
 import { LeaderboardDataUserGame } from '@entities/leaderboard'
 
 type LeaderboardItemProps = {
-  user: { data: LeaderboardDataUserGame }
+  user: LeaderboardDataUserGame
   position: number
 }
 
@@ -16,16 +16,16 @@ export const LeaderboardItem = ({ user, position }: LeaderboardItemProps) => {
           {position}.
         </Text>
         <Avatar
-          imgUrl={defaultAvatar}
+          imgUrl={user.avatar ?? defaultAvatar}
           size="m"
           className={s['leaderboard-avatar']}
         />
         <Text variant="subheader-2" as="h2">
-          {user?.data?.firstName + ' ' + user?.data?.lastName}
+          {user.firstName + ' ' + user.lastName}
         </Text>
       </div>
       <Text variant="subheader-2" as="h2">
-        {user.data.scoreUser}
+        {user.scoreUser}
       </Text>
     </div>
   )

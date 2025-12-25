@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { User } from './types'
-import { getUser } from './api'
+import { getUser } from '../api'
 
 interface UserState {
   data: User | null
@@ -44,6 +44,7 @@ const userSlice = createSlice({
       } else {
         state.isError = false
         state.data = action.payload.data as User | null
+        console.log(action.payload)
       }
       state.isLoadingUser = false
     })

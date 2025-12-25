@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
-import { getUserData } from '@entities/user/model/userStore'
 import { useDispatch, useSelector } from '@shared/store'
+import { getUserData } from '@entities/user'
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const user = useSelector(state => state?.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
     ;(async () => {
       await dispatch(getUserData())
-      setIsLoading(true)
+      setIsLoading(false)
     })()
   }, [])
 

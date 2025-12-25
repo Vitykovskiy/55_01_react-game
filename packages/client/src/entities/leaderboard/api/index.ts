@@ -1,11 +1,11 @@
-import { LeaderboardDataUserGame } from './types'
+import { LeaderboardDataUserGame } from '../model/types'
 import { Api } from '@shared/lib'
 import {
   FIELD_SORT,
   LIMIT_LIST_TOP_USER,
   PAGINATION_CURSOR,
   TEAM_NAME,
-} from './consts'
+} from '../model/consts'
 
 type TypePostScore = {
   data: LeaderboardDataUserGame
