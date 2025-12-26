@@ -7,13 +7,13 @@ import {
   TEAM_NAME,
 } from '../model/consts'
 
-type TypePostScore = {
+type PostScoreParams = {
   data: LeaderboardDataUserGame
   ratingFieldName: string
   teamName: string
 }
 
-export const postScore = (data: TypePostScore) =>
+export const postScore = (data: PostScoreParams) =>
   Api.postRequest('https://ya-praktikum.tech/api/v2/leaderboard', data)
 
 export const postLeaderboardList = () =>

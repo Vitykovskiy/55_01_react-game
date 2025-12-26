@@ -1,6 +1,6 @@
 import { Api, ApiResponse, CommonErrorType } from '@shared/lib'
-import { User, UserDto } from '@entities/user'
 import { mapUserDtoToUser } from '../lib/mappers'
+import { User, UserDto } from '../model/types'
 
 const getUserApi = (): Promise<UserDto | undefined> => {
   return Api.getRequest<UserDto | undefined>('auth/user')

@@ -6,17 +6,21 @@ import { useSelector } from '@shared/store'
 export const LeaderboardList = () => {
   const { leaderboardList } = useSelector(state => state.leaderboard)
 
+  if (leaderboardList.length > 0) {
+    return (
+      <div className={s.leaderboardList}>
+        {leaderboardList.map((user, index) => (
+          <LeaderboardItem key={index} user={user.data} position={index + 1} />
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div className={s.leaderboardList}>
-      {leaderboardList.length > 0 ? (
-        leaderboardList.map((user, index) => (
-          <LeaderboardItem key={index} user={user.data} position={index + 1} />
-        ))
-      ) : (
-        <Text variant="subheader-3" as="h3">
-          Пока нет участников в рейтинге
-        </Text>
-      )}
+      <Text variant="subheader-3" as="h3">
+        Пока нет участников в рейтинге
+      </Text>
     </div>
   )
 }

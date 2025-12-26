@@ -1,4 +1,4 @@
-import { User, UserDto } from '@entities/user'
+import { User, UserDto } from '../model/types'
 
 export const mapUserDtoToUser = (dto: UserDto): User => ({
   id: dto.id,

@@ -17,7 +17,6 @@ export const ProfilePage = () => {
   usePage({})
 
   const { data, isLoadingUser } = useSelector(state => state.user)
-
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
   })
