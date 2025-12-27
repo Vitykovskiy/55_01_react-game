@@ -10,7 +10,7 @@ export const LeaderboardList = () => {
     return (
       <div className={s.leaderboardList}>
         {leaderboardList.map((user, index) => (
-          <LeaderboardItem key={index} user={user.data} position={index + 1} />
+          <LeaderboardItem key={index} user={user} position={index + 1} />
         ))}
       </div>
     )

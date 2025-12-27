@@ -4,7 +4,7 @@ import { LeaderboardDataUserGame } from './types'
 import { FIELD_SORT, TEAM_NAME } from './consts'
 
 type LeaderboardInitialState = {
-  leaderboardList: [{ data: LeaderboardDataUserGame }] | []
+  leaderboardList: LeaderboardDataUserGame[]
   firstName: string
   lastName: string
   scoreUser: number
@@ -79,9 +79,14 @@ const leaderboardSlice = createSlice({
       state.errorTopUserList = 'Ошибка загрузки!'
     })
     builder.addCase(getTopUserList.fulfilled, (state, action) => {
+      state.leaderboardList = []
       state.errorTopUserList = ''
       state.isLoadingTopUserList = false
-      state.leaderboardList = action.payload as []
+      const responce = action.payload as { data: LeaderboardDataUserGame }[]
+      responce.length > 0 &&
+        responce.map(user => {
+          state.leaderboardList.push(user.data)
+        })
     })
   },
 })
