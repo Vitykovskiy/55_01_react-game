@@ -2,7 +2,7 @@ import { FormInput } from '@shared/ui/FormInput'
 import { User } from '@entities/user'
 
 type ProfilePageInputsProps = {
-  data: User | null
+  data: User | undefined
 }
 
 type FieldConfig = {

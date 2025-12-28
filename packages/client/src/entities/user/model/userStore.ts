@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { User } from './types'
 import { getUser } from '../api'
+import { ApiResponse } from '@shared/lib'
 
 interface UserState {
   data: User | null
@@ -14,10 +15,12 @@ const initialState: UserState = {
   isError: false,
 }
 
-export const getUserData = createAsyncThunk('user/getUserData', async () => {
-  const response = await getUser()
-  return response
-})
+export const getUserData = createAsyncThunk(
+  'user/getUserData',
+  async (): Promise<ApiResponse<User>> => {
+    return await getUser()
+  }
+)
 
 const userSlice = createSlice({
   name: 'user',
@@ -32,19 +35,16 @@ const userSlice = createSlice({
     builder.addCase(getUserData.pending, state => {
       state.isLoadingUser = true
     })
-    builder.addCase(getUserData.rejected, (state, action) => {
+    builder.addCase(getUserData.rejected, state => {
       state.isLoadingUser = false
       state.isError = true
-      console.log(action.payload)
     })
     builder.addCase(getUserData.fulfilled, (state, action) => {
       if (action.payload.type === 'ERROR') {
         state.isError = true
-        console.log(action.payload)
       } else {
         state.isError = false
         state.data = action.payload.data as User | null
-        console.log(action.payload)
       }
       state.isLoadingUser = false
     })

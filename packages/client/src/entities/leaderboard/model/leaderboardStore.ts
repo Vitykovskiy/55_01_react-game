@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { postLeaderboardList, postScore } from '../api'
-import { LeaderboardDataUserGame } from './types'
-import { FIELD_SORT, TEAM_NAME } from './consts'
+import { LeaderboardDataUserGame, LeaderboardDataUserGameDto } from './types'
+// import { FIELD_SORT, TEAM_NAME } from './consts'
+import {
+  mapUserToDtoLeaderboard,
+  mapUserToDtoLeaderboardList,
+} from '../lib/mappers'
 
 type LeaderboardInitialState = {
   leaderboardList: LeaderboardDataUserGame[]
@@ -27,28 +31,24 @@ const initialState: LeaderboardInitialState = {
 
 export const postResultGameUser = createAsyncThunk(
   'leaderboard/postResultGameUser',
-  async (dataUserGame: LeaderboardDataUserGame) => {
-    const dataRequest = {
-      data: {
-        id: dataUserGame.id,
-        firstName: dataUserGame.firstName,
-        lastName: dataUserGame.lastName,
-        scoreUser: dataUserGame.scoreUser,
-        avatar: dataUserGame.avatar,
-      },
-      ratingFieldName: FIELD_SORT,
-      teamName: TEAM_NAME,
-    }
-    const response = await postScore(dataRequest)
-    return response
+  async (dataUserGame: LeaderboardDataUserGame): Promise<void> => {
+    const dataRequest: LeaderboardDataUserGameDto =
+      mapUserToDtoLeaderboard(dataUserGame)
+
+    return await postScore(dataRequest)
   }
 )
 
 export const getTopUserList = createAsyncThunk(
   'leaderboard/getTopUserList',
-  async () => {
+  async (): Promise<LeaderboardDataUserGame[]> => {
     const response = await postLeaderboardList()
-    return response
+
+    if (response) {
+      return mapUserToDtoLeaderboardList(response)
+    }
+
+    return []
   }
 )
 
@@ -79,14 +79,9 @@ const leaderboardSlice = createSlice({
       state.errorTopUserList = 'Ошибка загрузки!'
     })
     builder.addCase(getTopUserList.fulfilled, (state, action) => {
-      state.leaderboardList = []
       state.errorTopUserList = ''
       state.isLoadingTopUserList = false
-      const responce = action.payload as { data: LeaderboardDataUserGame }[]
-      responce.length > 0 &&
-        responce.map(user => {
-          state.leaderboardList.push(user.data)
-        })
+      state.leaderboardList = action.payload
     })
   },
 })
