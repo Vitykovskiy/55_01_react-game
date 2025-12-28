@@ -122,8 +122,6 @@ export class ViewModel extends EventBus<EventType> {
   }
 
   private _trySetEnemy = (key: string) => {
-    //TODO Убрать, когда появится вывод на канвас выделенного врага
-    console.log(this._focusedEnemy)
     if (!this._focusedEnemy) {
       const foundEnemy = this._enemies.find(
         unit => unit.model.getName()[0] === key
@@ -207,7 +205,6 @@ export class ViewModel extends EventBus<EventType> {
     //TODO Добавить логику добавления очков к счёту в зависимости от вида моба(врага)
     this._currentScore += addedPoints
     //TODO Сделать вывод новых очков в canvas
-    console.log(this._currentScore)
   }
 
   private _tryHitEnemy = (key: string) => {
@@ -282,5 +279,23 @@ export class ViewModel extends EventBus<EventType> {
       this._isGameEnded = true
       this.emit('end', this._currentScore)
     }
+  }
+
+  public destroy(): void {
+    this._isGameEnded = true
+    for (const { view } of this._enemies) {
+      view.stopAnimation()
+    }
+
+    this._hero.view.stopAnimation()
+
+    for (const projectile of this._projectiles) {
+      projectile.destroy()
+    }
+
+    this._enemies = []
+    this._projectiles = []
+    this._focusedEnemy = null
+    this._currentWords = []
   }
 }
