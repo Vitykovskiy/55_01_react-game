@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { postLeaderboardList, postScore } from '../api'
 import { LeaderboardDataUserGame, LeaderboardDataUserGameDto } from './types'
-// import { FIELD_SORT, TEAM_NAME } from './consts'
 import {
   mapUserToDtoLeaderboard,
   mapUserToDtoLeaderboardList,

@@ -8,17 +8,13 @@ import {
 export const mapUserToDtoLeaderboardList = (
   dto: LeaderboardDto[]
 ): LeaderboardDataUserGame[] => {
-  const arrDto: LeaderboardDataUserGame[] = []
-  dto.forEach(item => {
-    return arrDto.push({
-      id: item.data.id,
-      firstName: item.data.firstName,
-      lastName: item.data.lastName,
-      avatar: item.data.avatar,
-      scoreUser: item.data.scoreUser,
-    })
-  })
-  return arrDto
+  return dto.map(item => ({
+    id: item.data.id,
+    firstName: item.data.firstName,
+    lastName: item.data.lastName,
+    avatar: item.data.avatar,
+    scoreUser: item.data.scoreUser,
+  }))
 }
 
 export const mapUserToDtoLeaderboard = (
