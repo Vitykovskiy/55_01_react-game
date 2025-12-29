@@ -1,4 +1,5 @@
 export type User = {
+  id: number
   avatar: string
   firstName: string
   lastName: string
@@ -10,6 +11,7 @@ export type User = {
 }
 
 export type UserDto = {
+  id: number
   first_name: string
   second_name: string
   avatar: string

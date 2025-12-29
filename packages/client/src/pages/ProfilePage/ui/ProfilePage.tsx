@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { BASE_URL, RoutePath, usePage } from '@shared/config'
 import { AvatarLoad } from '@shared/ui/AvatarLoad'
 import Layout from '@shared/ui/Layout'
-import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { PROFILE_AVATAR, PROFILE_PAGE_TITLE } from '../model/consts'
@@ -12,23 +11,21 @@ import { Schema } from '../model/types'
 import { useProfile } from '../model/useProfile'
 import s from './ProfilePage.module.scss'
 import { ProfilePageInputs } from './ProfilePageInputs'
+import { useSelector } from '@shared/store'
 
 export const ProfilePage = () => {
   usePage({})
+
+  const { data, isLoadingUser } = useSelector(state => state.user)
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
   })
   const { handleSubmit } = methods
   const navigate = useNavigate()
-  const { user, loadUser, updatePassword, updateAvatar, isLoading } =
-    useProfile(methods.setError)
+  const { updatePassword, updateAvatar } = useProfile(methods.setError)
 
-  useEffect(() => {
-    loadUser()
-  }, [])
-
-  if (isLoading) {
-    return 'Загрузка'
+  if (isLoadingUser) {
+    return <p>Загрузка</p>
   }
 
   const handleButtonComeback = () => {
@@ -50,12 +47,12 @@ export const ProfilePage = () => {
           {PROFILE_PAGE_TITLE}
         </Text>
         <AvatarLoad
-          img={user?.avatar ? BASE_URL + user.avatar : PROFILE_AVATAR}
+          img={data?.avatar ? BASE_URL + data.avatar : PROFILE_AVATAR}
           imageChange={handleAvatarChange}
         />
         <FormProvider {...methods}>
           <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-            <ProfilePageInputs data={user} />
+            <ProfilePageInputs data={data} />
             <Button type={'submit'} view="action">
               Сохранить
             </Button>

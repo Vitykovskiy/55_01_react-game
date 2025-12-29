@@ -1,35 +1,13 @@
-import { selectUser, setUser } from '@entities/user'
-import { RoutePath } from '@shared/config'
+import { setUser } from '@entities/user'
 import { ResponseType } from '@shared/lib'
-import { useDispatch, useSelector } from '@shared/store'
-import { useState } from 'react'
+import { useDispatch } from '@shared/store'
 import { UseFormSetError } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { changeAvatar } from '../lib/changeAvatar'
 import { changePassword } from '../lib/changePassword'
-import { getUser } from '../lib/getUser'
 import { Schema } from '../model/types'
 
 export const useProfile = (setError: UseFormSetError<Schema>) => {
-  const [isLoading, setIsLoading] = useState(true)
-  const navigate = useNavigate()
-  const user = useSelector(selectUser)
   const dispatch = useDispatch()
-
-  const loadUser = async () => {
-    if (user) {
-      setIsLoading(false)
-      return
-    }
-
-    const response = await getUser()
-    if (response.type === ResponseType.Success) {
-      dispatch(setUser(response.data))
-    } else {
-      navigate(RoutePath.Error404)
-    }
-    setIsLoading(false)
-  }
 
   const updatePassword = async (oldPassword: string, newPassword: string) => {
     const response = await changePassword({ oldPassword, newPassword })
@@ -49,9 +27,6 @@ export const useProfile = (setError: UseFormSetError<Schema>) => {
   }
 
   return {
-    user,
-    isLoading,
-    loadUser,
     updatePassword,
     updateAvatar,
   }

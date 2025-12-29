@@ -1,10 +1,6 @@
-import { User, UserDto } from '@entities/user'
+import { User } from '@entities/user'
 import { Api } from '@shared/lib'
 import { PasswordChangeData } from '../model/types'
-
-export const getUserApi = (): Promise<UserDto | undefined> => {
-  return Api.getRequest<UserDto | undefined>('auth/user')
-}
 
 export const changePasswordApi = (data: PasswordChangeData): Promise<void> => {
   return Api.putRequest<void>('user/password', {

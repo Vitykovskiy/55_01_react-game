@@ -1,19 +1,21 @@
 import { Loader } from '@gravity-ui/uikit'
-import { RoutePath, useAuth } from '@shared/config'
+import { RoutePath } from '@shared/config'
 import { Navigate } from 'react-router-dom'
 import s from './style.module.scss'
+import { useAuth } from '../../api'
 
 export const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-  const isAuth = useAuth()
+  const { isAuthenticated, isLoading } = useAuth()
 
-  if (isAuth === null)
+  if (isLoading) {
     return (
       <div className={s.loaderContainer}>
         <Loader />
       </div>
     )
+  }
 
-  if (!isAuth) {
+  if (!isAuthenticated) {
     return <Navigate to={RoutePath.Login} replace />
   }
 

@@ -1,15 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
-
 import { combineReducers } from 'redux'
-
-import { userReducer } from '@entities/user'
 import { ssrReducer } from '@shared/config'
+import { userReducer } from '@entities/user'
+import { leaderboardReducer } from '@entities/leaderboard'
 
 // Глобально декларируем в window наш ключик
 // и задаем ему тип такой же как у стейта в сторе
 export const reducer = combineReducers({
   ssr: ssrReducer,
   user: userReducer,
+  leaderboard: leaderboardReducer,
 })
 
 export const store = configureStore({

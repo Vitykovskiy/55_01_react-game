@@ -15,6 +15,7 @@ import { LoginPageInputs } from './LoginPageInputs'
 
 export const LoginPage = () => {
   usePage({})
+
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     mode: 'all',

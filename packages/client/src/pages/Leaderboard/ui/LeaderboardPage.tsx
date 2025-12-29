@@ -1,18 +1,27 @@
-import { Button, Text } from '@gravity-ui/uikit'
+import { Button, Loader, Text } from '@gravity-ui/uikit'
 import { usePage } from '@shared/config'
 import Layout from '@shared/ui/Layout'
 import { useNavigate } from 'react-router-dom'
-import { users } from '../model/consts'
-import { LeaderboardItem } from './LeaderboardItem'
+import { useEffect } from 'react'
 import s from './LeaderboardPage.module.scss'
+import { useDispatch, useSelector } from '@shared/store'
+import { getTopUserList } from '@entities/leaderboard'
+import { LeaderboardList } from './LeaderboardList'
 
 export const LeaderboardPage = () => {
   usePage({})
+  const { isLoadingTopUserList } = useSelector(state => state.leaderboard)
 
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+
   const handleBack = () => {
     navigate(-1)
   }
+
+  useEffect(() => {
+    dispatch(getTopUserList())
+  }, [])
 
   return (
     <div>
@@ -20,17 +29,7 @@ export const LeaderboardPage = () => {
         <Text variant="header-1" as="h1">
           Доска лидеров
         </Text>
-        <div className={s.leaderboardList}>
-          {users.length > 0 ? (
-            users.map((user, index) => (
-              <LeaderboardItem key={user.id} user={user} position={index + 1} />
-            ))
-          ) : (
-            <Text variant="subheader-3" as="h3">
-              Пока нет участников в рейтинге
-            </Text>
-          )}
-        </div>
+        {isLoadingTopUserList ? <Loader /> : <LeaderboardList />}
         <Button className={s.buttonBack} view="action" onClick={handleBack}>
           Назад
         </Button>

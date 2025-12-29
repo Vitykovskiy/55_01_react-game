@@ -1,9 +1,10 @@
 import s from './LeaderboardPage.module.scss'
 import { Avatar, Text } from '@gravity-ui/uikit'
-import { User } from '../model/types'
+import defaultAvatar from '../../../../public/avatar/tip.png'
+import { LeaderboardDataUserGame } from '@entities/leaderboard'
 
 type LeaderboardItemProps = {
-  user: User
+  user: LeaderboardDataUserGame
   position: number
 }
 
@@ -15,16 +16,16 @@ export const LeaderboardItem = ({ user, position }: LeaderboardItemProps) => {
           {position}.
         </Text>
         <Avatar
-          imgUrl={user.img}
+          imgUrl={user.avatar ?? defaultAvatar}
           size="m"
           className={s['leaderboard-avatar']}
         />
         <Text variant="subheader-2" as="h2">
-          {user.name}
+          {user.firstName + ' ' + user.lastName}
         </Text>
       </div>
       <Text variant="subheader-2" as="h2">
-        {user.score}
+        {user.scoreUser}
       </Text>
     </div>
   )
