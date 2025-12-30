@@ -1,18 +1,21 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { User } from './types'
-import { getUser } from '../api'
 import { ApiResponse } from '@shared/lib'
+
+import { getUser } from '../lib/getUser'
+import { User } from './types'
 
 interface UserState {
   data: User | null
   isLoadingUser: boolean
   isError: boolean
+  isAuthenticated: boolean
 }
 
 const initialState: UserState = {
   data: null,
-  isLoadingUser: false,
+  isLoadingUser: true,
   isError: false,
+  isAuthenticated: false,
 }
 
 export const getUserData = createAsyncThunk(
@@ -45,11 +48,14 @@ const userSlice = createSlice({
       } else {
         state.isError = false
         state.data = action.payload.data as User | null
+        state.isAuthenticated = true
       }
       state.isLoadingUser = false
     })
   },
 })
+
+export const selectUser = (state: RootState) => state.user.data
 
 export const { setUser } = userSlice.actions
 
