@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ApiResponse } from '@shared/lib'
+import { ApiResponse, ResponseType } from '@shared/lib'
 
 import { getUser } from '../lib/getUser'
 import { User } from './types'
@@ -38,19 +38,19 @@ const userSlice = createSlice({
     builder.addCase(getUserData.pending, state => {
       state.isLoadingUser = true
     })
-    builder.addCase(getUserData.rejected, state => {
-      state.isLoadingUser = false
-      state.isError = true
-    })
     builder.addCase(getUserData.fulfilled, (state, action) => {
-      if (action.payload.type === 'ERROR') {
-        state.isError = true
-      } else {
-        state.isError = false
-        state.data = action.payload.data as User | null
-        state.isAuthenticated = true
-      }
       state.isLoadingUser = false
+
+      if (action.payload.type === ResponseType.Error) {
+        state.isError = true
+        state.isAuthenticated = false
+        state.data = null
+        return
+      }
+
+      state.isError = false
+      state.data = action.payload.data
+      state.isAuthenticated = true
     })
   },
 })
