@@ -1,6 +1,3 @@
-import { ErrorCode } from '@pages/errorPage'
-import { RoutePath } from '@shared/config'
-import { RouteObject } from 'react-router-dom'
 import {
   CreateTopicPage,
   ErrorPage,
@@ -12,10 +9,19 @@ import {
   ProfilePage,
   RegisterPage,
   TopicPage,
-} from '../../pages'
+} from '@pages'
+import { ErrorCode } from '@pages/errorPage'
+import { PageInitArgs, RoutePath } from '@shared/config'
 import { PrivateRoute } from '../ui/PrivateRoute'
 
-const routeConfig = [
+export type RouteConfig = {
+  path: RoutePath | '*'
+  element: React.FC
+  isPublic: boolean
+  fetchData?: (args: PageInitArgs) => void
+}
+
+const routeConfig: RouteConfig[] = [
   { path: RoutePath.Main, element: MainPage, isPublic: false },
   { path: RoutePath.Login, element: LoginPage, isPublic: true },
   { path: RoutePath.Register, element: RegisterPage, isPublic: true },
@@ -32,7 +38,7 @@ const routeConfig = [
   { path: '*', element: ErrorPage, isPublic: true },
 ] as const
 
-export const routes: RouteObject[] = routeConfig.map(route => ({
+export const routes = routeConfig.map(route => ({
   path: route.path,
   element: route.isPublic ? (
     <route.element />
@@ -42,4 +48,5 @@ export const routes: RouteObject[] = routeConfig.map(route => ({
     </PrivateRoute>
   ),
   errorElement: <ErrorPage code={ErrorCode.ServerError} />,
+  fetchData: route.fetchData,
 }))

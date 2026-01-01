@@ -1,3 +1,8 @@
 export type { User, UserDto } from './model/types'
-export { getUserData } from './model/userStore'
-export { setUser, userReducer } from './model/userStore'
+export { useAuth } from './model/useAuth'
+export {
+  getUserData,
+  selectUser,
+  setUser,
+  userReducer,
+} from './model/userStore'

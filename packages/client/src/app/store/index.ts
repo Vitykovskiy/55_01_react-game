@@ -1,8 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { combineReducers } from 'redux'
-import { ssrReducer } from '@shared/config'
-import { userReducer } from '@entities/user'
 import { leaderboardReducer } from '@entities/leaderboard'
+import { userReducer } from '@entities/user'
+import { configureStore } from '@reduxjs/toolkit'
+import { ssrReducer } from '@shared/config'
+import { combineReducers } from 'redux'
 
 // Глобально декларируем в window наш ключик
 // и задаем ему тип такой же как у стейта в сторе
