@@ -11,9 +11,13 @@ import {
 } from 'react-router-dom/server'
 import { ServerStyleSheet } from 'styled-components'
 
-import { reducer } from '@app/store'
 import { routes } from './app/routes'
-import { createFetchRequest, createUrl } from './entry-server.utils'
+import { reducer } from './app/store'
+import {
+  createContext,
+  createFetchRequest,
+  createUrl,
+} from './entry-server.utils'
 import { setPageHasBeenInitializedOnServer } from './shared/config'
 
 export const render = async (req: ExpressRequest) => {
@@ -36,22 +40,17 @@ export const render = async (req: ExpressRequest) => {
     throw new Error('Страница не найдена!')
   }
 
-  //TODO раскомментировать, когда будем прикручивать SSR
-  // const [
-  //   {
-  //     route: { fetchData },
-  //   },
-  // ] = foundRoutes
+  const [{ route }] = foundRoutes
 
-  // try {
-  //   await fetchData({
-  //     dispatch: store.dispatch,
-  //     state: store.getState(),
-  //     ctx: createContext(req),
-  //   })
-  // } catch (e) {
-  //   console.log('Инициализация страницы произошла с ошибкой', e)
-  // }
+  try {
+    await route.fetchData?.({
+      dispatch: store.dispatch,
+      state: store.getState(),
+      ctx: createContext(req),
+    })
+  } catch (e) {
+    console.log('Инициализация страницы произошла с ошибкой', e)
+  }
 
   store.dispatch(setPageHasBeenInitializedOnServer(true))
 

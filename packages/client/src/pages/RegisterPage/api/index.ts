@@ -1,7 +1,7 @@
 import { UserDto } from '@entities/user'
 import { Api } from '@shared/lib'
 
-export type RegisterUserDto = Omit<UserDto, 'avatar'> & {
+export type RegisterUserDto = Omit<UserDto, 'avatar' | 'id'> & {
   password: string
 }
 

@@ -4,5 +4,5 @@ export {
   ssrReducer,
   ssrSlice,
 } from './ssrSlice'
-export type { PageInitContext } from './types'
+export type { PageInitArgs, PageInitContext } from './types'
 export { usePage } from './usePage'

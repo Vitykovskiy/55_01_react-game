@@ -34,7 +34,6 @@ async function createServer() {
 
   app.get('*', async (req, res, next) => {
     const url = req.originalUrl
-
     try {
       // Получаем файл client/index.html который мы правили ранее
       // Создаём переменные
