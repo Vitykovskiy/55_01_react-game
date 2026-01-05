@@ -1,8 +1,8 @@
-import { FormInput } from '@shared/ui/FormInput'
 import { User } from '@entities/user'
+import { FormInput } from '@shared/ui/FormInput'
 
 type ProfilePageInputsProps = {
-  data: User | undefined
+  data: User
 }
 
 type FieldConfig = {
@@ -13,9 +13,6 @@ type FieldConfig = {
   type?: 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url'
 }
 export const ProfilePageInputs = ({ data }: ProfilePageInputsProps) => {
-  if (!data) {
-    return null
-  }
   const fields: FieldConfig[] = [
     { name: 'firstName', label: 'Имя:', value: data.firstName, disabled: true },
     {

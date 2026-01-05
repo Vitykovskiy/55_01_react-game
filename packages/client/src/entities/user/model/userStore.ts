@@ -5,16 +5,14 @@ import { getUser } from '../lib/getUser'
 import { User } from './types'
 
 interface UserState {
-  data: User | null
+  data: User | undefined
   isLoadingUser: boolean
-  isError: boolean
   isAuthenticated: boolean
 }
 
 const initialState: UserState = {
-  data: null,
+  data: undefined,
   isLoadingUser: true,
-  isError: false,
   isAuthenticated: false,
 }
 
@@ -42,13 +40,11 @@ const userSlice = createSlice({
       state.isLoadingUser = false
 
       if (action.payload.type === ResponseType.Error) {
-        state.isError = true
         state.isAuthenticated = false
-        state.data = null
+        state.data = undefined
         return
       }
 
-      state.isError = false
       state.data = action.payload.data
       state.isAuthenticated = true
     })

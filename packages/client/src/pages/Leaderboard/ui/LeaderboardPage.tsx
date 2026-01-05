@@ -1,12 +1,13 @@
-import { Button, Loader, Text } from '@gravity-ui/uikit'
-import { usePage } from '@shared/config'
-import Layout from '@shared/ui/Layout'
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
-import s from './LeaderboardPage.module.scss'
-import { useDispatch, useSelector } from '@shared/store'
 import { getTopUserList } from '@entities/leaderboard'
+import { Button, Text } from '@gravity-ui/uikit'
+import { usePage } from '@shared/config'
+import { useDispatch, useSelector } from '@shared/store'
+import Layout from '@shared/ui/Layout'
+import { Loader } from '@shared/ui/Loader'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { LeaderboardList } from './LeaderboardList'
+import s from './LeaderboardPage.module.scss'
 
 export const LeaderboardPage = () => {
   usePage({})
@@ -29,7 +30,9 @@ export const LeaderboardPage = () => {
         <Text variant="header-1" as="h1">
           Доска лидеров
         </Text>
-        {isLoadingTopUserList ? <Loader /> : <LeaderboardList />}
+        <Loader show={isLoadingTopUserList}>
+          <LeaderboardList />
+        </Loader>
         <Button className={s.buttonBack} view="action" onClick={handleBack}>
           Назад
         </Button>
