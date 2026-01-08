@@ -9,7 +9,7 @@
     "format": "prettier --write .",
     "test": "jest ./",
     "assets:update": "git submodule update --init --recursive --remote",
-    "postinstall": "yarn assets:update"
+    "postinstall": "if [ \"$SKIP_ASSETS_UPDATE\" != 'true' ]; then yarn assets:update; fi"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
