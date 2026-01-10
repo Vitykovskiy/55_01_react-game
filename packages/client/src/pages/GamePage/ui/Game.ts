@@ -1,5 +1,7 @@
-import { assetsManager } from '../lib/AssetsManager/assets'
 import { ViewModel } from '../lib/ViewModel'
+import { GameDirector } from '../models/GameDirector'
+import { ModelsService } from '../models/ModelsService'
+import { BaseEvents } from '../models/types'
 import background from '/sprites/background-with-wall.png'
 
 const ASPECT_RATIO_WIDTH = 9
@@ -11,9 +13,10 @@ type GameOptions = {
 }
 
 export class Game {
-  private readonly context: CanvasRenderingContext2D
-  private readonly background = new Image()
-  private readonly viewModel: ViewModel
+  private readonly _context: CanvasRenderingContext2D
+  private readonly _background = new Image()
+  private readonly _gameDirector: GameDirector
+  private readonly _viewModel: ViewModel
 
   private running = false
   private lastTime = 0
@@ -29,35 +32,33 @@ export class Game {
       throw new Error('CanvasRenderingContext2D is required')
     }
 
-    this.context = context
+    this._context = context
+    const { width, height } = canvas
+    this._background.src = background
+
+    const modelService = new ModelsService()
+    this._gameDirector = new GameDirector(modelService, { width, height })
+    this._viewModel = new ViewModel(modelService)
+
     window.addEventListener('resize', this._resize)
+
     this._resize()
 
-    this.background.src = background
-    this.viewModel = new ViewModel(canvas, assetsManager)
-
-    this.viewModel.on('end', this._handleEnd)
+    this._gameDirector.eventBus.on(BaseEvents.End, this._handleEnd)
   }
 
-  onKey = (e: KeyboardEvent) => {
-    this.viewModel.onKey(e.key)
-  }
-
-  start() {
+  public start() {
     this.running = true
     this.lastTime = performance.now()
     this.canvas.focus()
-    window.addEventListener('keyup', this.onKey)
-    this.options.onStart?.()
+    window.addEventListener('keyup', this._onKey)
     requestAnimationFrame(this._loop)
   }
 
-  stop() {
+  public stop() {
     this.running = false
     window.removeEventListener('resize', this._resize)
-    window.removeEventListener('keyup', this.onKey)
-    this.viewModel.off('end', this._handleEnd)
-    this.viewModel.destroy()
+    window.removeEventListener('keyup', this._onKey)
   }
 
   private _handleEnd = (score: unknown) => {
@@ -74,17 +75,33 @@ export class Game {
       return
     }
 
-    const delta = (time - this.lastTime) / 1000
+    const delta = time - this.lastTime
     this.lastTime = time
 
-    this.viewModel.update(delta)
-
+    this._gameDirector.update(delta)
     this._render()
 
     requestAnimationFrame(this._loop)
   }
 
+  private _render(): void {
+    this._renderBackground()
+    this._renderModels()
+  }
+
+  private _renderBackground(): void {
+    const w = this.canvas.width / this.dpr
+    const h = this.canvas.height / this.dpr
+
+    this._context.clearRect(0, 0, w, h)
+
+    if (this._background.complete) {
+      this._context.drawImage(this._background, 0, 0, w, h)
+    }
+  }
+
   private _resize = () => {
+    console.log('_resize')
     const parent = this.canvas.parentElement
     if (!parent) {
       return
@@ -96,20 +113,18 @@ export class Game {
     this.canvas.width = w * this.dpr
     this.canvas.height = h * this.dpr
 
-    this.context.setTransform(this.dpr, 0, 0, this.dpr, 0, 0)
+    this._context.setTransform(this.dpr, 0, 0, this.dpr, 0, 0)
+    this._gameDirector.onResize({
+      width: this.canvas.width,
+      height: this.canvas.height,
+    })
   }
 
-  private _render() {
-    const ctx = this.context
-    const w = this.canvas.width / this.dpr
-    const h = this.canvas.height / this.dpr
+  private _onKey = (e: KeyboardEvent) => {
+    this._gameDirector.onKey(e.key)
+  }
 
-    ctx.clearRect(0, 0, w, h)
-
-    if (this.background.complete) {
-      ctx.drawImage(this.background, 0, 0, w, h)
-    }
-
-    this.viewModel.renderUnits(ctx)
+  private _renderModels(): void {
+    this._viewModel.render(this._context)
   }
 }

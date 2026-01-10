@@ -1,23 +1,38 @@
-export type Position = {
-  x: number
-  y: number
+export const enum BaseEvents {
+  Start = 'start',
+  Pause = 'pause',
+  End = 'end',
 }
 
-export type Size = {
-  width: number
-  height: number
+export const enum MobEvents {
+  Death = 'mob_death',
+  Attacks = 'mob_attacks',
+  GetHit = 'mob_get_hit',
+  StartsWalking = 'mob_starts_walking',
 }
 
-export interface Unit {
-  getHp(): number
-  applyDamage(damage: number): void
-  getDamage(): number
-  setPosition(position: Position): void
-  getPosition(): Position
-  getSize(): Size
-  getName(): string
-  update(delta: number): void
-  stop(): void
-  tryDealDamage(unit: Unit): void
-  isDead(): boolean
+export const enum HeroEvents {
+  DeathBow = 'hero_death_bow',
+  HitBow = 'hero_hit_bow',
+  AttacksRange = 'hero_attacks_range',
+  AttacksMelee = 'hero_attacks_melee',
+  SwapWeaponToRange = 'hero_swap_weapon_range',
+  SwapWeaponToMelee = 'hero_swap_weapon_melee',
 }
+
+export const enum ProjectileEvents {
+  Launched = 'projectile_launched',
+  Landed = 'projectile_landed',
+}
+
+export const enum ScenarioEvents {
+  EnemiesSpawned = 'enemies_spawned',
+  EnemiesDefeated = 'enemies_defeated',
+}
+
+export type GameEvents =
+  | BaseEvents
+  | ScenarioEvents
+  | HeroEvents
+  | MobEvents
+  | ProjectileEvents
