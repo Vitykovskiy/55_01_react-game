@@ -129,7 +129,6 @@ export abstract class BaseMob extends BaseUnit {
     switch (this._state) {
       case MobStates.Walk: {
         this._moveToTarget(delta)
-        /* this.setState(MobStates.Idle) */
         break
       }
       case MobStates.Attack: {

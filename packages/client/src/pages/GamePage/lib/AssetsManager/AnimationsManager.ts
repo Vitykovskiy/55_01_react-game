@@ -3,8 +3,8 @@ import { UnitAnimationParamsMap, ProjectilesParamsMap } from './types'
 import { UnitAnimationsManager } from './UnitAnimationsManager'
 
 export class AssetsManager {
-  private _unitManagers!: Map<string, UnitAnimationsManager>
-  private _projectileMangers!: ProjectilesManger
+  private _unitManagers: Map<string, UnitAnimationsManager>
+  private _projectileMangers: ProjectilesManger
   private _spriteSheets: Record<string, string>
 
   private _initPromise: Promise<void> | null = null

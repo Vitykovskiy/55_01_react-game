@@ -1,7 +1,7 @@
 import { assetsManager } from '../AssetsManager/assets'
 import { BaseUnitView } from './base/BaseUnitView'
 import { UnitsViewTypes } from './types'
-import { BaseUnit } from '@pages/GamePage/models/units/base/BaseUnit'
+import { BaseUnit } from '../../models/units/base/BaseUnit'
 
 export class MainHeroView extends BaseUnitView {
   public static render(

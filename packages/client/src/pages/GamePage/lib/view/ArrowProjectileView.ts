@@ -1,7 +1,7 @@
 import { assetsManager } from '../AssetsManager/assets'
 import { BaseProjectileView } from './base/BaseProjectileView'
 import { ProjectilesViewTypes } from './types'
-import { BaseProjectile } from '@pages/GamePage/models/units/base/BaseProjectile'
+import { BaseProjectile } from '../../models/units/base/BaseProjectile'
 
 const ARROW_SIZE = { width: 20, height: 40 }
 

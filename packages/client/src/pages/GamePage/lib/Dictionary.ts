@@ -6,7 +6,7 @@ export class Dictionary {
   private _currentWords: string[] = []
 
   public getRandomWord(): string | null {
-    const forbiddenLetters = new Set(this._currentWords.map(w => w[0]))
+    const forbiddenLetters = new Set(this._currentWords.map(word => word[0]))
 
     const candidates = this._dictionary.filter(
       word =>

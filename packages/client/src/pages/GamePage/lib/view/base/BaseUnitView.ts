@@ -1,9 +1,15 @@
-import { BaseUnit } from '@pages/GamePage/models/units/base/BaseUnit'
-import { isMob } from '@pages/GamePage/models/units/base/BaseMob'
+import { BaseUnit } from '../../../models/units/base/BaseUnit'
+import { isMob } from '../../../models/units/base/BaseMob'
 import { UnitAnimationsManager } from '../../AssetsManager/UnitAnimationsManager'
 import { convertAngleToAssetsAngle } from '../../AssetsManager/utils'
 
 const DEBUG_MODE = false
+
+const NAME_STYLE_OPTIONS = {
+  textHeight: 16,
+  paddingX: 6,
+  paddingY: 2,
+}
 
 export abstract class BaseUnitView {
   protected static _render(
@@ -63,10 +69,7 @@ export abstract class BaseUnitView {
       context.textBaseline = 'middle'
 
       const fullTextWidth = context.measureText(name).width
-      const textHeight = 16
-
-      const paddingX = 6
-      const paddingY = 2
+      const { textHeight, paddingX, paddingY } = NAME_STYLE_OPTIONS
 
       const boxWidth = fullTextWidth + paddingX * 2
       const boxHeight = textHeight + paddingY * 2

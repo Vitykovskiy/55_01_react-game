@@ -29,10 +29,7 @@ export interface UnitInit {
   actionsPropertiesMap: StatePropertiesMap
 }
 
-export type StatePropertiesMap = Map<
-  MobStates | MainHeroStates,
-  StateProperties
->
+export type StatePropertiesMap = Map<UnitState, StateProperties>
 
 export type StateProperties = {
   duration: number

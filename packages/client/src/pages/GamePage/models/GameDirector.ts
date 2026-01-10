@@ -144,10 +144,6 @@ export class GameDirector {
       //
     })
 
-    this.eventBus.on(HeroEvents.AttacksRange, () => {
-      //
-    })
-
     this.eventBus.on(HeroEvents.AttacksMelee, () => {
       //
     })
