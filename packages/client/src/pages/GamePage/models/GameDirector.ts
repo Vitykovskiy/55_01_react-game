@@ -6,6 +6,7 @@ import { isMob, BaseMob } from './units/base/BaseMob'
 import { ModelsService } from './ModelsService'
 import { Skeleton } from './units/Skeleton'
 import {
+  BaseEvents,
   GameEvents,
   HeroEvents,
   MobEvents,
@@ -20,19 +21,16 @@ const NUMBER_ADDED_ENEMIES = 3
 export class GameDirector {
   private _dictionary = new Dictionary()
   private _eventBus = new EventBus<GameEvents>()
-  private _modelService = new ModelsService()
 
   private _currentScore = 0
   private _focusedEnemy: BaseMob | null = null
+  private _isGameEnded = false
 
-  constructor(private _fieldSize: Size = { width: 0, height: 0 }) {
-    const { width, height } = this._fieldSize
-
-    this._hero.setPosition({
-      x: width / 2 - this._hero.getSize().width / 2,
-      y: height - 200,
-    })
-
+  constructor(
+    private _modelService: ModelsService,
+    private _fieldSize: Size = { width: 0, height: 0 }
+  ) {
+    this._updateHeroPosition()
     this._addEnemies()
     this._initEventsListeners()
   }
@@ -68,9 +66,30 @@ export class GameDirector {
   }
 
   public update(delta: number): void {
+    if (this._isGameEnded) {
+      return
+    }
+
     this._hero.update(delta)
     this._enemies.forEach(item => item.update(delta))
     this._projectiles.forEach(item => item.update(delta))
+
+    this._checkHeroState()
+  }
+
+  public onResize(fieldSize: Size): void {
+    this._fieldSize = fieldSize
+    this._updateHeroPosition()
+    this._modelService.enemies.forEach(model => model.calculateTrajectory())
+  }
+
+  private _updateHeroPosition(): void {
+    const { width, height } = this._fieldSize
+
+    this._hero.setPosition({
+      x: width / 2 - this._hero.getSize().width / 2,
+      y: height - 200,
+    })
   }
 
   private _initEventsListeners(): void {
@@ -225,6 +244,13 @@ export class GameDirector {
       if (!value) return
       this._hero.setState(MainHeroStates.IdleBow)
     })
+  }
+
+  private _checkHeroState() {
+    if (this._hero.isDead()) {
+      this._isGameEnded = true
+      this.eventBus.emit(BaseEvents.End, this._currentScore)
+    }
   }
 
   private _checkEnemies() {

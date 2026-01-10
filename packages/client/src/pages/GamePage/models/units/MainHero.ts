@@ -9,7 +9,7 @@ import {
 
 const COLLISION_SIDE_PADDING = 0.45
 const COLLISION_FRONT_PADDING = 0.2
-
+const MAIN_HERO_MAX_HP = 10
 const MAIN_HERO_ANIMATIONS: StatePropertiesMap = new Map([
   [MainHeroStates.IdleBow, { duration: 1200, isBreakable: true, isLoop: true }],
   [MainHeroStates.AttackBow, { duration: 400, progressTriggerPoint: 70 }],
@@ -41,7 +41,7 @@ export class MainHero extends BaseUnit {
       actionsPropertiesMap: MAIN_HERO_ANIMATIONS,
     })
 
-    this._hp = 10
+    this._hp = MAIN_HERO_MAX_HP
   }
 
   public get collisionSegment() {

@@ -36,9 +36,7 @@ export abstract class BaseMob extends BaseUnit {
   ) {
     super(initProps)
 
-    this._targetPoint = this._getTargetPoint()
-    this._turnAngle = this._getAngleToTarget()
-    this._turnPoint = this._getTurnPoint()
+    this.calculateTrajectory()
   }
 
   public get collisionSegment() {
@@ -92,14 +90,13 @@ export abstract class BaseMob extends BaseUnit {
     )
   }
 
-  private _updateUnitState(): void {
-    // TODO: Решить, как будет умирать, по отсутсвтию ХП или по попаданию стрелы
-    // Логично, что по отсутствию ХП
-    /*     if (this.isDead()) {
-      this.setState(MobStates.Death)
-      return
-    } */
+  public calculateTrajectory(): void {
+    this._targetPoint = this._getTargetPoint()
+    this._turnAngle = this._getAngleToTarget()
+    this._turnPoint = this._getTurnPoint()
+  }
 
+  private _updateUnitState(): void {
     if (this.isUnitNearHero()) {
       this._tryAttack()
       return

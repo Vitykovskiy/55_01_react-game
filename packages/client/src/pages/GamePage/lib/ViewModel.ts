@@ -4,21 +4,17 @@ import { MainHeroView } from './view/MainHeroView'
 import { SkeletonView } from './view/SkeletonView'
 
 export class ViewModel {
-  private readonly _ModelsService!: ModelsService
-
-  constructor() {
-    this._ModelsService = new ModelsService()
-  }
+  constructor(private readonly _modelsService: ModelsService) {}
 
   render(ctx: CanvasRenderingContext2D) {
-    for (const model of this._ModelsService.enemies) {
+    for (const model of this._modelsService.enemies) {
       SkeletonView.render(ctx, model)
     }
 
-    for (const model of this._ModelsService.projectiles) {
+    for (const model of this._modelsService.projectiles) {
       ArrowProjectileView.render(ctx, model)
     }
 
-    MainHeroView.render(ctx, this._ModelsService.hero)
+    MainHeroView.render(ctx, this._modelsService.hero)
   }
 }

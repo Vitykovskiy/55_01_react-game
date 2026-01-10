@@ -3,19 +3,9 @@ import { MainHero } from './units/MainHero'
 import { BaseMob } from './units/base/BaseMob'
 
 export class ModelsService {
-  static _instance: ModelsService
-
   private _hero: MainHero = new MainHero({ x: 0, y: 0 })
   private _enemies: BaseMob[] = []
   private _projectiles: BaseProjectile[] = []
-
-  constructor() {
-    if (ModelsService._instance) {
-      return ModelsService._instance
-    }
-
-    ModelsService._instance = this
-  }
 
   public get hero() {
     return this._hero
