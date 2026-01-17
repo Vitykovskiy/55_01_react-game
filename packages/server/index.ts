@@ -3,13 +3,58 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import express from 'express'
-import { createClientAndConnect } from './db'
+import session from 'express-session'
+import { connectToDatabase, sequelize } from './db'
+import { initModels } from './models'
+import { requireAuth } from './middleware/auth'
+import authRouter from './routes/auth'
+import topicsRouter from './routes/topics'
+import commentsRouter from './routes/comments'
+import repliesRouter from './routes/replies'
+import reactionsRouter from './routes/reactions'
 
 const app = express()
-app.use(cors())
+
+const clientOrigin = process.env.CLIENT_ORIGIN || 'http://localhost'
+
+app.use(
+  cors({
+    origin: clientOrigin,
+    credentials: true,
+  })
+)
+app.use(express.json())
+
+app.use(
+  session({
+    name: 'forum_sid',
+    secret: process.env.SESSION_SECRET || 'dev_session_secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
+  })
+)
 const port = Number(process.env.SERVER_PORT) || 3001
 
-createClientAndConnect()
+connectToDatabase()
+  .then(() => {
+    initModels()
+    return sequelize.sync()
+  })
+  .catch(error => {
+    console.error('Failed to connect to the database', error)
+  })
+
+app.use('/api', authRouter)
+app.use('/topics', requireAuth, topicsRouter)
+app.use('/comments', requireAuth, commentsRouter)
+app.use('/replies', requireAuth, repliesRouter)
+app.use('/reactions', requireAuth, reactionsRouter)
 
 app.get('/friends', (_, res) => {
   res.json([

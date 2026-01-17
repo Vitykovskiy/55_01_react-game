@@ -1,33 +1,35 @@
-import { Client } from 'pg'
+import { QueryTypes, Sequelize } from 'sequelize'
 
 const {
   POSTGRES_USER,
   POSTGRES_PASSWORD,
   POSTGRES_DB,
-  DB_HOST,
   POSTGRES_PORT,
+  POSTGRES_HOST,
+  DB_HOST,
 } = process.env
 
-export const createClientAndConnect = async (): Promise<Client | null> => {
-  try {
-    const client = new Client({
-      user: POSTGRES_USER,
-      host: DB_HOST || 'localhost',
-      database: POSTGRES_DB,
-      password: POSTGRES_PASSWORD,
-      port: Number(POSTGRES_PORT),
-    })
+if (!POSTGRES_DB || !POSTGRES_USER) {
+  throw new Error('Database credentials are not set')
+}
 
-    await client.connect()
-
-    const res = await client.query('SELECT NOW()')
-    console.log('  ➜ 🎸 Connected to the database at:', res?.rows?.[0].now)
-    client.end()
-
-    return client
-  } catch (e) {
-    console.error(e)
+export const sequelize = new Sequelize(
+  POSTGRES_DB,
+  POSTGRES_USER,
+  POSTGRES_PASSWORD,
+  {
+    host: DB_HOST || POSTGRES_HOST || 'localhost',
+    port: Number(POSTGRES_PORT) || 5432,
+    dialect: 'postgres',
+    logging: false,
   }
+)
 
-  return null
+export const connectToDatabase = async (): Promise<void> => {
+  await sequelize.authenticate()
+  const [result] = await sequelize.query<{ now: string }>(
+    'SELECT NOW() as now',
+    { type: QueryTypes.SELECT }
+  )
+  console.log('  ➜ 🎸 Connected to the database at:', result?.now)
 }
