@@ -1,6 +1,11 @@
-.form {
+.form,
+.oauth {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.form {
+  margin-bottom: 24px;
 }
