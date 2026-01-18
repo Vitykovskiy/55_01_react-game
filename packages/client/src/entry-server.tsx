@@ -1,17 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { Request as ExpressRequest } from 'express'
 import ReactDOM from 'react-dom/server'
-import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
 import { matchRoutes } from 'react-router-dom'
 import {
   createStaticHandler,
   createStaticRouter,
-  StaticRouterProvider,
 } from 'react-router-dom/server'
 import { ServerStyleSheet } from 'styled-components'
 
 import { routes } from './app/routes'
+import { AppServer } from './app/App.server'
 import { reducer } from './app/store'
 import {
   createContext,
@@ -56,15 +55,18 @@ export const render = async (req: ExpressRequest) => {
 
   const router = createStaticRouter(dataRoutes, context)
   const sheet = new ServerStyleSheet()
+
   try {
-    const helmetContext: Record<string, HelmetProvider> = {}
+    const helmetContext: Record<string, any> = {}
     const html = ReactDOM.renderToString(
       sheet.collectStyles(
-        <HelmetProvider context={helmetContext}>
-          <Provider store={store}>
-            <StaticRouterProvider router={router} context={context} />
-          </Provider>
-        </HelmetProvider>
+        <Provider store={store}>
+          <AppServer
+            router={router}
+            context={context}
+            helmetContext={helmetContext}
+          />
+        </Provider>
       )
     )
 
