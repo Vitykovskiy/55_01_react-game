@@ -97,11 +97,11 @@ export const signin = async (
       return res.status(500).json({ message: 'No auth cookies received' })
     }
 
-    req.session.praktikumCookies = cookieMap
+    req.session.authCookies = cookieMap
 
     const userResponse = await fetchPraktikumUser(cookieMap)
     if (!userResponse.ok) {
-      req.session.praktikumCookies = undefined
+      req.session.authCookies = undefined
       req.session.userId = undefined
       return res.status(403).json({ message: 'Forbidden' })
     }
@@ -116,11 +116,11 @@ export const signin = async (
   }
 }
 
-export const getIam = async (
+export const getUser = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const cookieMap = req.session.praktikumCookies
+  const cookieMap = req.session.authCookies
   if (!cookieMap || !req.session.userId) {
     return res.status(403).json({ message: 'Forbidden' })
   }
@@ -128,7 +128,7 @@ export const getIam = async (
   try {
     const userResponse = await fetchPraktikumUser(cookieMap)
     if (!userResponse.ok) {
-      req.session.praktikumCookies = undefined
+      req.session.authCookies = undefined
       req.session.userId = undefined
       return res.status(403).json({ message: 'Forbidden' })
     }
@@ -147,7 +147,7 @@ export const logout = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const cookieMap = req.session.praktikumCookies
+  const cookieMap = req.session.authCookies
 
   try {
     if (cookieMap) {

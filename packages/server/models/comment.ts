@@ -7,7 +7,7 @@ export type CommentAttributes = {
   content: string
   userId: number
   topicId: number
-  parentCommentId?: number | null
+  parentCommentId: number | null
   createdAt?: Date
   updatedAt?: Date
 }
