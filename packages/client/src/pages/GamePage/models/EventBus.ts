@@ -1,4 +1,4 @@
-export type EventCallback = (...args: unknown[]) => void
+export type EventCallback = (...args: unknown[]) => Promise<void> | void
 
 export class EventBus<T extends string> {
   private listeners: Partial<Record<T, EventCallback[]>>
