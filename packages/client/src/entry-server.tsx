@@ -10,7 +10,6 @@ import {
 import { ServerStyleSheet } from 'styled-components'
 
 import { routes } from './app/routes'
-import { AppServer } from './app/App.server'
 import { reducer } from './app/store'
 import {
   createContext,
@@ -18,8 +17,11 @@ import {
   createUrl,
 } from './entry-server.utils'
 import { setPageHasBeenInitializedOnServer } from './shared/config'
+import { HelmetProvider } from 'react-helmet-async'
+import { AppServer } from './app/App.server'
 
 export const render = async (req: ExpressRequest) => {
+  console.log(55)
   const { query, dataRoutes } = createStaticHandler(routes)
   const fetchRequest = createFetchRequest(req)
   const context = await query(fetchRequest)
@@ -57,7 +59,7 @@ export const render = async (req: ExpressRequest) => {
   const sheet = new ServerStyleSheet()
 
   try {
-    const helmetContext: Record<string, any> = {}
+    const helmetContext: Record<string, HelmetProvider> = {}
     const html = ReactDOM.renderToString(
       sheet.collectStyles(
         <Provider store={store}>

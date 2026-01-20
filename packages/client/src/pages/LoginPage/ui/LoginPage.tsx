@@ -13,6 +13,7 @@ import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
 import s from './LoginPage.module.scss'
 import { LoginPageInputs } from './LoginPageInputs'
+
 export const LoginPage = () => {
   usePage({})
 
@@ -21,21 +22,17 @@ export const LoginPage = () => {
     mode: 'all',
   })
   const { handleSubmit } = methods
-  const [initiatedPage, setInitiatedPage] = useState(false)
+  const [isClient, setIsClient] = useState(false)
   const navigate = useNavigate()
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    setInitiatedPage(true)
+    setIsClient(true)
   }, [])
 
   const { isAuthenticated, isLoading } = useAuth()
 
-  if (!initiatedPage) {
-    return null
-  }
-
-  if (isLoading) {
+  if (!isClient || isLoading) {
     return (
       <Layout variant="center" title={LOGIN_PAGE_TITLE}>
         <Loader />
@@ -43,7 +40,7 @@ export const LoginPage = () => {
     )
   }
 
-  if (isAuthenticated) {
+  if (isClient && isAuthenticated) {
     return <Navigate to={RoutePath.Main} />
   }
 
