@@ -52,15 +52,12 @@ export const createTopic = async (
     return res.status(400).json({ message: content.message })
   }
 
-  if (!req.user?.id) {
-    return res.status(403).json({ message: 'Forbidden' })
-  }
-
   try {
+    const userId = req.user!.id
     const topic = await Topic.create({
       title: title.value,
       content: content.value,
-      userId: req.user.id,
+      userId,
     })
     return res.status(201).json(topic)
   } catch (error) {

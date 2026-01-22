@@ -1,5 +1,8 @@
 import { Request, Response } from 'express'
-import setCookieParser from 'set-cookie-parser'
+import {
+  buildCookieHeader,
+  extractCookieMapFromHeaders,
+} from '../utils/cookies'
 import { requireText } from '../utils/validation'
 
 const PRAKTIKUM_API_BASE_URL = 'https://ya-praktikum.tech/api/v2'
@@ -15,44 +18,28 @@ type PraktikumUser = {
   phone?: string
 }
 
-const buildCookieHeader = (cookies: Record<string, string>): string =>
-  Object.entries(cookies)
-    .map(([name, value]) => `${name}=${value}`)
-    .join('; ')
-
-const extractCookieMap = (
-  response: globalThis.Response
-): Record<string, string> => {
-  const setCookieHeader =
-    (
-      response.headers as unknown as { getSetCookie?: () => string[] }
-    ).getSetCookie?.() ??
-    (response.headers.get('set-cookie')
-      ? [response.headers.get('set-cookie') as string]
-      : [])
-
-  const parsed = setCookieParser.parse(setCookieHeader, { map: true })
-  const cookieMap: Record<string, string> = {}
-  for (const key of Object.keys(parsed)) {
-    cookieMap[key] = parsed[key].value
-  }
-  return cookieMap
-}
-
 const fetchPraktikumUser = async (
   cookies: Record<string, string>
 ): Promise<
-  { ok: true; user: PraktikumUser } | { ok: false; status: number }
+  | { ok: true; user: PraktikumUser }
+  | { ok: false; status: number; message?: string }
 > => {
-  const response = await fetch(`${PRAKTIKUM_API_BASE_URL}/auth/user`, {
-    method: 'GET',
-    headers: {
-      cookie: buildCookieHeader(cookies),
-    },
-  })
+  let response: globalThis.Response
+  try {
+    response = await fetch(`${PRAKTIKUM_API_BASE_URL}/auth/user`, {
+      method: 'GET',
+      headers: {
+        cookie: buildCookieHeader(cookies),
+      },
+    })
+  } catch (error) {
+    console.error('Failed to fetch Praktikum user', error)
+    return { ok: false, status: 503, message: 'Network error' }
+  }
 
   if (!response.ok) {
-    return { ok: false, status: response.status }
+    const message = await response.text().catch(() => '')
+    return { ok: false, status: response.status, message: message || undefined }
   }
 
   const user = (await response.json()) as PraktikumUser
@@ -63,27 +50,37 @@ export const signin = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const login = requireText(req.body.login, 'login', { maxLength: 100 })
+  const body = typeof req.body === 'object' && req.body !== null ? req.body : {}
+  const login = requireText((body as { login?: unknown }).login, 'login', {
+    maxLength: 100,
+  })
   if (!login.ok) {
     return res.status(400).json({ message: login.message })
   }
 
-  const password = requireText(req.body.password, 'password', {
-    maxLength: 200,
-  })
+  const password = requireText(
+    (body as { password?: unknown }).password,
+    'password',
+    {
+      maxLength: 200,
+    }
+  )
   if (!password.ok) {
     return res.status(400).json({ message: password.message })
   }
 
   try {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 7000)
     const response = await fetch(`${PRAKTIKUM_API_BASE_URL}/auth/signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      signal: controller.signal,
       body: JSON.stringify({
         login: login.value,
         password: password.value,
       }),
-    })
+    }).finally(() => clearTimeout(timeoutId))
 
     if (!response.ok) {
       const message = await response.text().catch(() => '')
@@ -92,18 +89,43 @@ export const signin = async (
       })
     }
 
-    const cookieMap = extractCookieMap(response)
+    let userFromSignin: PraktikumUser | null = null
+    const responseText = await response.text().catch(() => '')
+    if (responseText) {
+      try {
+        const parsed = JSON.parse(responseText) as Partial<PraktikumUser>
+        if (typeof parsed === 'object' && parsed !== null && 'id' in parsed) {
+          userFromSignin = parsed as PraktikumUser
+        }
+      } catch {
+        userFromSignin = null
+      }
+    }
+
+    const cookieMap = extractCookieMapFromHeaders(response.headers)
     if (Object.keys(cookieMap).length === 0) {
       return res.status(500).json({ message: 'No auth cookies received' })
     }
 
     req.session.authCookies = cookieMap
 
+    if (userFromSignin) {
+      req.session.userId = userFromSignin.id
+      req.user = { id: userFromSignin.id }
+      return res.status(200).json(userFromSignin)
+    }
+
     const userResponse = await fetchPraktikumUser(cookieMap)
     if (!userResponse.ok) {
-      req.session.authCookies = undefined
-      req.session.userId = undefined
-      return res.status(403).json({ message: 'Forbidden' })
+      if (userResponse.status === 401 || userResponse.status === 403) {
+        req.session.authCookies = undefined
+        req.session.userId = undefined
+        return res.status(403).json({ message: 'Forbidden' })
+      }
+
+      return res.status(502).json({
+        message: userResponse.message || 'Auth service unavailable',
+      })
     }
 
     req.session.userId = userResponse.user.id
@@ -128,9 +150,15 @@ export const getUser = async (
   try {
     const userResponse = await fetchPraktikumUser(cookieMap)
     if (!userResponse.ok) {
-      req.session.authCookies = undefined
-      req.session.userId = undefined
-      return res.status(403).json({ message: 'Forbidden' })
+      if (userResponse.status === 401 || userResponse.status === 403) {
+        req.session.authCookies = undefined
+        req.session.userId = undefined
+        return res.status(403).json({ message: 'Forbidden' })
+      }
+
+      return res.status(502).json({
+        message: userResponse.message || 'Auth service unavailable',
+      })
     }
 
     req.session.userId = userResponse.user.id
@@ -159,7 +187,14 @@ export const logout = async (
       }).catch(() => undefined)
     }
 
-    req.session.destroy(() => undefined)
+    const destroyError = await new Promise<Error | null>(resolve => {
+      req.session.destroy(error => resolve(error ?? null))
+    })
+    if (destroyError) {
+      console.error('Failed to destroy session', destroyError)
+      return res.status(500).json({ message: 'Failed to logout' })
+    }
+
     res.clearCookie('forum_sid')
     return res.status(200).json({ ok: true })
   } catch (error) {

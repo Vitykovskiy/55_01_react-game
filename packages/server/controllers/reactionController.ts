@@ -1,7 +1,5 @@
 import { Request, Response } from 'express'
-import { Op } from 'sequelize'
-import { sequelize } from '../db'
-import { Reaction } from '../models'
+import { Comment, Reaction } from '../models'
 import { requireInt } from '../utils/validation'
 
 const REACTION_TYPES = [
@@ -14,11 +12,6 @@ const REACTION_TYPES = [
 ] as const
 
 type ReactionType = (typeof REACTION_TYPES)[number]
-
-type ReactionCountRow = {
-  type: ReactionType
-  count: string
-}
 
 const isReactionType = (value: unknown): value is ReactionType =>
   typeof value === 'string' &&
@@ -33,20 +26,13 @@ export const getReactionsByComment = async (
     return res.status(400).json({ message: commentId.message })
   }
 
-  if (!req.user?.id) {
-    return res.status(403).json({ message: 'Forbidden' })
-  }
-
   try {
+    const userId = req.user!.id
     const rows = (await Reaction.findAll({
       where: { commentId: commentId.value },
-      attributes: [
-        'type',
-        [sequelize.fn('COUNT', sequelize.col('type')), 'count'],
-      ],
-      group: ['type'],
+      attributes: ['type', 'userId'],
       raw: true,
-    })) as unknown as ReactionCountRow[]
+    })) as unknown as { type: ReactionType; userId: number }[]
 
     const counts: Record<ReactionType, number> = {
       like: 0,
@@ -57,19 +43,15 @@ export const getReactionsByComment = async (
       love: 0,
     }
 
+    const myReactionSet = new Set<ReactionType>()
     for (const row of rows) {
-      counts[row.type] = Number(row.count)
+      counts[row.type] += 1
+      if (row.userId === userId) {
+        myReactionSet.add(row.type)
+      }
     }
 
-    const myReactions = await Reaction.findAll({
-      where: {
-        commentId: commentId.value,
-        userId: req.user.id,
-        type: { [Op.in]: REACTION_TYPES as unknown as string[] },
-      },
-      attributes: ['type'],
-      raw: true,
-    }).then(result => result.map(r => r.type as ReactionType))
+    const myReactions = Array.from(myReactionSet)
 
     return res.json({
       commentId: commentId.value,
@@ -91,30 +73,27 @@ export const createReaction = async (
     return res.status(400).json({ message: commentId.message })
   }
 
-  if (!req.user?.id) {
-    return res.status(403).json({ message: 'Forbidden' })
-  }
-
   const { type } = req.body
   if (!isReactionType(type)) {
     return res.status(400).json({ message: 'type is invalid' })
   }
 
   try {
+    const userId = req.user!.id
     const [reaction, created] = await Reaction.findOrCreate({
       where: {
         commentId: commentId.value,
-        userId: req.user.id,
+        userId,
         type,
       },
       defaults: {
         commentId: commentId.value,
-        userId: req.user.id,
+        userId,
         type,
       },
     })
 
-    return res.status(created ? 201 : 200).json(reaction)
+    return res.status(created ? 201 : 200).json({ reaction, created })
   } catch (error) {
     console.error('Failed to create reaction', error)
     const message =
@@ -132,20 +111,22 @@ export const deleteReaction = async (
     return res.status(400).json({ message: commentId.message })
   }
 
-  if (!req.user?.id) {
-    return res.status(403).json({ message: 'Forbidden' })
-  }
-
   const { type } = req.body
   if (!isReactionType(type)) {
     return res.status(400).json({ message: 'type is invalid' })
   }
 
   try {
+    const userId = req.user!.id
+    const comment = await Comment.findByPk(commentId.value)
+    if (!comment) {
+      return res.status(404).json({ message: 'Comment not found' })
+    }
+
     const deleted = await Reaction.destroy({
       where: {
         commentId: commentId.value,
-        userId: req.user.id,
+        userId,
         type,
       },
     })
