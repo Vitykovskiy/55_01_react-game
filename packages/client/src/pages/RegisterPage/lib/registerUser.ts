@@ -1,4 +1,4 @@
-import { Api, CommonErrorType } from '@shared/lib'
+import { yandexApi, CommonErrorType } from '@shared/lib'
 import { registerRequest, RegisterUserDto } from '../api'
 import { RegisterUser } from '../model/types'
 
@@ -16,11 +16,11 @@ export const registerUser = async (user: RegisterUser) => {
     const response = await registerRequest(mapUserToDto(user))
 
     if (response && response.id) {
-      return Api.buildResponseSuccess(undefined)
+      return yandexApi.buildResponseSuccess(undefined)
     }
 
-    return Api.buildResponseError(CommonErrorType.UnknownError)
+    return yandexApi.buildResponseError(CommonErrorType.UnknownError)
   } catch (error) {
-    return Api.handleError(error)
+    return yandexApi.handleError(error)
   }
 }

@@ -1,7 +1,7 @@
 import { Card, Text } from '@gravity-ui/uikit'
 import s from './style.module.scss'
 import { Link } from 'react-router-dom'
-import type { ForumTopic } from '../../model/mockForumTopics'
+import type { ForumTopic } from '../../model/types'
 
 export type ForumCardProps = ForumTopic
 
