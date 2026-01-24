@@ -1,6 +1,6 @@
 export const DEFAULT_SIZE_UNIT = 80
 
-export const words = [
+export const WORDS = [
   'дом',
   'лес',
   'луг',
