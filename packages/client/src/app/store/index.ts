@@ -1,3 +1,4 @@
+import { forumTopicsReducer } from '@entities/forum'
 import { leaderboardReducer } from '@entities/leaderboard'
 import { userReducer } from '@entities/user'
 import { configureStore } from '@reduxjs/toolkit'
@@ -10,6 +11,7 @@ export const reducer = combineReducers({
   ssr: ssrReducer,
   user: userReducer,
   leaderboard: leaderboardReducer,
+  forumTopics: forumTopicsReducer,
 })
 
 export const store = configureStore({

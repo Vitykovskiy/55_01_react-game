@@ -1,12 +1,22 @@
-import { ForumCard, mockForumTopics } from '@entities/forum'
+import { ForumCard, fetchForumTopics } from '@entities/forum'
 import { Button, Text } from '@gravity-ui/uikit'
 import { RoutePath, usePage } from '@shared/config'
+import { useDispatch, useSelector } from '@shared/store'
 import Layout from '@shared/ui/Layout'
+import { Loader } from '@shared/ui/Loader'
 import Section from '@shared/ui/Section'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 
 export const ForumPage = () => {
   usePage({})
+  const { topics, isLoadingTopics } = useSelector(state => state.forumTopics)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchForumTopics())
+  }, [])
+
   return (
     <Layout
       title="Форум"
@@ -29,9 +39,11 @@ export const ForumPage = () => {
         Форум
       </Text>
       <Section pb>
-        {mockForumTopics.map(card => (
-          <ForumCard key={card.id} id={card.id} title={card.title} />
-        ))}
+        <Loader show={isLoadingTopics}>
+          {topics.map(topic => (
+            <ForumCard key={topic.id} id={topic.id} title={topic.title} />
+          ))}
+        </Loader>
       </Section>
     </Layout>
   )

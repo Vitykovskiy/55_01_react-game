@@ -2,7 +2,9 @@ import { Button, Text, TextArea, TextInput } from '@gravity-ui/uikit'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+import { createForumTopic } from '@entities/forum'
 import { RoutePath, usePage } from '@shared/config'
+import { useDispatch, useSelector } from '@shared/store'
 import Layout from '@shared/ui/Layout'
 import Section from '@shared/ui/Section'
 import styles from './CreateTopicPage.module.scss'
@@ -10,17 +12,22 @@ import styles from './CreateTopicPage.module.scss'
 export const CreateTopicPage = () => {
   usePage({})
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { isCreatingTopic } = useSelector(state => state.forumTopics)
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
 
   const canSubmit = title.trim().length > 0 && text.trim().length > 0
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (!canSubmit) {
       return
     }
 
-    navigate(RoutePath.Forum)
+    const result = await dispatch(createForumTopic({ title, content: text }))
+    if (createForumTopic.fulfilled.match(result)) {
+      navigate(RoutePath.Forum)
+    }
   }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -39,7 +46,7 @@ export const CreateTopicPage = () => {
               type="submit"
               view="action"
               width="max"
-              disabled={!canSubmit}>
+              disabled={!canSubmit || isCreatingTopic}>
               Создать тему
             </Button>
             <Button
