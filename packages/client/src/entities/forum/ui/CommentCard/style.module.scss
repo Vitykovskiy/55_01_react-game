@@ -1,6 +1,17 @@
-.commentCard {
-  padding: var(--g-spacing-2);
-}
 .avatar {
   flex-shrink: 0;
 }
+
+.commentCard {
+  margin-bottom: 16px;
+  padding: var(--g-spacing-2);
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &.active {
+    background-color: var(--g-color-base-selection);
+  }
+}
+
