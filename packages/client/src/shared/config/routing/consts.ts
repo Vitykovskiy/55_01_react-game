@@ -1,5 +1,6 @@
 export const enum RoutePath {
   Login = '/login',
+  OAuth = '/oauth',
   Register = '/register',
   Profile = '/profile',
   Main = '/',
@@ -12,3 +13,4 @@ export const enum RoutePath {
 }
 
 export const BASE_URL = 'https://ya-praktikum.tech/api/v2'
+export const REDIRECT_URI = 'http://localhost:3000/oauth'

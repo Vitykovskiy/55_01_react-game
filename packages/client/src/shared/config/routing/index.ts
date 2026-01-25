@@ -1,4 +1,4 @@
-export { BASE_URL, RoutePath } from './consts'
+export { BASE_URL, REDIRECT_URI, RoutePath } from './consts'
 export {
   setPageHasBeenInitializedOnServer,
   ssrReducer,

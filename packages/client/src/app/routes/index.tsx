@@ -6,6 +6,7 @@ import {
   LeaderboardPage,
   LoginPage,
   MainPage,
+  OAuthPage,
   ProfilePage,
   RegisterPage,
   TopicPage,
@@ -24,6 +25,7 @@ export type RouteConfig = {
 const routeConfig: RouteConfig[] = [
   { path: RoutePath.Main, element: MainPage, isPublic: false },
   { path: RoutePath.Login, element: LoginPage, isPublic: true },
+  { path: RoutePath.OAuth, element: OAuthPage, isPublic: true },
   { path: RoutePath.Register, element: RegisterPage, isPublic: true },
   { path: RoutePath.Profile, element: ProfilePage, isPublic: false },
   { path: RoutePath.Game, element: GamePage, isPublic: false },
