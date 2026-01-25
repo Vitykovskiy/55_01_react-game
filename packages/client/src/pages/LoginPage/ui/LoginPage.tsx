@@ -8,7 +8,8 @@ import Layout from '@shared/ui/Layout'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { login, requestYandexServiceId } from '../lib/login'
+import { login } from '../lib/login'
+import { useYandexLogin } from '../model/useYandexLogin'
 import { DEFAULT_AUTH_ERROR, LOGIN_PAGE_TITLE } from '../model/consts'
 import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
@@ -32,6 +33,10 @@ export const LoginPage = () => {
   }, [])
 
   const { isAuthenticated, isLoading } = useAuth()
+  const handleYandexLogin = useYandexLogin({
+    redirectUri: REDIRECT_URI,
+    setError,
+  })
 
   if (!initiatedPage) {
     return null
@@ -61,22 +66,6 @@ export const LoginPage = () => {
 
   const handleButtonRegisterClick = () => {
     navigate(RoutePath.Register)
-  }
-
-  const handleYandexLogin = async () => {
-    setError(null)
-    const response = await requestYandexServiceId(REDIRECT_URI)
-    if (response.type === ResponseType.Success && response.data) {
-      const clientId = response.data.service_id
-      const yandexOAuthUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
-        REDIRECT_URI
-      )}`
-      document.location.href = yandexOAuthUrl
-    } else if (response.type === ResponseType.Error) {
-      setError(response.message || DEFAULT_AUTH_ERROR)
-    } else {
-      setError(DEFAULT_AUTH_ERROR)
-    }
   }
 
   return (
