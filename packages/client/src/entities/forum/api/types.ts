@@ -25,5 +25,5 @@ export type CreateTopicPayload = {
 export type CreateCommentPayload = {
   content: string
   topicId: number
-  parentCommentId?: number | null
+  parentCommentId: number | null
 }

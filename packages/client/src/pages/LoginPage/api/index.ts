@@ -6,6 +6,6 @@ export const loginApi = (data: Schema): Promise<void> => {
 }
 
 export const getYandexServiceId = (redirectUri: string) =>
-  Api.getRequest<{ service_id: string }>('oauth/yandex/service-id', {
+  yandexApi.getRequest<{ service_id: string }>('oauth/yandex/service-id', {
     redirect_uri: redirectUri,
   })
