@@ -1,18 +1,21 @@
 import { useAuth } from '@entities/user'
-import { Alert, Button, Loader, Text } from '@gravity-ui/uikit'
+import { Alert, Button, Icon, Loader, Text } from '@gravity-ui/uikit'
+import { LogoYandex } from '@gravity-ui/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RoutePath, usePage } from '@shared/config'
+import { RoutePath, usePage, REDIRECT_URI } from '@shared/config'
 import { ResponseType } from '@shared/lib'
 import Layout from '@shared/ui/Layout'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { login } from '../lib/login'
+import { useYandexLogin } from '../model/useYandexLogin'
 import { DEFAULT_AUTH_ERROR, LOGIN_PAGE_TITLE } from '../model/consts'
 import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
 import s from './LoginPage.module.scss'
 import { LoginPageInputs } from './LoginPageInputs'
+
 export const LoginPage = () => {
   usePage({})
 
@@ -30,6 +33,10 @@ export const LoginPage = () => {
   }, [])
 
   const { isAuthenticated, isLoading } = useAuth()
+  const handleYandexLogin = useYandexLogin({
+    redirectUri: REDIRECT_URI,
+    setError,
+  })
 
   if (!initiatedPage) {
     return null
@@ -78,6 +85,13 @@ export const LoginPage = () => {
         </form>
         {error && <Alert theme="danger" message={error} />}
       </FormProvider>
+
+      <div className={s.oauth}>
+        <Button type={'button'} view="action" onClick={handleYandexLogin}>
+          <Icon data={LogoYandex} />
+          Вход с помощью Яндекса
+        </Button>
+      </div>
     </Layout>
   )
 }

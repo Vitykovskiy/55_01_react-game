@@ -9,7 +9,7 @@ import fs from 'fs/promises'
 import { HelmetServerState } from 'react-helmet-async'
 import serialize from 'serialize-javascript'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
-const port = process.env.PORT || 80
+const port = process.env.PORT || 3000
 const clientPath = path.join(__dirname, '..')
 const isDev = process.env.NODE_ENV === 'development'
 
