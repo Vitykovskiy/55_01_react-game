@@ -6,23 +6,23 @@ import {
   CreateCommentPayload,
 } from './types'
 
-export const getTopics = (): Promise<TopicDto[] | undefined> => {
+export const getTopicsRequest = (): Promise<TopicDto[] | undefined> => {
   return serverApi.getRequest<TopicDto[]>('topics')
 }
 
-export const createTopic = (
+export const createTopicRequest = (
   data: CreateTopicPayload
 ): Promise<TopicDto | undefined> => {
   return serverApi.postRequest<TopicDto>('topics', data)
 }
 
-export const getCommentsByTopic = (
+export const getCommentsByTopicRequest = (
   topicId: number
 ): Promise<CommentDto[] | undefined> => {
   return serverApi.getRequest<CommentDto[]>(`comments/topic/${topicId}`)
 }
 
-export const createCommentForTopic = (
+export const createCommentForTopicRequest = (
   topicId: number,
   data: Omit<CreateCommentPayload, 'topicId'>
 ): Promise<CommentDto | undefined> => {

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { createTopic, getTopics } from '../api'
+import { createTopicRequest, getTopicsRequest } from '../api'
 import { CreateTopicPayload, TopicDto } from '../api/types'
 import { ForumTopic, ForumTopicsState } from './types'
 
@@ -20,7 +20,7 @@ const mapTopicDtoToForumTopic = (topic: TopicDto): ForumTopic => ({
 export const fetchForumTopics = createAsyncThunk(
   'forum/fetchTopics',
   async (): Promise<ForumTopic[]> => {
-    const response = await getTopics()
+    const response = await getTopicsRequest()
     return (response ?? []).map(mapTopicDtoToForumTopic)
   }
 )
@@ -28,7 +28,7 @@ export const fetchForumTopics = createAsyncThunk(
 export const createForumTopic = createAsyncThunk(
   'forum/createTopic',
   async (data: CreateTopicPayload): Promise<ForumTopic | undefined> => {
-    const response = await createTopic(data)
+    const response = await createTopicRequest(data)
     return response ? mapTopicDtoToForumTopic(response) : undefined
   }
 )
