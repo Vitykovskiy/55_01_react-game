@@ -6,24 +6,17 @@ import { useEffect, useState } from 'react'
 
 export const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, isLoading } = useAuth()
-  const [shouldRedirect, setShouldRedirect] = useState(false)
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
     setIsClient(true)
   }, [])
 
-  useEffect(() => {
-    if (isClient && !isAuthenticated) {
-      setShouldRedirect(true)
-    }
-  }, [isClient, isAuthenticated])
-
   if (!isClient) {
-    return <Loader show={isLoading} />
+    return <Loader show={true} />
   }
 
-  if (shouldRedirect) {
+  if (!isAuthenticated) {
     return <Navigate to={RoutePath.Login} replace />
   }
 

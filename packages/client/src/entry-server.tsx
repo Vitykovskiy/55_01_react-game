@@ -1,14 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit'
 import { Request as ExpressRequest } from 'express'
 import ReactDOM from 'react-dom/server'
+import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
 import { matchRoutes } from 'react-router-dom'
 import {
   createStaticHandler,
   createStaticRouter,
+  StaticRouterProvider,
 } from 'react-router-dom/server'
 import { ServerStyleSheet } from 'styled-components'
-
+import { configureStore } from '@reduxjs/toolkit'
 import { routes } from './app/routes'
 import { reducer } from './app/store'
 import {
@@ -17,11 +18,8 @@ import {
   createUrl,
 } from './entry-server.utils'
 import { setPageHasBeenInitializedOnServer } from './shared/config'
-import { HelmetProvider } from 'react-helmet-async'
-import { AppServer } from './app/App.server'
 
 export const render = async (req: ExpressRequest) => {
-  console.log(55)
   const { query, dataRoutes } = createStaticHandler(routes)
   const fetchRequest = createFetchRequest(req)
   const context = await query(fetchRequest)
@@ -30,57 +28,54 @@ export const render = async (req: ExpressRequest) => {
     throw context
   }
 
-  const store = configureStore({
-    reducer,
-  })
+  const store = configureStore({ reducer })
 
   const url = createUrl(req)
+  const matches = matchRoutes(routes, url)
 
-  const foundRoutes = matchRoutes(routes, url)
-  if (!foundRoutes) {
-    throw new Error('Страница не найдена!')
-  }
-
-  const [{ route }] = foundRoutes
-
-  try {
-    await route.fetchData?.({
-      dispatch: store.dispatch,
-      state: store.getState(),
-      ctx: createContext(req),
-    })
-  } catch (e) {
-    console.log('Инициализация страницы произошла с ошибкой', e)
+  if (matches) {
+    for (const match of matches) {
+      const { route } = match
+      if (route.fetchData) {
+        try {
+          await route.fetchData({
+            dispatch: store.dispatch,
+            state: store.getState(),
+            ctx: createContext(req),
+            params: match.params,
+          })
+        } catch (error) {
+          console.error('FetchData error:', error)
+        }
+      }
+    }
   }
 
   store.dispatch(setPageHasBeenInitializedOnServer(true))
 
   const router = createStaticRouter(dataRoutes, context)
   const sheet = new ServerStyleSheet()
+  const helmetContext = {}
 
   try {
-    const helmetContext: Record<string, HelmetProvider> = {}
     const html = ReactDOM.renderToString(
       sheet.collectStyles(
-        <Provider store={store}>
-          <AppServer
-            router={router}
-            context={context}
-            helmetContext={helmetContext}
-          />
-        </Provider>
+        <HelmetProvider context={helmetContext}>
+          <Provider store={store}>
+            <StaticRouterProvider router={router} context={context} />
+          </Provider>
+        </HelmetProvider>
       )
     )
 
+    const { helmet } = helmetContext as { helmet: any }
     const styleTags = sheet.getStyleTags()
-
-    const helmet = helmetContext.helmet || {}
 
     return {
       html,
-      helmet,
-      styleTags,
       initialState: store.getState(),
+      helmet: helmet || {},
+      styleTags,
     }
   } finally {
     sheet.seal()

@@ -9,14 +9,12 @@ export const useAuth = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    ;(async () => {
-      if (isAuthenticated) {
-        return
-      }
+    if (isAuthenticated) {
+      return
+    }
 
-      await dispatch(getUserData())
-    })()
-  }, [])
+    dispatch(getUserData())
+  }, [dispatch, isAuthenticated])
 
   return { isAuthenticated, isLoading: isLoadingUser, user: data }
 }
