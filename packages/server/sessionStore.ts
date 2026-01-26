@@ -8,21 +8,24 @@ export type Session = {
 
 const sessions = new Map<string, Session>()
 
-const generateSessionId = (): string => crypto.randomBytes(32).toString('hex')
+const SESSION_ID_BYTES = 32
+
+const generateSessionId = (): string =>
+  crypto.randomBytes(SESSION_ID_BYTES).toString('hex')
 
 export const createSession = (
   login: string,
   praktikumCookies: string[]
 ): string => {
-  const sid = generateSessionId()
-  sessions.set(sid, {
+  const sessionId = generateSessionId()
+  sessions.set(sessionId, {
     login,
     praktikumCookies,
     createdAt: Date.now(),
   })
-  return sid
+  return sessionId
 }
 
-export const getSession = (sid: string): Session | null => {
-  return sessions.get(sid) || null
+export const getSession = (sessionId: string): Session | null => {
+  return sessions.get(sessionId) || null
 }

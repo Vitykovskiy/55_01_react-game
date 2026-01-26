@@ -33,13 +33,13 @@ export const authMiddleware = (
   }
 
   const cookies = parseCookies(req.headers.cookie)
-  const sid = cookies.bff_sid
+  const sessionId = cookies.bff_sid
 
-  if (!sid) {
+  if (!sessionId) {
     return res.status(401).json({ message: 'Unauthorized' })
   }
 
-  const session = getSession(sid)
+  const session = getSession(sessionId)
   if (!session) {
     return res.status(401).json({ message: 'Unauthorized' })
   }

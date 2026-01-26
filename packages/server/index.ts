@@ -93,9 +93,9 @@ app.post('/auth/signin', (req, res) => {
         return res.status(status).json(data)
       }
 
-      const sid = createSession(login, cookies)
+      const sessionId = createSession(login, cookies)
 
-      res.cookie('bff_sid', sid, {
+      res.cookie('bff_sid', sessionId, {
         httpOnly: true,
         sameSite: 'lax',
       })
@@ -107,7 +107,11 @@ app.post('/auth/signin', (req, res) => {
 
 app.get('/auth/user', (req, res) => {
   const session = (req as typeof req & { session?: Session }).session
-  const login = session?.login || 'user'
+  if (!session) {
+    return res.status(401).json({ message: 'Unauthorized' })
+  }
+
+  const { login } = session
 
   return res.json({
     id: 1,
