@@ -4,10 +4,10 @@ import '@gravity-ui/uikit/styles/styles.css'
 import { ErrorBoundary } from '@shared/ui/ErrorBoundary'
 import { Provider } from 'react-redux'
 import { ReactNode } from 'react'
-
+import { Store } from 'redux'
 interface AppProvidersProps {
   children: ReactNode
-  store: any
+  store: Store<RootState>
   theme?: string
 }
 

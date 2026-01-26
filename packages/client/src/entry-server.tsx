@@ -1,6 +1,6 @@
 import { Request as ExpressRequest } from 'express'
 import ReactDOM from 'react-dom/server'
-import { HelmetProvider } from 'react-helmet-async'
+import { HelmetProvider, HelmetServerState } from 'react-helmet-async'
 import { Provider } from 'react-redux'
 import { matchRoutes } from 'react-router-dom'
 import {
@@ -38,11 +38,10 @@ export const render = async (req: ExpressRequest) => {
       const { route } = match
       if (route.fetchData) {
         try {
-          await route.fetchData({
+          route.fetchData({
             dispatch: store.dispatch,
             state: store.getState(),
             ctx: createContext(req),
-            params: match.params,
           })
         } catch (error) {
           console.error('FetchData error:', error)
@@ -68,7 +67,7 @@ export const render = async (req: ExpressRequest) => {
       )
     )
 
-    const { helmet } = helmetContext as { helmet: any }
+    const { helmet } = helmetContext as { helmet: HelmetServerState }
     const styleTags = sheet.getStyleTags()
 
     return {
