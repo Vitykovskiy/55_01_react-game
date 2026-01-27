@@ -73,6 +73,21 @@ async function putRequest<T, D = unknown>(
   return response.data
 }
 
+async function deleteRequest<T, D = unknown>(
+  url: string,
+  data?: D,
+  headers?: Record<string, string | number | undefined>,
+  signal?: AbortSignal
+): Promise<T | undefined> {
+  const response = await api.delete<T>(url, {
+    ...(headers && { headers: { ...headers } }),
+    data,
+    signal,
+  })
+
+  return response.data
+}
+
 function handleError(
   error: unknown,
   fallbackError = CommonErrorType.UnknownError
@@ -99,6 +114,7 @@ export const Api = {
   getRequest,
   postRequest,
   putRequest,
+  deleteRequest,
   handleError,
   responseTypes: ResponseType,
   codes: ApiCode,

@@ -4,6 +4,10 @@ export type ForumTopicComment = {
   lastName: string
   avatarUrl: string
   message: string
+  reactions?: {
+    counts: Record<string, number>
+    userReactions: string[]
+  }
 }
 
 export type ForumTopic = {
@@ -12,6 +16,43 @@ export type ForumTopic = {
   text?: string
   comments?: ForumTopicComment[]
 }
+
+export interface ReactionResponse {
+  commentId: number
+  counts: Record<string, number>
+  myReactions: string[]
+}
+
+export interface CreateReactionRequest {
+  commentId: number
+  type: string
+}
+
+export interface CreateReactionResponse {
+  reaction: {
+    id: number
+    type: string
+    userId: number
+    commentId: number
+    createdAt: string
+    updatedAt: string
+  }
+  created: boolean
+}
+
+export interface DeleteReactionRequest {
+  commentId: number
+  type: string
+}
+
+export const reactionEmojis = [
+  { name: 'like', icon: '👍' },
+  { name: 'dislike', icon: '👎' },
+  { name: 'laugh', icon: '😄' },
+  { name: 'angry', icon: '😡' },
+  { name: 'sad', icon: '😕' },
+  { name: 'love', icon: '❤️' },
+]
 
 export const mockForumTopics: ForumTopic[] = [
   {

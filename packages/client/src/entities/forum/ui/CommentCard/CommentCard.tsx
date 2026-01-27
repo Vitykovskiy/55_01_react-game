@@ -1,17 +1,22 @@
-import { Avatar, Card, Text } from '@gravity-ui/uikit'
+import { Avatar, Card, Text, Button } from '@gravity-ui/uikit'
 import s from './style.module.scss'
 import Section from '@shared/ui/Section'
-import type { ForumTopicComment } from '../../model/mockForumTopics'
-
-type CommentCardProps = ForumTopicComment
+import { ForumTopicComment, reactionEmojis } from '../../model/mockForumTopics'
+import { useCommentReactions } from '../../lib/useCommentReactions'
 
 export const CommentCard = ({
+  id,
   firstName,
   lastName,
   avatarUrl,
   message,
-}: CommentCardProps) => {
+}: ForumTopicComment) => {
+  const commentId = parseInt(id.replace('c-', ''))
   const fullName = `${firstName} ${lastName}`
+
+  const { reactions, isReactionActive, handleReactionClick } =
+    useCommentReactions(commentId)
+
   return (
     <Card className={s.commentCard}>
       <Section>
@@ -30,10 +35,26 @@ export const CommentCard = ({
             </Text>
           </Section>
         </Section>
+
         <Section>
           <Text as="p" variant="body-2">
             {message}
           </Text>
+        </Section>
+
+        <Section orientation="row" alignItems="center">
+          {reactionEmojis.map(emoji => (
+            <Button
+              key={emoji.name}
+              view={isReactionActive(emoji.name) ? 'action' : 'outlined'}
+              size="s"
+              onClick={() => handleReactionClick(emoji.name)}>
+              <span style={{ marginRight: 4 }}>{emoji.icon}</span>
+              <Text variant="caption-1">
+                {reactions.counts[emoji.name] || 0}
+              </Text>
+            </Button>
+          ))}
         </Section>
       </Section>
     </Card>
