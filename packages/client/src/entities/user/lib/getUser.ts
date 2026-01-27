@@ -1,4 +1,4 @@
-import { Api, ApiResponse, CommonErrorType } from '@shared/lib'
+import { yandexApi, ApiResponse, CommonErrorType } from '@shared/lib'
 import { getUserRequest } from '../api'
 import { User } from '../model/types'
 import { mapUserDtoToUser } from './mappers'
@@ -8,12 +8,12 @@ export const getUser = async (): Promise<ApiResponse<User>> => {
     const user = await getUserRequest()
 
     if (!user) {
-      return Api.buildResponseError(CommonErrorType.UnknownError)
+      return yandexApi.buildResponseError(CommonErrorType.UnknownError)
     }
 
     const mappedUser = mapUserDtoToUser(user)
-    return Api.buildResponseSuccess(mappedUser)
+    return yandexApi.buildResponseSuccess(mappedUser)
   } catch (error) {
-    return Api.handleError(error)
+    return yandexApi.handleError(error)
   }
 }

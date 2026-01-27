@@ -1,14 +1,14 @@
 import { getYandexServiceId, loginApi } from '../api'
-import { Api, ApiResponse, CommonErrorType } from '@shared/lib'
+import { yandexApi, ApiResponse, CommonErrorType } from '@shared/lib'
 import { Schema, YandexServiceIdResponse } from '../model/types'
 import { DEFAULT_AUTH_ERROR } from '../model/consts'
 
 export const login = async (data: Schema): Promise<ApiResponse<undefined>> => {
   try {
     await loginApi(data)
-    return Api.buildResponseSuccess(undefined)
+    return yandexApi.buildResponseSuccess(undefined)
   } catch (error) {
-    return Api.handleError(error)
+    return yandexApi.handleError(error)
   }
 }
 
@@ -18,13 +18,13 @@ export const requestYandexServiceId = async (
   try {
     const response = await getYandexServiceId(redirectUri)
     if (!response?.service_id) {
-      return Api.buildResponseError(
+      return yandexApi.buildResponseError(
         CommonErrorType.UnknownError,
         DEFAULT_AUTH_ERROR
       )
     }
-    return Api.buildResponseSuccess({ service_id: response.service_id })
+    return yandexApi.buildResponseSuccess({ service_id: response.service_id })
   } catch (error) {
-    return Api.handleError(error)
+    return yandexApi.handleError(error)
   }
 }
