@@ -1,3 +1,4 @@
+import { SoundsManager } from '../lib/SoundsManager/SoundsManager'
 import { ViewModel } from '../lib/ViewModel'
 import { GameDirector } from '../models/GameDirector'
 import { ModelsService } from '../models/ModelsService'
@@ -17,6 +18,7 @@ export class Game {
   private readonly _background = new Image()
   private readonly _gameDirector: GameDirector
   private readonly _viewModel: ViewModel
+  private readonly _soundsManager: SoundsManager
 
   private running = false
   private lastTime = 0
@@ -39,6 +41,7 @@ export class Game {
     const modelService = new ModelsService()
     this._gameDirector = new GameDirector(modelService, { width, height })
     this._viewModel = new ViewModel(modelService)
+    this._soundsManager = new SoundsManager(this._gameDirector.eventBus)
 
     window.addEventListener('resize', this._resize)
 
@@ -101,7 +104,6 @@ export class Game {
   }
 
   private _resize = () => {
-    console.log('_resize')
     const parent = this.canvas.parentElement
     if (!parent) {
       return

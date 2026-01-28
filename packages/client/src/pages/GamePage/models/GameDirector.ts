@@ -230,7 +230,9 @@ export class GameDirector {
     const enemy = this._focusedEnemy
     this._focusedEnemy = null
 
+    this.eventBus.emit(HeroEvents.AttacksRange)
     this._hero.setState(MainHeroStates.AttackBow)
+
     this._hero.actionEmitPromise().then(value => {
       if (!value) return
       this.eventBus.emit(ProjectileEvents.Launched, enemy)
