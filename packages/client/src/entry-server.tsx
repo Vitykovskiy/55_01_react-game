@@ -1,7 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit'
 import { Request as ExpressRequest } from 'express'
 import ReactDOM from 'react-dom/server'
-import { HelmetProvider } from 'react-helmet-async'
+import { HelmetProvider, HelmetServerState } from 'react-helmet-async'
 import { Provider } from 'react-redux'
 import { matchRoutes } from 'react-router-dom'
 import {
@@ -10,7 +9,7 @@ import {
   StaticRouterProvider,
 } from 'react-router-dom/server'
 import { ServerStyleSheet } from 'styled-components'
-
+import { configureStore } from '@reduxjs/toolkit'
 import { routes } from './app/routes'
 import { reducer } from './app/store'
 import {
@@ -29,35 +28,35 @@ export const render = async (req: ExpressRequest) => {
     throw context
   }
 
-  const store = configureStore({
-    reducer,
-  })
+  const store = configureStore({ reducer })
 
   const url = createUrl(req)
+  const matches = matchRoutes(routes, url)
 
-  const foundRoutes = matchRoutes(routes, url)
-  if (!foundRoutes) {
-    throw new Error('Страница не найдена!')
-  }
-
-  const [{ route }] = foundRoutes
-
-  try {
-    await route.fetchData?.({
-      dispatch: store.dispatch,
-      state: store.getState(),
-      ctx: createContext(req),
-    })
-  } catch (e) {
-    console.log('Инициализация страницы произошла с ошибкой', e)
+  if (matches) {
+    for (const match of matches) {
+      const { route } = match
+      if (route.fetchData) {
+        try {
+          route.fetchData({
+            dispatch: store.dispatch,
+            state: store.getState(),
+            ctx: createContext(req),
+          })
+        } catch (error) {
+          console.error('FetchData error:', error)
+        }
+      }
+    }
   }
 
   store.dispatch(setPageHasBeenInitializedOnServer(true))
 
   const router = createStaticRouter(dataRoutes, context)
   const sheet = new ServerStyleSheet()
+  const helmetContext = {}
+
   try {
-    const helmetContext: Record<string, HelmetProvider> = {}
     const html = ReactDOM.renderToString(
       sheet.collectStyles(
         <HelmetProvider context={helmetContext}>
@@ -68,15 +67,14 @@ export const render = async (req: ExpressRequest) => {
       )
     )
 
+    const { helmet } = helmetContext as { helmet: HelmetServerState }
     const styleTags = sheet.getStyleTags()
-
-    const helmet = helmetContext.helmet || {}
 
     return {
       html,
-      helmet,
-      styleTags,
       initialState: store.getState(),
+      helmet: helmet || {},
+      styleTags,
     }
   } finally {
     sheet.seal()

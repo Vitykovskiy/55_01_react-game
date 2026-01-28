@@ -1,13 +1,12 @@
-import { useAuth } from '@entities/user'
-import { Alert, Button, Icon, Loader, Text } from '@gravity-ui/uikit'
+import { Alert, Button, Icon, Text } from '@gravity-ui/uikit'
 import { LogoYandex } from '@gravity-ui/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RoutePath, usePage, REDIRECT_URI } from '@shared/config'
+import { FormProvider, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '@entities/user'
+import { REDIRECT_URI, RoutePath } from '@shared/config'
 import { ResponseType } from '@shared/lib'
 import Layout from '@shared/ui/Layout'
-import { useEffect, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import { Navigate, useNavigate } from 'react-router-dom'
 import { login } from '../lib/login'
 import { useYandexLogin } from '../model/useYandexLogin'
 import { DEFAULT_AUTH_ERROR, LOGIN_PAGE_TITLE } from '../model/consts'
@@ -15,43 +14,37 @@ import { schema } from '../model/schemas'
 import { Schema } from '../model/types'
 import s from './LoginPage.module.scss'
 import { LoginPageInputs } from './LoginPageInputs'
+import { useEffect, useState } from 'react'
+import { Loader } from '@shared/ui/Loader'
 
 export const LoginPage = () => {
-  usePage({})
-
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
     mode: 'all',
   })
   const { handleSubmit } = methods
-  const [initiatedPage, setInitiatedPage] = useState(false)
   const navigate = useNavigate()
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    setInitiatedPage(true)
-  }, [])
-
   const { isAuthenticated, isLoading } = useAuth()
+
+  useEffect(() => {
+    if (isAuthenticated && !isLoading) {
+      navigate(RoutePath.Main)
+    }
+  }, [isAuthenticated, isLoading, navigate])
+
   const handleYandexLogin = useYandexLogin({
     redirectUri: REDIRECT_URI,
     setError,
   })
 
-  if (!initiatedPage) {
-    return null
-  }
-
-  if (isLoading) {
+  if (isAuthenticated || isLoading) {
     return (
       <Layout variant="center" title={LOGIN_PAGE_TITLE}>
-        <Loader />
+        <Loader show={true} />
       </Layout>
     )
-  }
-
-  if (isAuthenticated) {
-    return <Navigate to={RoutePath.Main} />
   }
 
   const onSubmit = async (data: Schema) => {
