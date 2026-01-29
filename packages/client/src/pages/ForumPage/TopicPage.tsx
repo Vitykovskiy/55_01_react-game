@@ -1,4 +1,4 @@
-import { fetchForumTopics, ForumTopicComment } from '@entities/forum'
+﻿import { fetchForumTopics, ForumTopicComment } from '@entities/forum'
 import { Text } from '@gravity-ui/uikit'
 import { usePage } from '@shared/config'
 import { useDispatch, useSelector } from '@shared/store'
@@ -15,7 +15,7 @@ import { createCommentForTopic } from '@entities/forum'
 export const TopicPage = () => {
   usePage({})
   const { topicId } = useParams<{ topicId: string }>()
-  const { topics, isLoadingTopics } = useSelector(state => state.forumTopics)
+  const { topics, isLoading } = useSelector(state => state.forumTopicsList)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export const TopicPage = () => {
 
   if (!topic) {
     return (
-      <Loader show={isLoadingTopics}>
+      <Loader show={isLoading}>
         <TopicPageLayout>
           <Section pb>
             <Text as="p" variant="body-2">
@@ -79,7 +79,7 @@ export const TopicPage = () => {
   }
 
   return (
-    <Loader show={isLoadingTopics}>
+    <Loader show={isLoading}>
       <TopicPageLayout>
         <Text as="h1" variant="header-1">
           {topic.title}

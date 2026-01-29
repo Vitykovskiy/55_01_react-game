@@ -1,4 +1,4 @@
-import { ForumCard, fetchForumTopics } from '@entities/forum'
+﻿import { ForumCard, fetchForumTopics } from '@entities/forum'
 import { Button, Text } from '@gravity-ui/uikit'
 import { RoutePath, usePage } from '@shared/config'
 import { useDispatch, useSelector } from '@shared/store'
@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 
 export const ForumPage = () => {
   usePage({})
-  const { topics, isLoadingTopics } = useSelector(state => state.forumTopics)
+  const { topics, isLoading } = useSelector(state => state.forumTopicsList)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export const ForumPage = () => {
         Форум
       </Text>
       <Section pb>
-        <Loader show={isLoadingTopics}>
+        <Loader show={isLoading}>
           {topics.map(topic => (
             <ForumCard key={topic.id} id={topic.id} title={topic.title} />
           ))}

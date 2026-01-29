@@ -1,4 +1,4 @@
-export {
+﻿export {
   createCommentForTopic,
   getCommentsByTopic,
 } from './lib/commentForTopic'
@@ -7,7 +7,10 @@ export type { ForumCardProps } from './ui/ForumCard'
 export { CommentCard } from './ui/CommentCard/CommentCard'
 export type { ForumTopic, ForumTopicComment } from './model/types'
 export {
-  createForumTopic,
   fetchForumTopics,
-  forumTopicsReducer,
-} from './model/forumTopicsStore'
+  forumTopicsListReducer,
+} from './model/forumTopicsListStore'
+export {
+  createForumTopic,
+  forumTopicCreateReducer,
+} from './model/forumTopicCreateStore'

@@ -1,4 +1,4 @@
-import { Button, Text, TextArea, TextInput } from '@gravity-ui/uikit'
+﻿import { Button, Text, TextArea, TextInput } from '@gravity-ui/uikit'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -13,7 +13,7 @@ export const CreateTopicPage = () => {
   usePage({})
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { isCreatingTopic } = useSelector(state => state.forumTopics)
+  const { isLoading } = useSelector(state => state.forumTopicCreate)
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
 
@@ -46,7 +46,7 @@ export const CreateTopicPage = () => {
               type="submit"
               view="action"
               width="max"
-              disabled={!canSubmit || isCreatingTopic}>
+              disabled={!canSubmit || isLoading}>
               Создать тему
             </Button>
             <Button

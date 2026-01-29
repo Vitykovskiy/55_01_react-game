@@ -1,4 +1,4 @@
-export type ForumTopicComment = {
+﻿export type ForumTopicComment = {
   id: number
   firstName: string
   lastName: string
@@ -13,10 +13,13 @@ export type ForumTopic = {
   comments?: ForumTopicComment[]
 }
 
-export type ForumTopicsState = {
+export type ForumTopicsListState = {
   topics: ForumTopic[]
-  isLoadingTopics: boolean
-  errorTopics: string
-  isCreatingTopic: boolean
-  errorCreateTopic: string
+  isLoading: boolean
+  error: string
+}
+
+export type ForumTopicCreateState = {
+  isLoading: boolean
+  error: string
 }
