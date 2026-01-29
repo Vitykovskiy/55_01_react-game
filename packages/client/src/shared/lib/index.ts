@@ -1,4 +1,4 @@
-export { Api } from './request'
+export { yandexApi, serverApi, createApi } from './request'
 export {
   CommonErrorType,
   type ApiResponse,
