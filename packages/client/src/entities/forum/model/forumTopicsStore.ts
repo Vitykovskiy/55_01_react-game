@@ -27,9 +27,9 @@ export const fetchForumTopics = createAsyncThunk(
 
 export const createForumTopic = createAsyncThunk(
   'forum/createTopic',
-  async (data: CreateTopicPayload): Promise<ForumTopic | undefined> => {
+  async (data: CreateTopicPayload): Promise<ForumTopic | null> => {
     const response = await createTopicRequest(data)
-    return response ? mapTopicDtoToForumTopic(response) : undefined
+    return response ? mapTopicDtoToForumTopic(response) : null
   }
 )
 

@@ -58,9 +58,9 @@ export const createApi = (baseURL: string) => {
 
   const getRequest = async <T>(
     url: string,
-    params?: Record<string, string | number | undefined | null>,
-    headers?: Record<string, string | number | undefined>
-  ): Promise<T | undefined> => {
+    params?: Record<string, string | number | null>,
+    headers?: Record<string, string | number>
+  ): Promise<T> => {
     const response = await api.get<T>(url, {
       ...(headers && { headers: { ...headers } }),
       timeout: REQUEST_TIMEOUT,
@@ -72,9 +72,9 @@ export const createApi = (baseURL: string) => {
   const postRequest = async <T, D = unknown>(
     url: string,
     data: D,
-    headers?: Record<string, string | number | undefined>,
+    headers?: Record<string, string | number>,
     signal?: AbortSignal
-  ): Promise<T | undefined> => {
+  ): Promise<T> => {
     const response = await api.post<T>(url, data, {
       ...(headers && { headers: { ...headers } }),
       signal,
@@ -86,9 +86,9 @@ export const createApi = (baseURL: string) => {
   const putRequest = async <T, D = unknown>(
     url: string,
     data: D,
-    headers?: Record<string, string | number | undefined>,
+    headers?: Record<string, string | number>,
     signal?: AbortSignal
-  ): Promise<T | undefined> => {
+  ): Promise<T> => {
     const response = await api.put<T>(url, data, {
       ...(headers && { headers: { ...headers } }),
       signal,
@@ -100,9 +100,9 @@ export const createApi = (baseURL: string) => {
   const deleteRequest = async <T, D = unknown>(
     url: string,
     data?: D,
-    headers?: Record<string, string | number | undefined>,
+    headers?: Record<string, string | number>,
     signal?: AbortSignal
-  ): Promise<T | undefined> => {
+  ): Promise<T> => {
     const response = await api.delete<T>(url, {
       ...(headers && { headers: { ...headers } }),
       ...(data !== undefined && { data }),

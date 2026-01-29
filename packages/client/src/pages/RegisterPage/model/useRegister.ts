@@ -9,7 +9,7 @@ const ERROR_TEXT = 'Произошла ошибка регистрации'
 
 export const useRegister = () => {
   const navigate = useNavigate()
-  const [error, setError] = useState<string | undefined>(undefined)
+  const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const onSubmit = async (data: Schema) => {
     setLoading(true)

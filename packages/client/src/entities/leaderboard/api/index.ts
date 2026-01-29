@@ -16,12 +16,9 @@ type PostScoreParams = {
 export const postScore = (data: PostScoreParams): Promise<void> =>
   yandexApi.postRequest<void>('/leaderboard', data)
 
-export const postLeaderboardList = (): Promise<LeaderboardDto[] | undefined> =>
-  yandexApi.postRequest<LeaderboardDto[] | undefined>(
-    `/leaderboard/${TEAM_NAME}`,
-    {
-      ratingFieldName: FIELD_SORT,
-      cursor: PAGINATION_CURSOR,
-      limit: LIMIT_LIST_TOP_USER,
-    }
-  )
+export const postLeaderboardList = (): Promise<LeaderboardDto[]> =>
+  yandexApi.postRequest<LeaderboardDto[]>(`/leaderboard/${TEAM_NAME}`, {
+    ratingFieldName: FIELD_SORT,
+    cursor: PAGINATION_CURSOR,
+    limit: LIMIT_LIST_TOP_USER,
+  })
