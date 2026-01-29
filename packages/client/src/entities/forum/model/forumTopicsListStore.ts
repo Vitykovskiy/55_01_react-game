@@ -40,3 +40,12 @@ const forumTopicsListSlice = createSlice({
 })
 
 export const forumTopicsListReducer = forumTopicsListSlice.reducer
+
+export const forumTopicsListSelectors = {
+  topics: (state: { forumTopicsList: ForumTopicsListState }) =>
+    state.forumTopicsList.topics,
+  isLoading: (state: { forumTopicsList: ForumTopicsListState }) =>
+    state.forumTopicsList.isLoading,
+  error: (state: { forumTopicsList: ForumTopicsListState }) =>
+    state.forumTopicsList.error,
+}

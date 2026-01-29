@@ -40,3 +40,10 @@ const forumTopicCreateSlice = createSlice({
 })
 
 export const forumTopicCreateReducer = forumTopicCreateSlice.reducer
+
+export const forumTopicCreateSelectors = {
+  isLoading: (state: { forumTopicCreate: ForumTopicCreateState }) =>
+    state.forumTopicCreate.isLoading,
+  error: (state: { forumTopicCreate: ForumTopicCreateState }) =>
+    state.forumTopicCreate.error,
+}

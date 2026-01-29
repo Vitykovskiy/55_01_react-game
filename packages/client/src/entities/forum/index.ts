@@ -9,8 +9,10 @@ export type { ForumTopic, ForumTopicComment } from './model/types'
 export {
   fetchForumTopics,
   forumTopicsListReducer,
+  forumTopicsListSelectors,
 } from './model/forumTopicsListStore'
 export {
   createForumTopic,
   forumTopicCreateReducer,
+  forumTopicCreateSelectors,
 } from './model/forumTopicCreateStore'
