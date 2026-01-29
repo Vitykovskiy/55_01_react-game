@@ -1,12 +1,11 @@
 export const SOUNDS_ASSETS = import.meta.glob('@assets/sounds/*.mp3', {
-  eager: true,
   as: 'url',
-})
+}) as Record<string, () => Promise<string>>
 
-export const SOUNDS_MAP = {
-  orc_death_01: 'orc_death_1.mp3',
-  orc_death_02: 'orc_death_2.mp3',
-  arrow_cast: 'arrow_cast.mp3',
-  arrow_hit: 'arrow_hit.mp3',
-  arrow_shoot: 'arrow_shoot.mp3',
+export enum SoundsKeys {
+  OrcDeath01 = 'orc_death_1',
+  OrcDeath02 = 'orc_death_2',
+  ArrowCast = 'arrow_cast',
+  ArrowHit = 'arrow_hit',
+  ArrowShoot = 'arrow_shoot',
 }

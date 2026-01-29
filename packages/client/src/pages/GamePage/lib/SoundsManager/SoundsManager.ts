@@ -1,54 +1,59 @@
-import { EventBus } from '../../models/EventBus'
+﻿import { EventBus } from '../../models/EventBus'
 import {
   GameEvents,
   HeroEvents,
   MobEvents,
   ProjectileEvents,
 } from '../../models/types'
-import { SOUNDS_ASSETS, SOUNDS_MAP } from './constants'
+import { SOUNDS_ASSETS, SoundsKeys } from './constants'
 
+// TODO: Вынести слушатели в SoundsDirector
 export class SoundsManager {
   private audioContext: AudioContext
-  private sounds: Map<string, AudioBuffer> = new Map()
+  private sounds: Map<SoundsKeys, AudioBuffer> = new Map()
 
   constructor(private _eventBus: EventBus<GameEvents>) {
     this.audioContext = new window.AudioContext()
 
-    this.initializeAudio()
+    this.init()
   }
 
-  private async initializeAudio(): Promise<void> {
+  public async init(): Promise<void> {
     await this.loadAllSounds()
     this._initGameEventsListeners()
   }
 
   private async loadAllSounds(): Promise<void> {
-    const promises = Object.entries(SOUNDS_MAP).map(([name, filename]) =>
-      this.loadSound(filename, name)
-    )
-    await Promise.allSettled(promises)
-  }
-
-  private async loadSound(filename: string, name: string): Promise<void> {
-    try {
-      const soundUrl = Object.values(SOUNDS_ASSETS).find(url =>
-        url.includes(filename)
+    const promises = Object.values(SoundsKeys).map(async name => {
+      const entry = Object.entries(SOUNDS_ASSETS).find(([path]) =>
+        path.endsWith(`/${name}.mp3`)
       )
 
-      if (!soundUrl) {
-        console.warn(`Звук ${filename} не найден в импортированных файлах`)
-        return
+      if (!entry) {
+        throw new Error(`Звук "${name}.mp3" не найден в assets`)
       }
 
+      const url = await entry[1]()
+      await this.loadSound(url, name)
+    })
+
+    await Promise.all(promises)
+  }
+
+  private async loadSound(soundUrl: string, name: SoundsKeys): Promise<void> {
+    try {
       const response = await fetch(soundUrl)
 
       if (!response.ok) {
-        throw new Error(
-          `Ошибка loadSound fetch: ${filename} ${response.status}`
-        )
+        throw new Error(`Ошибка loadSound fetch: ${name} ${response.status}`)
       }
 
       const arrayBuffer = await response.arrayBuffer()
+
+      if (this.audioContext.state === 'closed') {
+        throw new Error('AudioContext закрыт')
+      }
+
       const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer)
       this.sounds.set(name, audioBuffer)
     } catch (error) {
@@ -56,7 +61,7 @@ export class SoundsManager {
     }
   }
 
-  private _playSound(name: string): void {
+  public playSound(name: SoundsKeys): void {
     const buffer = this.sounds.get(name)
 
     if (!buffer) {
@@ -77,20 +82,20 @@ export class SoundsManager {
   private _initGameEventsListeners(): void {
     this._eventBus.on(MobEvents.Death, () => {
       Math.random() > 0.5
-        ? this._playSound('orc_death_01')
-        : this._playSound('orc_death_02')
+        ? this.playSound(SoundsKeys.OrcDeath01)
+        : this.playSound(SoundsKeys.OrcDeath02)
     })
 
     this._eventBus.on(HeroEvents.AttacksRange, () => {
-      this._playSound('arrow_cast')
+      this.playSound(SoundsKeys.ArrowCast)
     })
 
     this._eventBus.on(ProjectileEvents.Launched, () => {
-      this._playSound('arrow_shoot')
+      this.playSound(SoundsKeys.ArrowShoot)
     })
 
     this._eventBus.on(ProjectileEvents.Landed, () => {
-      this._playSound('arrow_hit')
+      this.playSound(SoundsKeys.ArrowHit)
     })
   }
 }
