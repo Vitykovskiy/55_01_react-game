@@ -1,11 +1,11 @@
 ﻿import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { ForumTopic, ForumTopicsListState } from './types'
+import { ForumErrorCode, ForumTopic, ForumTopicsListState } from './types'
 import { getTopics } from '../lib/forumTopic'
 
 const initialState: ForumTopicsListState = {
   topics: [],
   isLoading: false,
-  error: '',
+  error: null,
 }
 
 export const fetchForumTopics = createAsyncThunk(
@@ -22,15 +22,18 @@ const forumTopicsListSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchForumTopics.pending, state => {
       state.isLoading = true
-      state.error = ''
+      state.error = null
     })
     builder.addCase(fetchForumTopics.rejected, state => {
       state.isLoading = false
-      state.error = 'Ошибка загрузки тем!'
+      state.error = {
+        message: 'Ошибка загрузки тем!',
+        code: ForumErrorCode.TopicsFetch,
+      }
     })
     builder.addCase(fetchForumTopics.fulfilled, (state, action) => {
       state.isLoading = false
-      state.error = ''
+      state.error = null
       state.topics = action.payload
     })
   },

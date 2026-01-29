@@ -13,13 +13,20 @@ export type ForumTopic = {
   comments?: ForumTopicComment[]
 }
 
+export enum ForumErrorCode {
+  TopicsFetch = 'TOPICS_FETCH',
+  TopicCreate = 'TOPIC_CREATE',
+}
+
 export type ForumTopicsListState = {
   topics: ForumTopic[]
   isLoading: boolean
-  error: string
+  error: ForumError | null
 }
 
 export type ForumTopicCreateState = {
   isLoading: boolean
-  error: string
+  error: ForumError | null
 }
+
+export type ForumError = { message: string; code: ForumErrorCode }

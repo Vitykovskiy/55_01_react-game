@@ -1,12 +1,12 @@
 ﻿import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { CreateTopicPayload } from '../api/types'
-import { ForumTopicCreateState } from './types'
+import { ForumErrorCode, ForumTopicCreateState } from './types'
 import { createTopic } from '../lib/forumTopic'
 import { ForumTopic } from './types'
 
 const initialState: ForumTopicCreateState = {
   isLoading: false,
-  error: '',
+  error: null,
 }
 
 export const createForumTopic = createAsyncThunk(
@@ -23,15 +23,18 @@ const forumTopicCreateSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(createForumTopic.pending, state => {
       state.isLoading = true
-      state.error = ''
+      state.error = null
     })
     builder.addCase(createForumTopic.rejected, state => {
       state.isLoading = false
-      state.error = 'Ошибка создания темы!'
+      state.error = {
+        message: 'Ошибка создания темы!',
+        code: ForumErrorCode.TopicCreate,
+      }
     })
     builder.addCase(createForumTopic.fulfilled, state => {
       state.isLoading = false
-      state.error = ''
+      state.error = null
     })
   },
 })
