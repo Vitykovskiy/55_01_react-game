@@ -1,7 +1,7 @@
 import { Avatar, Card, Text } from '@gravity-ui/uikit'
 import s from './style.module.scss'
 import Section from '@shared/ui/Section'
-import type { ForumTopicComment } from '../../model/mockForumTopics'
+import type { ForumTopicComment } from '../../model/types'
 
 type CommentCardProps = ForumTopicComment
 

@@ -1,5 +1,5 @@
 import { changeAvatarApi } from '../api'
-import { Api, ApiResponse, CommonErrorType } from '@shared/lib'
+import { yandexApi, ApiResponse, CommonErrorType } from '@shared/lib'
 import { User } from '@entities/user'
 
 export const changeAvatar = async (file: File): Promise<ApiResponse<User>> => {
@@ -7,11 +7,11 @@ export const changeAvatar = async (file: File): Promise<ApiResponse<User>> => {
     const user = await changeAvatarApi(file)
 
     if (!user) {
-      return Api.buildResponseError(CommonErrorType.UnknownError)
+      return yandexApi.buildResponseError(CommonErrorType.UnknownError)
     }
 
-    return Api.buildResponseSuccess(user)
+    return yandexApi.buildResponseSuccess(user)
   } catch (error) {
-    return Api.handleError(error)
+    return yandexApi.handleError(error)
   }
 }
