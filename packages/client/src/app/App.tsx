@@ -13,5 +13,5 @@ export const App = ({ children, router }: AppProps) => {
     return <RouterProvider router={router} />
   }
 
-  return <>{children}</>
+  return { children }
 }

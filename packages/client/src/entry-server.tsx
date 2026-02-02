@@ -31,30 +31,29 @@ export const render = async (req: ExpressRequest) => {
   const store = configureStore({ reducer })
 
   const url = createUrl(req)
-  const matches = matchRoutes(routes, url)
+  const foundRoutes = matchRoutes(routes, url)
 
-  if (matches) {
-    for (const match of matches) {
-      const { route } = match
-      if (route.fetchData) {
-        try {
-          route.fetchData({
-            dispatch: store.dispatch,
-            state: store.getState(),
-            ctx: createContext(req),
-          })
-        } catch (error) {
-          console.error('FetchData error:', error)
-        }
-      }
-    }
+  if (!foundRoutes) {
+    throw new Error('Страница не найдена!')
+  }
+
+  const [{ route }] = foundRoutes
+
+  try {
+    await route.fetchData?.({
+      dispatch: store.dispatch,
+      state: store.getState(),
+      ctx: createContext(req),
+    })
+  } catch (error) {
+    console.error('Инициализация страницы произошла с ошибкой', error)
   }
 
   store.dispatch(setPageHasBeenInitializedOnServer(true))
 
   const router = createStaticRouter(dataRoutes, context)
   const sheet = new ServerStyleSheet()
-  const helmetContext = {}
+  const helmetContext: { helmet?: HelmetServerState } = {}
 
   try {
     const html = ReactDOM.renderToString(
@@ -67,7 +66,7 @@ export const render = async (req: ExpressRequest) => {
       )
     )
 
-    const { helmet } = helmetContext as { helmet: HelmetServerState }
+    const { helmet } = helmetContext
     const styleTags = sheet.getStyleTags()
 
     return {
