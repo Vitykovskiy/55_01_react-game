@@ -1,19 +1,19 @@
 import { User } from '@entities/user'
-import { Api } from '@shared/lib'
+import { yandexApi } from '@shared/lib'
 import { PasswordChangeData } from '../model/types'
 
 export const changePasswordApi = (data: PasswordChangeData): Promise<void> => {
-  return Api.putRequest<void>('user/password', {
+  return yandexApi.putRequest<void>('user/password', {
     oldPassword: data.oldPassword,
     newPassword: data.newPassword,
   })
 }
 
-export const changeAvatarApi = (file: File): Promise<User | undefined> => {
+export const changeAvatarApi = (file: File): Promise<User> => {
   const formData = new FormData()
   formData.append('avatar', file)
 
-  return Api.putRequest<User | undefined>('user/profile/avatar', formData, {
+  return yandexApi.putRequest<User>('user/profile/avatar', formData, {
     'Content-Type': 'multipart/form-data',
   })
 }

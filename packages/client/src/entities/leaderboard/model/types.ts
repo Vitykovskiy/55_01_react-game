@@ -3,7 +3,7 @@ export type LeaderboardDataUserGame = {
   firstName: string
   lastName: string
   scoreUser: number
-  avatar?: string | undefined
+  avatar?: string
 }
 
 export type LeaderboardDto = {
@@ -12,7 +12,7 @@ export type LeaderboardDto = {
     firstName: string
     lastName: string
     scoreUser: number
-    avatar?: string | undefined
+    avatar?: string
   }
 }
 

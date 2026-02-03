@@ -1,17 +1,20 @@
 import { Avatar, Card, Text, Button } from '@gravity-ui/uikit'
 import s from './style.module.scss'
 import Section from '@shared/ui/Section'
-import { ForumTopicComment, reactionEmojis } from '../../model/mockForumTopics'
-import { useCommentReactions } from '../../lib/useCommentReactions'
+import { ForumTopicComment, ReactionEmoji } from '../../model/types'
+import { useCommentReactions } from '../../model/useCommentReactions'
+import { reactionEmojis } from '../../model/consts'
+import { mapCommentDtoToApiFormat } from '../../lib/mappers'
 
-export const CommentCard = ({
-  id,
-  firstName,
-  lastName,
-  avatarUrl,
-  message,
-}: ForumTopicComment) => {
-  const commentId = parseInt(id.replace('c-', ''))
+interface CommentCardProps {
+  comment: ForumTopicComment
+}
+
+export const CommentCard = ({ comment }: CommentCardProps) => {
+  if (!comment) return
+  const { id: commentId, commentDto } = mapCommentDtoToApiFormat(comment)
+  const { firstName, lastName, avatarUrl, message } = commentDto
+
   const fullName = `${firstName} ${lastName}`
 
   const { reactions, isReactionActive, handleReactionClick } =
@@ -41,15 +44,15 @@ export const CommentCard = ({
             {message}
           </Text>
         </Section>
-
         <Section orientation="row" alignItems="center">
-          {reactionEmojis.map(emoji => (
+          {reactionEmojis.map((emoji: ReactionEmoji) => (
             <Button
               key={emoji.name}
               view={isReactionActive(emoji.name) ? 'action' : 'outlined'}
               size="s"
+              className={s.reactionButton}
               onClick={() => handleReactionClick(emoji.name)}>
-              <span style={{ marginRight: 4 }}>{emoji.icon}</span>
+              <span>{emoji.icon}</span>
               <Text variant="caption-1">
                 {reactions.counts[emoji.name] || 0}
               </Text>

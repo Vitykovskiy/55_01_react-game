@@ -5,7 +5,7 @@ import { getUser } from '../lib/getUser'
 import { User } from './types'
 
 interface UserState {
-  data: User | undefined
+  data?: User
   isLoadingUser: boolean
   isAuthenticated: boolean
 }

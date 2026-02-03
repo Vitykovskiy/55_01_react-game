@@ -1,20 +1,52 @@
-import { Api } from '@shared/lib'
+import { serverApi } from '@shared/lib'
 import {
-  CreateReactionRequest,
-  CreateReactionResponse,
-  DeleteReactionRequest,
-  ReactionResponse,
-} from '@entities/forum/model/mockForumTopics'
+  TopicDto,
+  CreateTopicPayload,
+  CommentDto,
+  CreateCommentPayload,
+  CreateReactionDto,
+  ReactionDto,
+  DeleteReactionDto,
+} from './types'
+
+export const getTopicsRequest = (): Promise<TopicDto[]> => {
+  return serverApi.getRequest<TopicDto[]>('topics')
+}
+
+export const createTopicRequest = (
+  data: CreateTopicPayload
+): Promise<TopicDto> => {
+  return serverApi.postRequest<TopicDto>('topics', data)
+}
+
+export const getCommentsByTopicRequest = (
+  topicId: number
+): Promise<CommentDto[]> => {
+  return serverApi.getRequest<CommentDto[]>(`comments/topic/${topicId}`)
+}
+
+export const createCommentForTopicRequest = (
+  topicId: number,
+  data: Omit<CreateCommentPayload, 'topicId'>
+): Promise<CommentDto> => {
+  return serverApi.postRequest<CommentDto>(`comments/topic/${topicId}`, {
+    ...data,
+    topicId,
+  })
+}
 
 export const getReactionsByComment = (
   commentId: number
-): Promise<ReactionResponse | undefined> =>
-  Api.getRequest<ReactionResponse>(`/reactions/comment/${commentId}`)
+): Promise<ReactionDto> => {
+  return serverApi.getRequest<ReactionDto>(`reactions/comment/${commentId}`)
+}
 
 export const createReaction = (
-  data: CreateReactionRequest
-): Promise<CreateReactionResponse | undefined> =>
-  Api.postRequest<CreateReactionResponse>('/reactions', data)
+  data: CreateReactionDto
+): Promise<CreateReactionDto> => {
+  return serverApi.postRequest<CreateReactionDto>('reactions', data)
+}
 
-export const deleteReaction = (data: DeleteReactionRequest): Promise<void> =>
-  Api.deleteRequest<void>('/reactions', { data })
+export const deleteReaction = (data: DeleteReactionDto): Promise<void> => {
+  return serverApi.deleteRequest<void>('reactions', { data })
+}

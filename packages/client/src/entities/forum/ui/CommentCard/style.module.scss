@@ -2,7 +2,7 @@
   flex-shrink: 0;
 }
 
-.commentCard {
+.comment-card {
   margin-bottom: 16px;
   padding: var(--g-spacing-2);
 
@@ -13,4 +13,8 @@
   &.active {
     background-color: var(--g-color-base-selection);
   }
+}
+
+.reaction-button {
+  margin-right: 4px;
 }
