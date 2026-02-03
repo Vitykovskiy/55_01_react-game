@@ -11,4 +11,9 @@ export {
   forumTopicsListReducer,
   forumTopicsListSelectors,
 } from './model/forumTopicsListStore'
+export {
+  createForumTopic,
+  forumTopicCreateReducer,
+  forumTopicCreateSelectors,
+} from './model/forumTopicCreateStore'
 export { mockForumTopics } from './model/mockForumTopics'
