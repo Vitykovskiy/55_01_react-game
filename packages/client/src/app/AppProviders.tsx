@@ -5,6 +5,7 @@ import { ErrorBoundary } from '@shared/ui/ErrorBoundary'
 import { Provider } from 'react-redux'
 import { ReactNode } from 'react'
 import { Store } from 'redux'
+
 type AppProvidersProps = {
   children: ReactNode
   store: Store<RootState>
