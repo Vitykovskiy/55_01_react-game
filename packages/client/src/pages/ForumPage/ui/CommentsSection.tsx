@@ -1,9 +1,9 @@
 import { Text } from '@gravity-ui/uikit'
-import { CommentCard, ForumTopicCommentDto } from '@entities/forum'
+import { CommentCard, ForumTopicComment } from '@entities/forum'
 import Section from '@shared/ui/Section'
 
 type CommentsSectionProps = {
-  comments: ForumTopicCommentDto[]
+  comments: ForumTopicComment[]
 }
 
 export const CommentsSection = ({ comments }: CommentsSectionProps) => (
@@ -16,9 +16,7 @@ export const CommentsSection = ({ comments }: CommentsSectionProps) => (
         Будь первым, кто оставит комментарий.
       </Text>
     ) : (
-      comments.map(comment => (
-        <CommentCard key={comment.id} comment={comment} />
-      ))
+      comments.map(comment => <CommentCard key={comment.id} {...comment} />)
     )}
   </Section>
 )

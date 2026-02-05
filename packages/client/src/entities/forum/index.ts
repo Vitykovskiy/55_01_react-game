@@ -16,4 +16,3 @@ export {
   forumTopicCreateReducer,
   forumTopicCreateSelectors,
 } from './model/forumTopicCreateStore'
-export { mockForumTopics } from './model/mockForumTopics'

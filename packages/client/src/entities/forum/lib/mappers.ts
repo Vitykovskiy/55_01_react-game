@@ -1,8 +1,16 @@
-import { CommentDto, TopicDto } from '../api/types'
 import {
+  CommentDto,
+  TopicDto,
+  ReactionDto,
+  DeleteReactionDto,
+  CreateReactionDto,
+} from '../api/types'
+import {
+  CreateReaction,
+  DeleteReaction,
   ForumTopic,
   ForumTopicComment,
-  ReactionDto,
+  Reaction,
   ReactionsState,
 } from '../model/types'
 
@@ -29,44 +37,21 @@ export const mapReactionResponseToState = (
 })
 
 export const mapToCreateReactionRequest = (
-  commentId: number,
-  emojiName: string
-) => ({
-  commentId,
-  type: emojiName,
+  dto: DeleteReactionDto
+): DeleteReaction => ({
+  commentId: dto.commentId,
+  type: dto.type,
 })
 
 export const mapToDeleteReactionRequest = (
-  commentId: number,
-  emojiName: string
-) => ({
-  commentId,
-  type: emojiName,
+  dto: CreateReactionDto
+): CreateReaction => ({
+  commentId: dto.commentId,
+  type: dto.type,
 })
 
-export const mapCommentDtoToApiFormat = (
-  comment: ForumTopicComment
-): {
-  id: number
-  commentDto: Omit<ForumTopicComment, 'id'> & { id: number }
-} => {
-  const match = comment.id.match(/^c-(\d+)$/)
-
-  if (!match) {
-    throw new Error(`Invalid comment ID format: ${comment.id}`)
-  }
-
-  const numericId = parseInt(match[1], 10)
-
-  if (isNaN(numericId)) {
-    throw new Error(`Invalid numeric ID in comment: ${comment.id}`)
-  }
-
-  return {
-    id: numericId,
-    commentDto: {
-      ...comment,
-      id: numericId,
-    },
-  }
-}
+export const mapReactionDtoToReaction = (dto: ReactionDto): Reaction => ({
+  commentId: dto.commentId,
+  counts: dto.counts,
+  myReactions: dto.myReactions,
+})

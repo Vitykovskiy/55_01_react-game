@@ -4,21 +4,30 @@ import Section from '@shared/ui/Section'
 import { ForumTopicComment, ReactionEmoji } from '../../model/types'
 import { useCommentReactions } from '../../model/useCommentReactions'
 import { reactionEmojis } from '../../model/consts'
-import { mapCommentDtoToApiFormat } from '../../lib/mappers'
+import { useCallback } from 'react'
 
-interface CommentCardProps {
-  comment: ForumTopicComment
-}
+type CommentCardProps = ForumTopicComment
 
-export const CommentCard = ({ comment }: CommentCardProps) => {
-  if (!comment) return
-  const { id: commentId, commentDto } = mapCommentDtoToApiFormat(comment)
-  const { firstName, lastName, avatarUrl, message } = commentDto
+export const CommentCard = ({
+  id,
+  firstName,
+  lastName,
+  avatarUrl,
+  message,
+}: CommentCardProps) => {
+  if (!id) return
 
   const fullName = `${firstName} ${lastName}`
 
   const { reactions, isReactionActive, handleReactionClick } =
-    useCommentReactions(commentId)
+    useCommentReactions(id)
+
+  const createReactionHandler = useCallback(
+    (emojiName: string) => {
+      return () => handleReactionClick(emojiName)
+    },
+    [handleReactionClick]
+  )
 
   return (
     <Card className={s.commentCard}>
@@ -51,7 +60,7 @@ export const CommentCard = ({ comment }: CommentCardProps) => {
               view={isReactionActive(emoji.name) ? 'action' : 'outlined'}
               size="s"
               className={s.reactionButton}
-              onClick={() => handleReactionClick(emoji.name)}>
+              onClick={createReactionHandler(emoji.name)}>
               <span>{emoji.icon}</span>
               <Text variant="caption-1">
                 {reactions.counts[emoji.name] || 0}

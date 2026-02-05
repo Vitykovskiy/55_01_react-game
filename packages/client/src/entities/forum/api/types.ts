@@ -1,4 +1,4 @@
-import { ReactionCounts } from '@entities/forum/model/types'
+import { ReactionCounts } from '../model/types'
 
 export type TopicDto = {
   id: number

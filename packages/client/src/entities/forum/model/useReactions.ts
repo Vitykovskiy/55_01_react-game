@@ -1,5 +1,5 @@
 import { ResponseType } from '@shared/lib'
-import { getReactions } from '@entities/forum/lib/getReactions'
+import { getReactions } from '../lib/getReactions'
 import { Reaction } from './types'
 
 export const useReactions = () => {

@@ -11,7 +11,7 @@ export type ReactionEmoji = {
 }
 
 export type ForumTopicComment = {
-  id: string
+  id: number
   firstName: string
   lastName: string
   avatarUrl: string
@@ -45,15 +45,17 @@ export type ForumTopicCreateState = {
 export type ForumError = { message: string; code: ForumErrorCode }
 
 export type Reaction = {
-  id: number
-  type: string
-  userId: number
   commentId: number
-  createdAt: string
-  updatedAt: string
+  counts: ReactionCounts
+  myReactions: string[]
 }
 
-export type ReactionDto = {
-  counts: Record<string, number>
-  myReactions: string[]
+export type DeleteReaction = {
+  commentId: number
+  type: string
+}
+
+export type CreateReaction = {
+  commentId: number
+  type: string
 }
