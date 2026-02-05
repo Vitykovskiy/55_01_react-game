@@ -19,7 +19,7 @@ import {
 } from './entry-server.utils'
 import { setPageHasBeenInitializedOnServer } from './shared/config'
 
-type HelmetContextType = {
+type HelmetRendererData = {
   helmet?: HelmetServerState
 }
 
@@ -57,7 +57,7 @@ export const render = async (req: ExpressRequest) => {
 
   const router = createStaticRouter(dataRoutes, context)
   const sheet = new ServerStyleSheet()
-  const helmetContext: HelmetContextType = {}
+  const helmetContext: HelmetRendererData = {}
 
   try {
     const html = ReactDOM.renderToString(
@@ -76,7 +76,7 @@ export const render = async (req: ExpressRequest) => {
     return {
       html,
       initialState: store.getState(),
-      helmet: helmet || {},
+      helmet,
       styleTags,
     }
   } finally {
