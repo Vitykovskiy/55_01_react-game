@@ -1,4 +1,4 @@
-ARG NODE_VERSION
+ARG NODE_VERSION=18
 ARG SERVER_PORT
 
 FROM node:$NODE_VERSION-buster AS base
@@ -15,7 +15,7 @@ COPY . .
 RUN yarn lerna bootstrap
 RUN rm -rf /app/packages/server/dist/ && yarn build --scope=server
 
-
+ARG NODE_VERSION=18
 FROM node:$NODE_VERSION-buster-slim AS production
 WORKDIR /app
 
