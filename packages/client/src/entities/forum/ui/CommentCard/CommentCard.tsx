@@ -6,21 +6,15 @@ import { useCommentReactions } from '../../model/useCommentReactions'
 import { reactionEmojis } from '../../model/consts'
 import { useCallback } from 'react'
 
-type CommentCardProps = ForumTopicComment
+interface CommentCardProps {
+  comment: ForumTopicComment
+}
 
-export const CommentCard = ({
-  id,
-  firstName,
-  lastName,
-  avatarUrl,
-  message,
-}: CommentCardProps) => {
-  if (!id) return
-
-  const fullName = `${firstName} ${lastName}`
+export const CommentCard = ({ comment }: CommentCardProps) => {
+  const fullName = `${comment.firstName} ${comment.lastName}`
 
   const { reactions, isReactionActive, handleReactionClick } =
-    useCommentReactions(id)
+    useCommentReactions(comment.id)
 
   const createReactionHandler = useCallback(
     (emojiName: string) => {
@@ -34,10 +28,10 @@ export const CommentCard = ({
       <Section>
         <Section orientation="row" alignItems="center">
           <Avatar
-            imgUrl={avatarUrl}
+            imgUrl={comment.avatarUrl}
             size="m"
             className={s.avatar}
-            alt={firstName}
+            alt={comment.firstName}
             withImageBorder
             text={fullName}
           />
@@ -47,10 +41,9 @@ export const CommentCard = ({
             </Text>
           </Section>
         </Section>
-
         <Section>
           <Text as="p" variant="body-2">
-            {message}
+            {comment.message}
           </Text>
         </Section>
         <Section orientation="row" alignItems="center">

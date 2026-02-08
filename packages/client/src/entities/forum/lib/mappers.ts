@@ -29,29 +29,23 @@ export const mapTopicDtoToForumTopic = (topic: TopicDto): ForumTopic => ({
   text: topic.content,
 })
 
-export const mapReactionResponseToState = (
-  dto: ReactionDto
-): ReactionsState => ({
-  counts: dto.counts,
-  myReactions: dto.myReactions,
+export const mapReactionResponseToState = (reaction: ReactionDto): ReactionsState => ({
+  counts: reaction.counts,
+  reactions: reaction.myReactions,
 })
 
-export const mapToCreateReactionRequest = (
-  dto: DeleteReactionDto
-): DeleteReaction => ({
-  commentId: dto.commentId,
-  type: dto.type,
+export const mapToCreateReactionRequest = (deleteReaction: DeleteReactionDto): DeleteReaction => ({
+  commentId: deleteReaction.commentId,
+  type: deleteReaction.type,
 })
 
-export const mapToDeleteReactionRequest = (
-  dto: CreateReactionDto
-): CreateReaction => ({
-  commentId: dto.commentId,
-  type: dto.type,
+export const mapToDeleteReactionRequest = (createReaction: CreateReactionDto): CreateReaction => ({
+  commentId: createReaction.commentId,
+  type: createReaction.type,
 })
 
-export const mapReactionDtoToReaction = (dto: ReactionDto): Reaction => ({
-  commentId: dto.commentId,
-  counts: dto.counts,
-  myReactions: dto.myReactions,
+export const mapReactionDtoToReaction = (reaction: ReactionDto): Reaction => ({
+  commentId: reaction.commentId,
+  counts: reaction.counts,
+  myReactions: reaction.myReactions,
 })

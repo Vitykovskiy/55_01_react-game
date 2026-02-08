@@ -2,7 +2,7 @@
 
 export type ReactionsState = {
   counts: ReactionCounts
-  myReactions: string[]
+  reactions: string[]
 }
 
 export type ReactionEmoji = {

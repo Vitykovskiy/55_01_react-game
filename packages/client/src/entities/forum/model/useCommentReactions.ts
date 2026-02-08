@@ -36,14 +36,14 @@ export const useCommentReactions = (commentId: number) => {
         const isActive = isReactionActive(emojiName)
 
         if (isActive) {
-          const requestDto = mapToDeleteReactionRequest(commentId, emojiName)
+          const requestDto = mapToDeleteReactionRequest({commentId, type: emojiName})
           await deleteReaction(requestDto)
         } else {
-          const requestDto = mapToCreateReactionRequest(commentId, emojiName)
+          const requestDto = mapToCreateReactionRequest({commentId, type: emojiName})
           await createReaction(requestDto)
         }
 
-        setReactions(prev => {
+        setReactions((prev: ReactionsState)  => {
           const currentCount = prev.counts[emojiName] || 0
 
           if (isActive) {
@@ -52,7 +52,7 @@ export const useCommentReactions = (commentId: number) => {
                 ...prev.counts,
                 [emojiName]: Math.max(0, currentCount - 1),
               },
-              myReactions: prev.myReactions.filter(r => r !== emojiName),
+              myReactions: prev.reactions.filter(r => r !== emojiName),
             }
           } else {
             return {
@@ -60,7 +60,7 @@ export const useCommentReactions = (commentId: number) => {
                 ...prev.counts,
                 [emojiName]: currentCount + 1,
               },
-              myReactions: [...prev.myReactions, emojiName],
+              myReactions: [...prev.reactions, emojiName],
             }
           }
         })
