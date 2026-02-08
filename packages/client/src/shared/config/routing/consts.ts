@@ -13,4 +13,4 @@ export const enum RoutePath {
 }
 
 export const BASE_URL = 'https://ya-praktikum.tech/api/v2'
-export const REDIRECT_URI = 'http://158.160.91.115:5000/oauth/'
+export const REDIRECT_URI = 'http://158.160.91.115:3000/oauth/'
