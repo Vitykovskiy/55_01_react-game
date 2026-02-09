@@ -14,14 +14,13 @@ export const useCommentReactions = (commentId: number) => {
     myReactions: [],
   })
 
-  useEffect(() => {
-    const loadReactions = async () => {
-      const dto = await getReactionsComment(commentId)
-      if (dto) {
-        setReactions(mapReactionResponseToState(dto))
-      }
+  const loadReactions = async () => {
+    const dto = await getReactionsComment(commentId)
+    if (dto) {
+      setReactions(mapReactionResponseToState(dto))
     }
-
+  }
+  useEffect(() => {
     loadReactions()
   }, [commentId])
 
@@ -43,27 +42,8 @@ export const useCommentReactions = (commentId: number) => {
           await createReaction(requestDto)
         }
 
-        setReactions((prev: ReactionsState)  => {
-          const currentCount = prev.counts[emojiName] || 0
+        await loadReactions()
 
-          if (isActive) {
-            return {
-              counts: {
-                ...prev.counts,
-                [emojiName]: Math.max(0, currentCount - 1),
-              },
-              myReactions: prev.reactions.filter(r => r !== emojiName),
-            }
-          } else {
-            return {
-              counts: {
-                ...prev.counts,
-                [emojiName]: currentCount + 1,
-              },
-              myReactions: [...prev.reactions, emojiName],
-            }
-          }
-        })
       } catch (error) {
         console.error('Failed to toggle reaction:', error)
       }
