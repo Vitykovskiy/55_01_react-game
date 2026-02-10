@@ -1,21 +1,20 @@
-import { ThemeProvider } from '@gravity-ui/uikit'
-import '@gravity-ui/uikit/styles/fonts.css'
-import '@gravity-ui/uikit/styles/styles.css'
-import { ErrorBoundary } from '@shared/ui/ErrorBoundary'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { ReactNode } from 'react'
 import { startServiceWorker } from './lib/serviceWorker/helper'
-import { routes } from './routes'
 
-const router = createBrowserRouter(routes)
+type AppRouter = ReturnType<typeof createBrowserRouter>
 
-export const App = () => {
+interface AppProps {
+  children?: ReactNode
+  router?: AppRouter
+}
+
+export const App = ({ children, router }: AppProps) => {
   startServiceWorker()
 
-  return (
-    <ThemeProvider theme="light">
-      <ErrorBoundary>
-        <RouterProvider router={router} />
-      </ErrorBoundary>
-    </ThemeProvider>
-  )
+  if (router) {
+    return <RouterProvider router={router} />
+  }
+
+  return children
 }
