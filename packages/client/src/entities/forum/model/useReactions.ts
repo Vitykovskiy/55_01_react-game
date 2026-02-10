@@ -10,6 +10,7 @@ export const useReactions = () => {
     if (response.type === ResponseType.Success) {
       return response.data
     }
+    return
   }
 
   return {

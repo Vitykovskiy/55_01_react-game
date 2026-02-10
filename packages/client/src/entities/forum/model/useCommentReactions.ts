@@ -20,6 +20,7 @@ export const useCommentReactions = (commentId: number) => {
       setReactions(mapReactionResponseToState(dto))
     }
   }
+
   useEffect(() => {
     loadReactions()
   }, [commentId])
