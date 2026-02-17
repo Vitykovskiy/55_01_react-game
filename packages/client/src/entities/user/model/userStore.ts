@@ -29,6 +29,12 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.data = action.payload
+      state.isAuthenticated = true
+    },
+    clearUser: state => {
+      state.data = undefined
+      state.isAuthenticated = false
+      state.isLoadingUser = false
     },
   },
 
@@ -53,6 +59,6 @@ const userSlice = createSlice({
 
 export const selectUser = (state: RootState) => state.user.data
 
-export const { setUser } = userSlice.actions
+export const { setUser, clearUser } = userSlice.actions
 
 export const userReducer = userSlice.reducer
