@@ -1,7 +1,9 @@
 import { Button, Text } from '@gravity-ui/uikit'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { clearUser } from '@entities/user'
+import { logoutRequest } from '@entities/user/api'
 import { BASE_URL, RoutePath, usePage } from '@shared/config'
-import { useSelector } from '@shared/store'
+import { useDispatch, useSelector } from '@shared/store'
 import { AvatarLoad } from '@shared/ui/AvatarLoad'
 import Layout from '@shared/ui/Layout'
 import { Loader } from '@shared/ui/Loader'
@@ -18,6 +20,7 @@ export const ProfilePage = () => {
   usePage({})
 
   const { data: user, isLoadingUser } = useSelector(state => state.user)
+  const dispatch = useDispatch()
   const methods = useForm<Schema>({
     resolver: zodResolver(schema),
   })
@@ -45,6 +48,15 @@ export const ProfilePage = () => {
     updateAvatar(file)
   }
 
+  const handleLogout = async () => {
+    try {
+      await logoutRequest()
+    } finally {
+      dispatch(clearUser())
+      navigate(RoutePath.Login)
+    }
+  }
+
   return (
     <Layout variant="center" title={PROFILE_PAGE_TITLE}>
       <Loader show={isLoadingUser}>
@@ -63,6 +75,9 @@ export const ProfilePage = () => {
             </Button>
             <Button type={'button'} onClick={handleButtonComeback}>
               Назад
+            </Button>
+            <Button type={'button'} onClick={handleLogout}>
+              Сменить аккаунт
             </Button>
           </form>
         </FormProvider>

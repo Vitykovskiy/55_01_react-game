@@ -3,10 +3,19 @@ import { useEffect, useRef, useState } from 'react'
 import s from './GamePage.module.scss'
 import { initAssets } from '../lib/AssetsManager/assets'
 import { Game } from './Game'
-import { StartGame } from './StartGame'
+import { StartGame, StartGameMode } from './StartGame'
 import { EndGame } from './EndGame'
 
-export type GamePhases = 'start' | 'playing' | 'end'
+export enum GamePhase {
+  Start = 'start',
+  Loading = 'loading',
+  Countdown = 'countdown',
+  Playing = 'playing',
+  End = 'end',
+}
+
+const COUNTER_STARTGAME = 3
+const DELAY_COUNTER_STARTGAME = 1000
 
 function toggleFullScreen(element: Element) {
   if (document.fullscreenElement) {
@@ -24,35 +33,62 @@ const handleWindowDoubleClick = () => {
 export const GamePage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameRef = useRef<Game | null>(null)
-  const [phase, setPhase] = useState<GamePhases>('start')
+  const [phase, setPhase] = useState<GamePhase>(GamePhase.Start)
   const [score, setScore] = useState(0)
-  const [isLoading, setLoading] = useState(true)
+  const [countdown, setCountdown] = useState(COUNTER_STARTGAME)
 
   useEffect(() => {
+    if (phase !== GamePhase.Loading) {
+      return
+    }
+
     let isMounted = true
 
-    const init = async () => {
+    const loadAssets = async () => {
       try {
-        setLoading(true)
         await initAssets()
+
+        if (!isMounted) {
+          return
+        }
+
+        setCountdown(COUNTER_STARTGAME)
+        setPhase(GamePhase.Countdown)
       } catch (error) {
         console.error('Ошибка при инициализации ассетов', error)
-      } finally {
+
         if (isMounted) {
-          setLoading(false)
+          setPhase(GamePhase.Start)
         }
       }
     }
 
-    init()
+    loadAssets()
 
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [phase])
 
   useEffect(() => {
-    if (phase !== 'playing' || isLoading) {
+    if (phase !== GamePhase.Countdown) {
+      return
+    }
+
+    const timer = setTimeout(() => {
+      if (countdown <= 1) {
+        setPhase(GamePhase.Playing)
+        return
+      }
+
+      setCountdown(prev => prev - 1)
+    }, DELAY_COUNTER_STARTGAME)
+
+    return () => clearTimeout(timer)
+  }, [phase, countdown])
+
+  useEffect(() => {
+    if (phase !== GamePhase.Playing) {
       return
     }
 
@@ -64,7 +100,7 @@ export const GamePage = () => {
     const game = new Game(canvas, {
       onEnd: finalScore => {
         setScore(finalScore)
-        setPhase('end')
+        setPhase(GamePhase.End)
       },
     })
 
@@ -75,7 +111,7 @@ export const GamePage = () => {
       game.stop()
       gameRef.current = null
     }
-  }, [phase, isLoading])
+  }, [phase])
 
   useEffect(() => {
     window.addEventListener('dblclick', handleWindowDoubleClick)
@@ -84,24 +120,35 @@ export const GamePage = () => {
     }
   }, [])
 
-  if (phase === 'start') {
+  if (
+    phase === GamePhase.Start ||
+    phase === GamePhase.Loading ||
+    phase === GamePhase.Countdown
+  ) {
     return (
       <StartGame
+        mode={
+          phase === GamePhase.Loading
+            ? StartGameMode.Loading
+            : phase === GamePhase.Countdown
+            ? StartGameMode.Countdown
+            : StartGameMode.Idle
+        }
+        countdown={countdown}
         onStart={() => {
           setScore(0)
-          setPhase('playing')
+          setPhase(GamePhase.Loading)
         }}
       />
     )
   }
 
-  if (phase === 'end') {
-    return <EndGame score={score} onRestart={() => setPhase('start')} />
+  if (phase === GamePhase.End) {
+    return <EndGame score={score} onRestart={() => setPhase(GamePhase.Start)} />
   }
 
   return (
     <Layout variant="center" title="">
-      {isLoading ? 'Loading' : ''}
       <canvas className={s.canvas} ref={canvasRef} />
     </Layout>
   )

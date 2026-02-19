@@ -25,6 +25,7 @@ export const TopicPage = () => {
   }, [])
 
   const topic = topics.find(item => item.id === topicId)
+  const parsedId = Number(topicId)
 
   const [comments, setComments] = useState<ForumTopicComment[]>([])
   const [isLoadingComments, setIsLoadingComments] = useState(false)
@@ -34,8 +35,6 @@ export const TopicPage = () => {
 
   useEffect(() => {
     ;(async () => {
-      const parsedId = Number(topicId)
-
       if (Number.isNaN(parsedId)) {
         return
       }
@@ -52,7 +51,6 @@ export const TopicPage = () => {
       return
     }
 
-    const parsedId = Number(topicId)
     if (Number.isNaN(parsedId)) {
       return
     }

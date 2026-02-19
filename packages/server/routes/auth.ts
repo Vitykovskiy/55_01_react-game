@@ -5,7 +5,7 @@ import { requireAuth } from '../middleware/auth'
 const router = Router()
 
 router.post('/auth/signin', signin)
-router.post('/auth/logout', requireAuth, logout)
+router.post('/auth/logout', logout)
 router.get('/auth/user', requireAuth, getUser)
 
 export default router

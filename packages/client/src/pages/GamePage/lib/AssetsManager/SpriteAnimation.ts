@@ -33,7 +33,7 @@ export class SpriteAnimation {
     if (this._mode === FramesModes.Frames) {
       await this._initFromFrames()
     } else {
-      this._initFromSheet()
+      await this._initFromSheet()
     }
   }
 

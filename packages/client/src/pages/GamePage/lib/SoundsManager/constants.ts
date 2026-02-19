@@ -8,4 +8,6 @@ export enum SoundsKeys {
   ArrowCast = 'arrow_cast',
   ArrowHit = 'arrow_hit',
   ArrowShoot = 'arrow_shoot',
+  SwordHit = 'sword_hit',
+  MainHeroDeath = 'main_hero_death',
 }
