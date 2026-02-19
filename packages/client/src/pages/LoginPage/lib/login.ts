@@ -1,10 +1,11 @@
-import { getYandexServiceId, loginApi } from '../api'
-import { yandexApi, ApiResponse, CommonErrorType } from '@shared/lib'
-import { Schema, YandexServiceIdResponse } from '../model/types'
+import { ApiResponse, CommonErrorType, yandexApi } from '@shared/lib'
+import { forumLoginApi, getYandexServiceId, loginApi } from '../api'
 import { DEFAULT_AUTH_ERROR } from '../model/consts'
+import { Schema, YandexServiceIdResponse } from '../model/types'
 
 export const login = async (data: Schema): Promise<ApiResponse<undefined>> => {
   try {
+    await forumLoginApi(data)
     await loginApi(data)
     return yandexApi.buildResponseSuccess(undefined)
   } catch (error) {
