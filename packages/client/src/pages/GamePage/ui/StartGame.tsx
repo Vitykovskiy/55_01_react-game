@@ -1,12 +1,8 @@
 import { Text } from '@gravity-ui/uikit'
 import s from './StartGame.module.scss'
-import { useEffect, useState } from 'react'
+import Layout from '@shared/ui/Layout'
 import { useNavigate } from 'react-router-dom'
 import { Buttons, GameButtonsCustomProps } from './Buttons'
-import Layout from '@shared/ui/Layout'
-
-const COUNTER_STARTGAME = 3
-const DELAY_COUNTER_STARTGAME = 1000
 
 const buttonDataStart: GameButtonsCustomProps[] = [
   {
@@ -20,38 +16,31 @@ const buttonDataStart: GameButtonsCustomProps[] = [
   },
 ]
 
+export enum StartGameMode {
+  Idle = 'idle',
+  Loading = 'loading',
+  Countdown = 'countdown',
+}
+
 type StartGameProps = {
   onStart: () => void
   onBack?: () => void
+  mode?: StartGameMode
+  countdown?: number
 }
 
-export const StartGame = ({ onStart, onBack }: StartGameProps) => {
-  const [isCounter, setIsCounter] = useState(false)
-  const [counter, setCounter] = useState(COUNTER_STARTGAME)
-
+export const StartGame = ({
+  onStart,
+  onBack,
+  mode = StartGameMode.Idle,
+  countdown = 3,
+}: StartGameProps) => {
   const navigate = useNavigate()
 
-  const decrementCounter = () => {
-    return setCounter(prev => prev - 1)
-  }
-
   const clickHandlers = {
-    continue: () => setIsCounter(true),
+    continue: onStart,
     back: () => (onBack ? onBack() : navigate(-1)),
   }
-
-  useEffect(() => {
-    if (!isCounter) {
-      return
-    }
-
-    if (counter > 0) {
-      const timer = setTimeout(decrementCounter, DELAY_COUNTER_STARTGAME)
-      return () => clearTimeout(timer)
-    }
-
-    onStart()
-  }, [isCounter, counter, onStart])
 
   return (
     <Layout
@@ -62,9 +51,13 @@ export const StartGame = ({ onStart, onBack }: StartGameProps) => {
         main: s.main,
         content: s.content,
       }}>
-      {isCounter ? (
+      {mode === StartGameMode.Loading ? (
         <Text as="p" className={s.textCounter} variant="display-4">
-          {counter}
+          Загрузка...
+        </Text>
+      ) : mode === StartGameMode.Countdown ? (
+        <Text as="p" className={s.textCounter} variant="display-4">
+          {countdown}
         </Text>
       ) : (
         <>
