@@ -80,6 +80,10 @@ export class SoundsManager {
   }
 
   private _initGameEventsListeners(): void {
+    this._eventBus.on(MobEvents.Attacks, () => {
+      this.playSound(SoundsKeys.SwordHit)
+    })
+
     this._eventBus.on(MobEvents.Death, () => {
       Math.random() > 0.5
         ? this.playSound(SoundsKeys.OrcDeath01)
@@ -88,6 +92,10 @@ export class SoundsManager {
 
     this._eventBus.on(HeroEvents.AttacksRange, () => {
       this.playSound(SoundsKeys.ArrowCast)
+    })
+
+    this._eventBus.on(HeroEvents.DeathBow, () => {
+      this.playSound(SoundsKeys.MainHeroDeath)
     })
 
     this._eventBus.on(ProjectileEvents.Launched, () => {
