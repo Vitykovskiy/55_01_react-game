@@ -5,17 +5,17 @@ dotenv.config()
 import express from 'express'
 import session from 'express-session'
 import { connectToDatabase, sequelize } from './db'
-import { initModels } from './models'
 import { requireAuth } from './middleware/auth'
+import { initModels } from './models'
 import authRouter from './routes/auth'
-import topicsRouter from './routes/topics'
 import commentsRouter from './routes/comments'
-import repliesRouter from './routes/replies'
 import reactionsRouter from './routes/reactions'
+import repliesRouter from './routes/replies'
+import topicsRouter from './routes/topics'
 
 const app = express()
 
-const clientOrigin = process.env.CLIENT_ORIGIN || 'http://localhost'
+const clientOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:3000'
 
 app.use(
   cors({

@@ -1,5 +1,6 @@
 import axios, { isAxiosError } from 'axios'
 import { BASE_URL } from '../../config'
+import { SERVER_HOST } from './consts'
 import {
   ApiCode,
   ApiResponse,
@@ -8,7 +9,6 @@ import {
   ErrorType,
   ResponseType,
 } from './types'
-import { SERVER_HOST } from './consts'
 
 const REQUEST_TIMEOUT = 10000
 
