@@ -4,6 +4,9 @@ import {
   CreateTopicPayload,
   CommentDto,
   CreateCommentPayload,
+  CreateReactionDto,
+  ReactionDto,
+  DeleteReactionDto,
 } from './types'
 
 export const getTopicsRequest = (): Promise<TopicDto[]> => {
@@ -30,4 +33,20 @@ export const createCommentForTopicRequest = (
     ...data,
     topicId,
   })
+}
+
+export const getReactionsByComment = (
+  commentId: number
+): Promise<ReactionDto> => {
+  return serverApi.getRequest<ReactionDto>(`reactions/comment/${commentId}`)
+}
+
+export const createReaction = (
+  data: CreateReactionDto
+): Promise<CreateReactionDto> => {
+  return serverApi.postRequest<CreateReactionDto>('reactions', data)
+}
+
+export const deleteReaction = (data: DeleteReactionDto): Promise<void> => {
+  return serverApi.deleteRequest<void>('reactions', { data })
 }

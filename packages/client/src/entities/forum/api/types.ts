@@ -1,3 +1,5 @@
+import { ReactionCounts } from '../model/types'
+
 export type TopicDto = {
   id: number
   title: string
@@ -26,4 +28,20 @@ export type CreateCommentPayload = {
   content: string
   topicId: number
   parentCommentId: number | null
+}
+
+export type DeleteReactionDto = {
+  commentId: number
+  type: string
+}
+
+export type CreateReactionDto = {
+  commentId: number
+  type: string
+}
+
+export type ReactionDto = {
+  commentId: number
+  counts: ReactionCounts
+  myReactions: string[]
 }
